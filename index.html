@@ -517,13 +517,15 @@
 </script>
 </body>
 </html>
-<!-- AETHERBYTE STUDIOS FOOTER + SMART NOTIFICATION BAR -->
-<div style="text-align:center; padding: 20px 10px 115px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9ca3af; letter-spacing: 0.5px;">
-  <button id="pingzyNotifyBtn" onclick="enablePingzyAlerts()" style="background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.45); color: #c4b5fd; padding: 8px 16px; border-radius: 99px; font-family: 'JetBrains Mono', monospace; font-size: 11px; cursor: pointer; margin-bottom: 14px; transition: 0.2s;">
-    🔔 Enable Smart Udhaar Alerts
-  </button><br>
-  AETHERBYTE STUDIOS ⚡ • <span style="color: #f59e0b;">✦ ENGINEERED BY HARSH RAJ ✦</span><br>
-  <a href="./privacy.html" style="color: #8b5cf6; text-decoration: none; font-size: 10px; display: inline-block; margin-top: 6px;">🔒 Privacy Policy</a>
+<!-- FLOATING SMART ALERT TOGGLE (Bina Scroll Kiye Screen Par Dikhega) -->
+<button id="pingzyNotifyBtn" onclick="togglePingzyAlerts()" style="position: fixed; bottom: 82px; right: 16px; z-index: 9999; background: rgba(12, 12, 20, 0.92); backdrop-filter: blur(8px); border: 1px solid rgba(139, 92, 246, 0.5); color: #c4b5fd; padding: 7px 14px; border-radius: 99px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.6); transition: 0.2s;">
+  🔕 Alerts: OFF
+</button>
+
+<!-- COMPACT AETHERBYTE STUDIOS SIGNATURE -->
+<div style="text-align:center; margin-top: -10px; padding: 10px 10px 95px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #9ca3af; letter-spacing: 0.5px;">
+  AETHERBYTE STUDIOS ⚡ • <span style="color: #f59e0b;">✦ HARSH RAJ ✦</span> • 
+  <a href="./privacy.html" style="color: #8b5cf6; text-decoration: none;">🔒 Privacy</a>
 </div>
 
 <script>
@@ -532,9 +534,24 @@
     navigator.serviceWorker.register('./sw.js');
   }
 
-  // 2. Helper to Trigger Native Android/Browser Notification
-  async function sendPingzyNotification(title, bodyText) {
+  // 2. Rotating Savage & Smart Reminder Messages
+  const PINGZY_MESSAGES = [
+    { title: '⚡ PINGZY Alert Active!', body: 'Ab koi dost udhaar daba kar nahi bhaag payega. Check your splits!' },
+    { title: '💸 Udhaar Check Time!', body: 'Bhai, kisi dost ke chai-sutta ya party ke paise pending toh nahi hain?' },
+    { title: '🔥 Savage Ping Ready!', body: 'Sharam chhod, 1-Tap Meme Ping bhej aur apna paisa vasool kar!' },
+    { title: '🧾 Ledger Clean Hai Kya?', body: 'Aaj ka kharcha add karna bhool toh nahi gaya? Tap + to split!' },
+    { title: '👑 AetherByte Vault Safe!', body: 'Tera hisaab 100% private hai. Dekh le kaun kitna maangta hai!' }
+  ];
+
+  // 3. Helper to Send Notification with Random Message
+  async function sendPingzyNotification(customTitle, customBody) {
     if (!('Notification' in window) || Notification.permission !== 'granted') return;
+    if (localStorage.getItem('pingzy_alerts_enabled') !== 'true') return;
+
+    const randomMsg = PINGZY_MESSAGES[Math.floor(Math.random() * PINGZY_MESSAGES.length)];
+    const title = customTitle || randomMsg.title;
+    const bodyText = customBody || randomMsg.body;
+
     try {
       const reg = await navigator.serviceWorker.getRegistration();
       if (reg && reg.showNotification) {
@@ -542,7 +559,7 @@
           body: bodyText,
           icon: './icon-192.png',
           badge: './icon-192.png',
-          vibrate: [200, 100, 200]
+          vibrate: [150, 80, 150]
         });
       } else {
         new Notification(title, { body: bodyText, icon: './icon-192.png' });
@@ -552,41 +569,59 @@
     }
   }
 
-  // 3. Button Click: Ask Permission & Send Test Alert
-  async function enablePingzyAlerts() {
+  // 4. Update Button Look (ON vs OFF)
+  function updateAlertButtonUI() {
+    const btn = document.getElementById('pingzyNotifyBtn');
+    if (!btn) return;
+    const isEnabled = localStorage.getItem('pingzy_alerts_enabled') === 'true' && Notification.permission === 'granted';
+    if (isEnabled) {
+      btn.innerHTML = '🔔 Alerts: ON ⚡';
+      btn.style.borderColor = '#10b981';
+      btn.style.color = '#6ee7b7';
+    } else {
+      btn.innerHTML = '🔕 Alerts: OFF';
+      btn.style.borderColor = 'rgba(139, 92, 246, 0.5)';
+      btn.style.color = '#c4b5fd';
+    }
+  }
+
+  // 5. Toggle ON / OFF on Click
+  async function togglePingzyAlerts() {
     if (!('Notification' in window)) {
       alert('Is browser mein notifications supported nahi hain.');
       return;
     }
+
+    const currentlyEnabled = localStorage.getItem('pingzy_alerts_enabled') === 'true';
+
+    // Agar pehle se ON hai -> Toh OFF (Band) kar do!
+    if (currentlyEnabled) {
+      localStorage.setItem('pingzy_alerts_enabled', 'false');
+      updateAlertButtonUI();
+      return;
+    }
+
+    // Agar OFF hai -> Permission check karke ON kar do!
     const perm = await Notification.requestPermission();
-    const btn = document.getElementById('pingzyNotifyBtn');
     if (perm === 'granted') {
-      if (btn) btn.innerHTML = '✅ Smart Alerts Active ⚡';
-      sendPingzyNotification(
-        '⚡ PINGZY Smart Alerts Active!',
-        'Ab koi dost udhaar daba kar nahi bhaag payega. Tap to check your splits!'
-      );
+      localStorage.setItem('pingzy_alerts_enabled', 'true');
+      updateAlertButtonUI();
+      sendPingzyNotification(); // Sends a random message from the 5 options!
     } else {
-      alert('Notification permission allow kar bhai Settings se!');
+      alert('Bhai browser/phone settings se Notification Allow kar de!');
     }
   }
 
-  // 4. Auto-Check Pending Udhaar on App Open (Once Every 6 Hours)
+  // 6. Auto-Check on App Open (Only if ON & Once every 6 hours)
   window.addEventListener('load', () => {
-    const btn = document.getElementById('pingzyNotifyBtn');
-    if ('Notification' in window && Notification.permission === 'granted') {
-      if (btn) btn.innerHTML = '✅ Smart Alerts Active ⚡';
-      
-      const lastPing = localStorage.getItem('pingzy_last_auto_notify') || 0;
+    updateAlertButtonUI();
+    if (localStorage.getItem('pingzy_alerts_enabled') === 'true' && Notification.permission === 'granted') {
+      const lastPing = Number(localStorage.getItem('pingzy_last_auto_notify') || 0);
       const now = Date.now();
-      // 6 hours cooldown taaki har refresh par spam na ho
       if (now - lastPing > 6 * 60 * 60 * 1000) {
         setTimeout(() => {
-          sendPingzyNotification(
-            '💸 Pending Udhaar Check!',
-            'Dekh le bhai, kisi dost ke paise abhi tak pending toh nahi hain? Send a 1-Tap Ping now!'
-          );
-          localStorage.setItem('pingzy_last_auto_notify', now);
+          sendPingzyNotification();
+          localStorage.setItem('pingzy_last_auto_notify', String(now));
         }, 4000);
       }
     }
