@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#050507" id="metaThemeColor">
+    <title>Pingzy &#9889; &mdash; Smart Split &amp; Meme Pings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css?v=9">
+</head>
+<body>
+
+    <!-- CONFETTI CANVAS OVERLAY -->
+    <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+    <!-- SPLASH SCREEN ANIMATION -->
+    <div id="splashScreen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo">P&#9889;</div>
+            <h1 class="splash-brand">Pingzy</h1>
+            <p class="splash-tagline">OLED Studio Edition v9</p>
+            <div class="splash-loader"></div>
+        </div>
+    </div>
+
+    <!-- APP SHELL -->
+    <div class="app-shell">
+
+        <!-- MINIMAL NATIVE APP HEADER -->
+        <header class="app-header">
+            <div class="brand-row">
+                <div class="app-logo-badge">P&#9889;</div>
+                <div>
+                    <div class="brand">Pingzy</div>
+                    <div class="tagline" id="appTagline">100% Private Vault &bull; Zero Bank Access &#128274;</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button type="button" id="quickLangBtn" class="mini-pill">&#127470;&#127475; HI</button>
+                <div class="status-dot" id="jsStatusDot" title="Offline Ready"></div>
+            </div>
+        </header>
+
+        <!-- MAIN SCROLLABLE VIEWPORT -->
+        <main class="app-viewport">
+
+            <!-- VIEW 1: HOME & SETTLED LEDGER -->
+            <div id="ledgerView" class="app-view active">
+
+                <!-- CRED-STYLE OLED HERO WALLET CARD -->
+                <section class="hero-vault-card">
+                    <div class="vault-top">
+                        <div>
+                            <span class="vault-label" id="vaultMainLabel">TOTAL TO COLLECT</span>
+                            <div class="vault-big-amount" id="totalOwed">&#8377;0</div>
+                        </div>
+                        <button type="button" id="storyWrappedBtn" class="vault-chip" title="Download 9:16 Insta Story Wrapped">
+                            &#128202; Story Wrapped
+                        </button>
+                    </div>
+                    <div class="vault-stats-row">
+                        <div class="vault-stat">
+                            <span>I Owe &#128228;</span>
+                            <strong id="totalIOwe" style="color:#f87171;">&#8377;0</strong>
+                        </div>
+                        <div class="vault-divider"></div>
+                        <div class="vault-stat">
+                            <span>Total Settled &#127881;</span>
+                            <strong id="totalRecovered" class="recovered-text">&#8377;0</strong>
+                        </div>
+                        <div class="vault-divider"></div>
+                        <div class="vault-stat">
+                            <span>Active People</span>
+                            <strong id="totalPeople">0</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SUB-TABS: TO COLLECT vs I OWE -->
+                <div class="sub-tabs-row" id="ledgerSubTabs">
+                    <button type="button" class="sub-tab active" data-subtab="pending">
+                        &#128229; To Collect <span id="pendingCount" class="mini-count">0</span>
+                    </button>
+                    <button type="button" class="sub-tab" data-subtab="iowe">
+                        &#128228; I Owe <span id="iOweCount" class="mini-count">0</span>
+                    </button>
+                </div>
+
+                <!-- SEARCH & FILTER BAR -->
+                <div class="search-sort-bar">
+                    <div class="search-box">
+                        <span class="search-icon">&#128269;</span>
+                        <input id="searchInput" type="text" placeholder="Search friend or item...">
+                    </div>
+                    <button type="button" id="sortToggleBtn" class="sort-chip" title="Toggle Sort Order">
+                        &#128293; Recent
+                    </button>
+                </div>
+
+                <!-- SECTION HEADER -->
+                <div class="list-section-head">
+                    <span id="currentViewTitle">To Collect (Lena Hai)</span>
+                    <span id="paidCount" class="count-pill">0 Settled</span>
+                </div>
+
+                <!-- CARDS LIST -->
+                <div id="debtsList" class="cards-container">
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-glow-circle" id="emptyIcon">&#9889;</div>
+                        <h3 id="emptyTitle">Your ledger is clean</h3>
+                        <p id="emptyDesc">
+                            Tap <b>&#65291;</b> below to add a split, or load a sample<br>
+                            card to test Meme Pings, Barter &amp; Excuse Buster!
+                        </p>
+                        <div class="empty-actions">
+                            <button id="firstReminderBtn" type="button" class="small-button">
+                                &#65291; Add First Split
+                            </button>
+                            <button id="loadDemoBtn" type="button" class="demo-button">
+                                &#10024; Load 1-Click Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- VIEW 2: STUDIO HUB (SETTINGS, THEMES, UPI, BACKUP) -->
+            <div id="studioView" class="app-view">
+                <div class="studio-section">
+                    <h3 class="studio-heading">&#127912; OLED Studio Themes</h3>
+                    <p class="studio-sub">Choose your signature pitch-black dark mode aesthetic</p>
+                    <div class="theme-selector-grid">
+                        <button type="button" class="theme-card active" data-theme="purple">
+                            <span class="swatch swatch-purple"></span>
+                            <strong>Cyber Purple</strong>
+                        </button>
+                        <button type="button" class="theme-card" data-theme="emerald">
+                            <span class="swatch swatch-emerald"></span>
+                            <strong>Emerald Cash</strong>
+                        </button>
+                        <button type="button" class="theme-card" data-theme="red">
+                            <span class="swatch swatch-red"></span>
+                            <strong>Crimson Surge</strong>
+                        </button>
+                        <button type="button" class="theme-card" data-theme="ocean">
+                            <span class="swatch swatch-ocean"></span>
+                            <strong>Midnight Ocean</strong>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="studio-section">
+                    <h3 class="studio-heading">&#9889; 1-Tap UPI Link &amp; Live QR</h3>
+                    <p class="studio-sub">Add your UPI ID to generate instant Scan-to-Pay QR codes and clickable WhatsApp payment links (Stored 100% on your phone)</p>
+                    <div class="upi-input-row">
+                        <input id="userUpiInput" type="text" placeholder="e.g. yourname@okaxis">
+                        <button type="button" id="saveUpiBtn" class="upi-save-btn">Save</button>
+                    </div>
+                </div>
+
+                <div class="studio-section">
+                    <h3 class="studio-heading">&#128190; Data Safety &amp; Backup</h3>
+                    <p class="studio-sub">Export your ledger to a secure JSON file or restore anytime</p>
+                    <div class="backup-grid">
+                        <button type="button" id="exportDataBtn" class="studio-action-btn">
+                            &#11015;&#65039; Backup Ledger (.JSON)
+                        </button>
+                        <label for="importFileBox" class="studio-action-btn">
+                            &#128194; Restore Backup
+                        </label>
+                        <input type="file" id="importFileBox" accept=".json" style="display: none;">
+                    </div>
+                </div>
+
+                <div class="studio-section">
+                    <h3 class="studio-heading">&#9881;&#65039; App Preferences</h3>
+                    <div class="pref-row">
+                        <span>Language Mode (Hinglish / English)</span>
+                        <button type="button" id="langToggleBtn" class="pref-toggle-btn">&#127470;&#127475; Hinglish</button>
+                    </div>
+                    <div class="pref-row" style="margin-top: 10px;">
+                        <span>Daily Due Reminder Alerts (Max 1/day)</span>
+                        <button type="button" id="notifBtn" class="pref-toggle-btn">&#128277; OFF</button>
+                    </div>
+                </div>
+
+                <p class="compliance-note">
+                    Pingzy is a personal split tracker &amp; reminder utility. It does not provide loans or process payments.<br>
+                    <a href="privacy.html" style="color:var(--primary-light);text-decoration:none;font-weight:700;">Privacy Policy</a>
+                </p>
+            </div>
+
+        </main>
+
+        <!-- NATIVE BOTTOM NAVIGATION DOCK -->
+        <nav class="bottom-nav-dock">
+            <button type="button" class="nav-item active" id="navPendingBtn">
+                <span class="nav-icon">&#127968;</span>
+                <span class="nav-label">Splits</span>
+            </button>
+
+            <button type="button" class="nav-item" id="openSplitCalcBtn">
+                <span class="nav-icon">&#127922;</span>
+                <span class="nav-label">Group Calc</span>
+            </button>
+
+            <div class="fab-wrapper">
+                <button type="button" id="addMoneyBtn" class="fab-add-btn" title="Add Split Entry">
+                    &#65291;
+                </button>
+            </div>
+
+            <button type="button" class="nav-item" id="navPaidBtn">
+                <span class="nav-icon">&#127881;</span>
+                <span class="nav-label">Settled</span>
+            </button>
+
+            <button type="button" class="nav-item" id="navStudioBtn">
+                <span class="nav-icon">&#9881;&#65039;</span>
+                <span class="nav-label">Studio</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- 1. ADD SPLIT BOTTOM SHEET MODAL (WITH QUICK CHIPS, RECENT FRIENDS & AUTO CROSS-CUT) -->
+    <div class="modal-overlay" id="addModal">
+        <div class="modal bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="modal-header">
+                <div>
+                    <h2>New Split Entry</h2>
+                    <p>Auto cross-cuts if the friend already exists &#9889;</p>
+                </div>
+                <button id="closeAddBtn" class="close-button">&times;</button>
+            </div>
+
+            <!-- DIRECTION SWITCH: TO COLLECT vs I OWE -->
+            <div class="type-switch-bar">
+                <button type="button" class="type-switch-btn active" id="typeCollectBtn">&#128229; To Collect (Lena Hai)</button>
+                <button type="button" class="type-switch-btn" id="typeIOweBtn">&#128228; I Owe (Mujhe Dena Hai)</button>
+            </div>
+
+            <div class="label-row">
+                <label style="margin:0;">Contact Name</label>
+                <button type="button" id="pickContactBtn" class="contact-picker-btn">
+                    &#128210; Contacts
+                </button>
+            </div>
+            <input id="personName" type="text" autocomplete="name" placeholder="e.g. Rohan">
+            <div id="personError" class="field-error">Please enter a name</div>
+
+            <!-- RECENT FRIENDS 1-TAP BAR -->
+            <div id="recentFriendsBar" class="quick-chips-row" style="margin-top:6px;"></div>
+
+            <label>Phone Number <span class="optional">(for direct SMS / WhatsApp)</span></label>
+            <input id="personPhone" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="10-digit mobile number">
+
+            <label>Split Amount (&#8377;)</label>
+            <input id="amount" type="number" min="1" placeholder="500">
+            <div id="amountError" class="field-error">Enter a valid amount (&#8377;1+)</div>
+
+            <!-- 1-TAP QUICK AMOUNT CHIPS -->
+            <div class="quick-chips-row" style="margin-top:6px;">
+                <button type="button" class="amt-chip" data-addamt="50">+&#8377;50</button>
+                <button type="button" class="amt-chip" data-addamt="100">+&#8377;100</button>
+                <button type="button" class="amt-chip" data-addamt="200">+&#8377;200</button>
+                <button type="button" class="amt-chip" data-addamt="500">+&#8377;500</button>
+            </div>
+
+            <label>Note / Item <span class="optional">(optional)</span></label>
+            <input id="reason" type="text" placeholder="Momos, Dinner split, Goa trip...">
+
+            <div class="date-time-row">
+                <div class="date-col">
+                    <label>Reminder date <span class="optional">(optional)</span></label>
+                    <input id="dueDate" type="date" min="2020-01-01" max="2099-12-31">
+                    <div id="dateError" class="field-error">Year must be 4 digits (2020&ndash;2099)</div>
+                </div>
+                <div class="time-col">
+                    <label>Time <span class="optional">(optional)</span></label>
+                    <input id="dueTime" type="time">
+                </div>
+            </div>
+
+            <label>Ping Tone <span class="optional">(Polite is safe default)</span></label>
+            <div class="vibe-grid" id="mainVibeGrid" style="grid-template-columns: repeat(5, 1fr);">
+                <button type="button" class="vibe active" data-vibe="soft">&#128578;<span>Polite</span></button>
+                <button type="button" class="vibe" data-vibe="funny">&#128514;<span>Funny</span></button>
+                <button type="button" class="vibe" data-vibe="filmy">&#127916;<span>Filmy</span></button>
+                <button type="button" class="vibe" data-vibe="savage">&#128520;<span>Strict</span></button>
+                <button type="button" class="vibe" data-vibe="professional">&#128188;<span>Formal</span></button>
+            </div>
+
+            <button id="createReminderBtn" class="generate-button">
+                Save &amp; Prepare Ping &#9889;
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. GROUP SPLIT CALCULATOR + BILL ROULETTE SHEET -->
+    <div class="modal-overlay" id="splitCalcModal">
+        <div class="modal bottom-sheet">
+            <div class="sheet-handle"></div>
+            <div class="modal-header">
+                <div>
+                    <h2>&#9889; Group Split &amp; Bill Roulette</h2>
+                    <p>Divide bills equally or spin to see who pays today!</p>
+                </div>
+                <button id="closeSplitCalcBtn" class="close-button">&times;</button>
+            </div>
+
+            <label>Total Bill Amount (&#8377;)</label>
+            <input id="calcTotalAmt" type="number" min="1" placeholder="e.g. 2400">
+
+            <label>Event / Hangout Name <span class="optional">(optional)</span></label>
+            <input id="calcReason" type="text" placeholder="e.g. Chai Tapri, Pizza Night, Goa Trip">
+
+            <label>Friends Names <span class="optional">(Comma separated &mdash; write 'Me' for yourself)</span></label>
+            <input id="calcNames" type="text" placeholder="Rohan, Aman, Priya, Me">
+
+            <label>Meme / Ping Tone</label>
+            <div class="vibe-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <button type="button" class="vibe active" data-calcvibe="funny">&#128514;<span>Funny</span></button>
+                <button type="button" class="vibe" data-calcvibe="soft">&#128578;<span>Polite</span></button>
+                <button type="button" class="vibe" data-calcvibe="savage">&#128520;<span>Strict</span></button>
+            </div>
+
+            <div class="calc-dual-buttons">
+                <button id="calculateSplitBtn" class="calc-action-btn" style="flex:1.3;">
+                    &#9889; Split Equally
+                </button>
+                <button id="spinRouletteBtn" type="button" class="roulette-btn" style="flex:1;">
+                    &#127922; Spin Roulette
+                </button>
+            </div>
+
+            <!-- BILL ROULETTE RESULT BOX -->
+            <div id="rouletteResultBox" class="roulette-result-box" style="display:none;">
+                <div class="roulette-title">&#127919; BILL ROULETTE WINNER</div>
+                <div id="rouletteWinnerName" class="roulette-winner">AMAN</div>
+                <p id="rouletteSubText">is sponsoring the entire bill today! &#127881;</p>
+            </div>
+
+            <div id="splitResultsContainer" style="margin-top: 14px; display: none;">
+                <div class="split-summary-banner" id="splitSummaryBanner"></div>
+                <div id="splitResultsList" class="split-results-list"></div>
+                <div style="display:flex; gap:8px; margin-top:12px;">
+                    <button type="button" id="copyGroupSummaryBtn" class="studio-action-btn" style="flex:1;">
+                        &#128203; Copy Group Table
+                    </button>
+                    <button type="button" id="addAllSplitsBtn" class="generate-button" style="flex:1.2; padding:11px;">
+                        &#10133; Save All to Ledger
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. REMINDER, VIRAL ARSENAL, EXCUSE BUSTER & QR BOTTOM SHEET -->
+    <div class="modal-overlay" id="reminderModal">
+        <div class="modal bottom-sheet reminder-modal">
+            <div class="sheet-handle"></div>
+            <div class="reminder-top">&#9889; Pingzy Smart Dispatcher</div>
+            <div class="recipient" id="reminderRecipient">Someone</div>
+            <div class="recipient-phone" id="reminderPhoneDisplay"></div>
+            <div class="amount-display" id="reminderAmount">&#8377;0</div>
+
+            <div id="reminderHistoryInfo" class="history-pill">
+                &#10024; Ready to send first ping
+            </div>
+
+            <div id="escalationBox" class="escalation-box" style="display:none;">
+                <span id="escalationText">&#128293; 3+ pings sent! Switch to Strict tone?</span>
+                <button type="button" id="escalateSavageBtn" class="escalate-btn">
+                    &#128520; Switch Tone
+                </button>
+            </div>
+
+            <!-- SPECIAL VIRAL MODES BAR: AI BOT, BARTER TREAT, FILMY, DOSTI TAX -->
+            <div class="special-modes-bar">
+                <button type="button" class="mode-pill" id="botModeBtn">&#129302; Blame AI Bot</button>
+                <button type="button" class="mode-pill" id="barterModeBtn">&#127829; Convert to Treat</button>
+                <button type="button" class="mode-pill" id="filmyModeBtn">&#127916; Filmy Meme</button>
+                <button type="button" class="mode-pill" id="dostiTaxBtn">&#128200; +Samosa Tax</button>
+            </div>
+
+            <div class="message-box">
+                <div class="message-label" id="messageBoxLabel">Generated Ping Message</div>
+                <p id="generatedMessage"></p>
+            </div>
+
+            <!-- EXCUSE BUSTER (BAHANA RESPONDER) -->
+            <div class="excuse-buster-box">
+                <div class="excuse-title">&#128737;&#65039; Excuse Buster (Tap what excuse they gave!):</div>
+                <div class="excuse-chips-row">
+                    <button type="button" class="excuse-chip" data-excuse="server">&#128246; Server Down</button>
+                    <button type="button" class="excuse-chip" data-excuse="salary">&#128181; Salary Aane De</button>
+                    <button type="button" class="excuse-chip" data-excuse="tomorrow">&#128197; Kal Pakka</button>
+                    <button type="button" class="excuse-chip" data-excuse="forgot">&#129300; Bhool Gaya</button>
+                </div>
+            </div>
+
+            <!-- INSTANT SCAN-TO-PAY UPI QR BOX -->
+            <div id="qrCodeContainer" class="qr-box" style="display:none;">
+                <div class="qr-label">&#128242; Scan to Pay via Any UPI App</div>
+                <img id="upiQrImg" alt="UPI QR Code" />
+                <div id="qrUpiText" class="qr-upi-id"></div>
+            </div>
+
+            <div class="sticker-preview-box">
+                <div class="sticker-preview-label">
+                    &#10024; Visual Ping Card (Tap card to remix!)
+                </div>
+
+                <img id="stickerPreviewImg" alt="Ping Card Preview" title="Tap to remix text!" />
+
+                <div class="sticker-style-bar">
+                    <button type="button" class="style-chip active" data-style="classic">&#128293; Classic</button>
+                    <button type="button" class="style-chip" data-style="tilted">&#9889; Pop</button>
+                    <button type="button" class="style-chip" data-style="wanted">&#128680; Urgent</button>
+                </div>
+
+                <input
+                    id="customStickerInput"
+                    class="custom-sticker-input"
+                    type="text"
+                    maxlength="28"
+                    placeholder="Or type custom card headline..."
+                >
+            </div>
+
+            <div class="reminder-actions">
+                <div class="primary-send-row">
+                    <button id="whatsappBtn" class="whatsapp-button">&#128172; WhatsApp</button>
+                    <button id="smsBtn" class="sms-button">&#128233; SMS Text</button>
+                </div>
+                <div class="secondary-send-row">
+                    <button id="showQrBtn" type="button" class="new-reply-button">&#128242; Show QR</button>
+                    <button id="newReplyBtn" type="button" class="copy-button">&#128260; Remix</button>
+                    <button id="copyBtn" type="button" class="copy-button">&#128203; Copy</button>
+                    <button id="stickerBtn" type="button" class="sticker-button">&#11015;&#65039; PNG</button>
+                </div>
+                <button id="closeReminderBtn" class="done-button">Close Sheet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. ADD MORE (+₹) MINI-PASSBOOK MODAL -->
+    <div class="modal-overlay" id="addMoreModal">
+        <div class="modal confirm-modal">
+            <div class="confirm-icon">&#129534;</div>
+            <h3 id="addMoreTitle">Add to Friend's Khata</h3>
+            <p id="addMoreSub">Add another item to this split passbook</p>
+            <input id="addMoreAmtInput" type="number" min="1" placeholder="Extra Amount (₹)" class="partial-input" style="margin-bottom:8px;">
+            <input id="addMoreNoteInput" type="text" placeholder="Item (e.g. Cold Coffee, Auto)" style="margin-bottom:14px;">
+            <div class="confirm-actions">
+                <button type="button" id="cancelAddMoreBtn" class="cancel-delete-btn">Cancel</button>
+                <button type="button" id="confirmAddMoreBtn" class="generate-button" style="flex:1; padding:11px;">&#10133; Add to Bill</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. PARTIAL PAYMENT MODAL -->
+    <div class="modal-overlay" id="partialPayModal">
+        <div class="modal confirm-modal">
+            <div class="confirm-icon">&#128184;</div>
+            <h3 id="partialPayTitle">Record Partial Payment</h3>
+            <p id="partialPaySub">How much did they settle right now?</p>
+            <input id="partialAmountInput" type="number" min="1" placeholder="Enter amount received (₹)" class="partial-input">
+            <div class="confirm-actions">
+                <button type="button" id="cancelPartialBtn" class="cancel-delete-btn">
+                    Cancel
+                </button>
+                <button type="button" id="confirmPartialBtn" class="generate-button" style="flex: 1; padding: 11px;">
+                    &#9989; Update Split
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. DELETE CONFIRMATION MODAL -->
+    <div class="modal-overlay" id="deleteConfirmModal">
+        <div class="modal confirm-modal">
+            <div class="confirm-icon">&#9888;&#65039;</div>
+            <h3 id="deleteModalTitle">Delete this entry?</h3>
+            <p id="deleteConfirmText">
+                Are you sure you want to remove this record?
+            </p>
+            <div class="confirm-actions">
+                <button type="button" id="cancelDeleteBtn" class="cancel-delete-btn">
+                    Cancel
+                </button>
+                <button type="button" id="confirmDeleteBtn" class="confirm-delete-btn">
+                    &#128465;&#65039; Yes, Delete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast">
+        <span id="toastText">Done! &#9989;</span>
+        <button id="toastUndoBtn" class="toast-undo-btn" style="display:none;">UNDO</button>
+    </div>
+
+    <script src="script.js?v=9" charset="utf-8"></script>
+</body>
+</html>

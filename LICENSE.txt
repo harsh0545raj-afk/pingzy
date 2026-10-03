@@ -1,0 +1,7 @@
+Copyright (c) 2026 Harsh Raj (Pingzy Studio). All Rights Reserved.
+
+PROPRIETARY AND CONFIDENTIAL NOTICE:
+This software, including its source code, UI/UX design, "Excuse Buster", "Bill Roulette", "Barter Mode", and visual card generation logic ("Pingzy"), is the exclusive intellectual property of Harsh Raj.
+
+1. Viewing of this repository is permitted solely for portfolio review and personal evaluation.
+2. Unauthorized copying, cloning, modification, redistribution, or commercial use of this code, in whole or in part, is strictly prohibited without prior written permission from the author.
