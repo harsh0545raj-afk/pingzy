@@ -1,14 +1,15 @@
 {
-  "name": "Pingzy - Smart Split Tracker & Meme Pings",
-  "short_name": "Pingzy",
-  "description": "Personal shared expense tracker, group split calculator, and smart reminder ping utility.",
-  "categories": ["productivity", "utilities"],
+  "id": "./",
+  "name": "PINGZY ⚡ — Smart Splits & Reminders",
+  "short_name": "PINGZY",
+  "description": "Smart expense splits and savage/polite payment reminders with zero awkwardness. Built by AetherByte Studios.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0d0d12",
-  "theme_color": "#8b5cf6",
+  "background_color": "#040407",
+  "theme_color": "#040407",
+  "categories": ["finance", "productivity", "utilities"],
   "icons": [
     {
       "src": "icon-192.png",
