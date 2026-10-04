@@ -10,7 +10,67 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=9">
+    <link rel="stylesheet" href="style.css?v=12">
+    <style>
+        /* Ensure all 5 Ping Tone buttons fit cleanly and never get cut off */
+        #mainVibeGrid {
+            display: grid !important;
+            grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+            gap: 6px !important;
+            margin-bottom: 16px !important;
+        }
+        #mainVibeGrid .vibe {
+            padding: 8px 2px !important;
+            font-size: 11px !important;
+            overflow: visible !important;
+            white-space: nowrap !important;
+        }
+        #mainVibeGrid .vibe span {
+            display: block !important;
+            font-size: 10px !important;
+            margin-top: 3px !important;
+        }
+        #addModal .modal.bottom-sheet {
+            padding-bottom: 28px !important;
+            max-height: 92vh !important;
+            overflow-y: auto !important;
+        }
+        /* In-App Quick Contacts Book Modal */
+        .contact-book-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.82);
+            z-index: 100000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .contact-book-card {
+            background: #12121c;
+            border: 1px solid rgba(139, 92, 246, 0.45);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 360px;
+            padding: 18px;
+            color: #fff;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.85);
+        }
+        .saved-contact-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 10px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .saved-contact-item:active {
+            background: rgba(139, 92, 246, 0.25);
+        }
+    </style>
 </head>
 <body>
 
@@ -52,43 +112,33 @@
             <!-- VIEW 1: HOME & SETTLED LEDGER -->
             <div id="ledgerView" class="app-view active">
 
-                <!-- QUICK 3-STEP ONBOARDING GUIDE (Dismissible) -->
-                <div id="pingzyQuickGuide" style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 16px; padding: 12px 14px; margin-bottom: 14px; font-size: 12px; line-height: 1.5; color: #e5e7eb;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                        <strong style="color:#c4b5fd; font-size:12.5px;">&#128161; Pingzy Kis Kaam Aata Hai? (3 Easy Uses)</strong>
-                        <button type="button" onclick="closeQuickGuide()" style="background:none; border:none; color:#9ca3af; font-size:16px; cursor:pointer; padding:0 4px;">&times;</button>
-                    </div>
-                    <div style="color:#d1d5db; font-size:11.5px;">
-                        1&#65039;&#8419; <b>&#128210; Khata (Lena / Dena):</b> Kisi dost se paise lene hain (<i>To Collect</i>) ya dene hain (<i>I Owe</i>), yahan note karein.<br>
-                        2&#65039;&#8419; <b>&#128172; WhatsApp Meme Ping:</b> Bina sharam dost se paise mangne ke liye Funny Meme Card &amp; UPI QR bhejein.<br>
-                        3&#65039;&#8419; <b>&#127829; Bill Split (Group):</b> Party ya trip ka total bill dosto mein barabar baantne ke liye niche <b>Bill Split</b> dabayein.
-                    </div>
-                </div>
+                <!-- BILINGUAL 3-STEP QUICK GUIDE (Auto-translates between English & Hinglish) -->
+                <div id="pingzyQuickGuide" style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 16px; padding: 12px 14px; margin-bottom: 14px; font-size: 12px; line-height: 1.5; color: #e5e7eb;"></div>
 
                 <!-- CRED-STYLE OLED HERO WALLET CARD -->
                 <section class="hero-vault-card" id="heroVaultSection">
                     <div class="vault-top">
                         <div>
-                            <span class="vault-label" id="vaultMainLabel">TOTAL TO COLLECT (MUJHE LENE HAIN)</span>
+                            <span class="vault-label" id="vaultMainLabel">TOTAL TO COLLECT</span>
                             <div class="vault-big-amount" id="totalOwed">&#8377;0</div>
                         </div>
-                        <button type="button" id="storyWrappedBtn" class="vault-chip" title="DownloadSummary Card">
-                            &#128202; Summary Card
+                        <button type="button" id="storyWrappedBtn" class="vault-chip" title="Download 9:16 Insta Story Wrapped">
+                            &#128202; Story Wrapped
                         </button>
                     </div>
                     <div class="vault-stats-row">
                         <div class="vault-stat">
-                            <span id="subStatLabel1">Mujhe Dene (I Owe) &#128228;</span>
+                            <span id="subStatLabel1">I Owe &#128228;</span>
                             <strong id="totalIOwe" style="color:#f87171;">&#8377;0</strong>
                         </div>
                         <div class="vault-divider"></div>
                         <div class="vault-stat">
-                            <span>Chukta (Settled) &#127881;</span>
+                            <span>Total Settled &#127881;</span>
                             <strong id="totalRecovered" class="recovered-text">&#8377;0</strong>
                         </div>
                         <div class="vault-divider"></div>
                         <div class="vault-stat">
-                            <span>Total Dost</span>
+                            <span>Active People</span>
                             <strong id="totalPeople">0</strong>
                         </div>
                     </div>
@@ -97,10 +147,10 @@
                 <!-- SUB-TABS: TO COLLECT vs I OWE -->
                 <div class="sub-tabs-row" id="ledgerSubTabs">
                     <button type="button" class="sub-tab active" data-subtab="pending" id="subTabCollectBtn">
-                        &#128229; Mujhe Lene Hain <span id="pendingCount" class="mini-count">0</span>
+                        &#128229; To Collect <span id="pendingCount" class="mini-count">0</span>
                     </button>
                     <button type="button" class="sub-tab" data-subtab="iowe" id="subTabIOweBtn">
-                        &#128228; Mujhe Dene Hain <span id="iOweCount" class="mini-count">0</span>
+                        &#128228; I Owe <span id="iOweCount" class="mini-count">0</span>
                     </button>
                 </div>
 
@@ -108,7 +158,7 @@
                 <div class="search-sort-bar">
                     <div class="search-box">
                         <span class="search-icon">&#128269;</span>
-                        <input id="searchInput" type="text" placeholder="Dost ka naam ya item khojein...">
+                        <input id="searchInput" type="text" placeholder="Search friend or item...">
                     </div>
                     <button type="button" id="sortToggleBtn" class="sort-chip" title="Toggle Sort Order">
                         &#128293; Recent
@@ -117,31 +167,31 @@
 
                 <!-- SECTION HEADER -->
                 <div class="list-section-head">
-                    <span id="currentViewTitle">&#128229; Mujhe Lene Hain (To Collect)</span>
+                    <span id="currentViewTitle">To Collect (Lena Hai)</span>
                     <span id="paidCount" class="count-pill">0 Settled</span>
                 </div>
 
                 <!-- CARDS LIST -->
                 <div id="debtsList" class="cards-container">
                     <div class="empty-state" id="emptyState">
-                        <div class="empty-glow-circle" id="emptyIcon">&#128184;</div>
-                        <h3 id="emptyTitle">Kisi dost se paise nahi lene!</h3>
+                        <div class="empty-glow-circle" id="emptyIcon">&#9889;</div>
+                        <h3 id="emptyTitle">Your ledger is clean</h3>
                         <p id="emptyDesc">
-                            Dost ne udhaar liya hai? Niche <b>&#65291; Paisa Lena Hai</b> dabayein<br>
-                            aur WhatsApp par Funny Meme Reminder bhejein!
+                            Tap <b>&#65291;</b> below to add a split, or load a sample<br>
+                            card to test Meme Pings, Barter &amp; Excuse Buster!
                         </p>
-                        <div class="empty-actions" id="emptyActionsBox">
+                        <div class="empty-actions">
                             <button id="firstReminderBtn" type="button" class="small-button">
-                                &#65291; Paisa Lena Hai (Add Udhaar)
+                                &#65291; Add First Split
                             </button>
                             <button id="loadDemoBtn" type="button" class="demo-button">
-                                &#10024; Demo Dekhein (Sample)
+                                &#10024; Load 1-Click Demo
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- CLEAN MAIN SCREEN STUDIO FOOTER (Inside Scrollable Area) -->
+                <!-- MAIN SCREEN STUDIO FOOTER (Only Studio Highlighted) -->
                 <div style="text-align:center; padding: 24px 10px 40px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9ca3af; letter-spacing: 0.6px;">
                     <span style="color: #f59e0b; font-weight: 700;">&#10022; AETHERBYTE STUDIOS &#9889; &#10022;</span><br>
                     <div style="margin-top:6px;">
@@ -180,7 +230,7 @@
 
                 <div class="studio-section">
                     <h3 class="studio-heading">&#9889; 1-Tap UPI Link &amp; Live QR</h3>
-                    <p class="studio-sub">Apni UPI ID daalein taaki dost ko WhatsApp reminder ke sath direct Pay Link aur QR code mile (100% aapke phone mein safe rehta hai)</p>
+                    <p class="studio-sub">Add your UPI ID to generate instant Scan-to-Pay QR codes and clickable WhatsApp payment links (Stored 100% on your phone)</p>
                     <div class="upi-input-row">
                         <input id="userUpiInput" type="text" placeholder="e.g. yourname@okaxis">
                         <button type="button" id="saveUpiBtn" class="upi-save-btn">Save</button>
@@ -189,10 +239,10 @@
 
                 <div class="studio-section">
                     <h3 class="studio-heading">&#128190; Data Safety &amp; Backup</h3>
-                    <p class="studio-sub">Apna poora khata file mein save (Backup) karein ya wapas laayein</p>
+                    <p class="studio-sub">Export your ledger to a secure JSON file or restore anytime</p>
                     <div class="backup-grid">
                         <button type="button" id="exportDataBtn" class="studio-action-btn">
-                            &#11015;&#65039; Backup Khata (.JSON)
+                            &#11015;&#65039; Backup Ledger (.JSON)
                         </button>
                         <label for="importFileBox" class="studio-action-btn">
                             &#128194; Restore Backup
@@ -202,22 +252,22 @@
                 </div>
 
                 <div class="studio-section">
-                    <h3 class="studio-heading">&#9881;&#65039; App Preferences &amp; Alerts</h3>
+                    <h3 class="studio-heading">&#9881;&#65039; App Preferences &amp; Smart Alerts</h3>
                     <div class="pref-row">
                         <span>Language Mode (Hinglish / English)</span>
                         <button type="button" id="langToggleBtn" class="pref-toggle-btn">&#127470;&#127475; Hinglish</button>
                     </div>
                     <div class="pref-row" style="margin-top: 10px;">
-                        <span>Smart Udhaar Reminder Alerts</span>
+                        <span>Smart Udhaar Reminder Alerts (20+ Fun Alerts)</span>
                         <button type="button" id="notifBtn" class="pref-toggle-btn">&#128277; OFF</button>
                     </div>
                 </div>
 
-                <!-- OFFICIAL AETHERBYTE STUDIOS & DEVELOPER CREDITS CARD -->
+                <!-- OFFICIAL STUDIO & HARSH RAJ CREDITS CARD -->
                 <div class="studio-section" style="border: 1px solid rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.05);">
                     <h3 class="studio-heading" style="color: #fbbf24;">&#9889; About AetherByte Studios</h3>
                     <p class="studio-sub" style="margin-bottom: 10px;">
-                        <b>Pingzy v1.0</b> &mdash; Smart Khata, Group Bill Splitter &amp; Savage WhatsApp Reminder Utility.<br>
+                        <b>Pingzy v1.0</b> &mdash; Smart Khata, Group Bill Splitter &amp; Savage WhatsApp Meme Reminder.<br>
                         <span style="color: #fde68a; font-weight: 700;">&#10022; Engineered by Harsh Raj &#10022;</span>
                     </p>
                     <div style="font-size: 12px; color: #d1d5db; line-height: 1.7;">
@@ -227,7 +277,7 @@
                 </div>
 
                 <p class="compliance-note" style="padding-bottom: 30px;">
-                    Pingzy is a personal khata &amp; bill-split reminder utility. It does not provide loans or process payments.<br>
+                    Pingzy is a personal split tracker &amp; reminder utility. It does not provide loans or process payments.<br>
                     <span style="color:#f59e0b; font-weight:700;">&copy; 2026 AetherByte Studios</span>
                 </p>
             </div>
@@ -247,7 +297,7 @@
             </button>
 
             <div class="fab-wrapper">
-                <button type="button" id="addMoneyBtn" class="fab-add-btn" title="Add Udhaar (Lena/Dena)">
+                <button type="button" id="addMoneyBtn" class="fab-add-btn" title="Add Entry">
                     &#65291;
                 </button>
             </div>
@@ -265,42 +315,42 @@
 
     </div>
 
-    <!-- 1. ADD UDHAAR (1-ON-1 LENA / DENA) BOTTOM SHEET MODAL -->
+    <!-- 1. ADD ENTRY BOTTOM SHEET MODAL -->
     <div class="modal-overlay" id="addModal">
         <div class="modal bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="modal-header">
                 <div>
-                    <h2 id="addModalTitle">&#128229; Paisa Lena Hai (Add Udhaar)</h2>
-                    <p id="addModalSub">Ek dost se paise lene hain ya dene hain, yahan likhein &#9889;</p>
+                    <h2 id="addModalTitle">New Khata Entry</h2>
+                    <p id="addModalSub">Auto cross-cuts if the friend already exists &#9889;</p>
                 </div>
                 <button id="closeAddBtn" class="close-button">&times;</button>
             </div>
 
             <!-- DIRECTION SWITCH: TO COLLECT vs I OWE -->
             <div class="type-switch-bar">
-                <button type="button" class="type-switch-btn active" id="typeCollectBtn">&#128229; Mujhe Lena Hai</button>
-                <button type="button" class="type-switch-btn" id="typeIOweBtn">&#128228; Mujhe Dena Hai</button>
+                <button type="button" class="type-switch-btn active" id="typeCollectBtn">&#128229; To Collect (Lena Hai)</button>
+                <button type="button" class="type-switch-btn" id="typeIOweBtn">&#128228; I Owe (Mujhe Dena Hai)</button>
             </div>
 
             <div class="label-row">
-                <label style="margin:0;">Dost Ka Naam (Friend Name)</label>
+                <label style="margin:0;">Contact Name</label>
                 <button type="button" id="pickContactBtn" class="contact-picker-btn">
-                    &#128210; Phone Contacts
+                    &#128210; Contacts
                 </button>
             </div>
             <input id="personName" type="text" autocomplete="name" placeholder="e.g. Rohan">
-            <div id="personError" class="field-error">Dost ka naam likhein</div>
+            <div id="personError" class="field-error">Please enter a name</div>
 
             <!-- RECENT FRIENDS 1-TAP BAR -->
             <div id="recentFriendsBar" class="quick-chips-row" style="margin-top:6px;"></div>
 
-            <label>WhatsApp / Mobile Number <span class="optional">(direct reminder bhejne ke liye)</span></label>
+            <label>Phone Number <span class="optional">(for direct SMS / WhatsApp)</span></label>
             <input id="personPhone" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel" placeholder="10-digit mobile number">
 
-            <label id="amountFieldLabel">Kitne Paise? (Amount &#8377;)</label>
+            <label id="amountFieldLabel">Amount (&#8377;)</label>
             <input id="amount" type="number" min="1" placeholder="500">
-            <div id="amountError" class="field-error">Sahi amount daalein (&#8377;1+)</div>
+            <div id="amountError" class="field-error">Enter a valid amount (&#8377;1+)</div>
 
             <!-- 1-TAP QUICK AMOUNT CHIPS -->
             <div class="quick-chips-row" style="margin-top:6px;">
@@ -310,12 +360,12 @@
                 <button type="button" class="amt-chip" data-addamt="500">+&#8377;500</button>
             </div>
 
-            <label>Kis Cheez Ke Paise? (Reason) <span class="optional">(optional)</span></label>
-            <input id="reason" type="text" placeholder="Momos, Chai, Recharge, Udhaar...">
+            <label>Note / Item <span class="optional">(optional)</span></label>
+            <input id="reason" type="text" placeholder="Momos, Dinner split, Goa trip...">
 
             <div class="date-time-row">
                 <div class="date-col">
-                    <label>Kab Tak Chahiye? <span class="optional">(optional)</span></label>
+                    <label>Reminder date <span class="optional">(optional)</span></label>
                     <input id="dueDate" type="date" min="2020-01-01" max="2099-12-31">
                     <div id="dateError" class="field-error">Year must be 4 digits (2020&ndash;2099)</div>
                 </div>
@@ -325,9 +375,9 @@
                 </div>
             </div>
 
-            <label>WhatsApp Reminder Tone <span class="optional">(Kis style mein mangna hai?)</span></label>
-            <div class="vibe-grid" id="mainVibeGrid" style="grid-template-columns: repeat(5, 1fr);">
-                <button type="button" class="vibe active" data-vibe="soft">&#128578;<span>Pyar Se</span></button>
+            <label>Ping Tone <span class="optional">(Polite is safe default)</span></label>
+            <div class="vibe-grid" id="mainVibeGrid">
+                <button type="button" class="vibe active" data-vibe="soft">&#128578;<span>Polite</span></button>
                 <button type="button" class="vibe" data-vibe="funny">&#128514;<span>Funny</span></button>
                 <button type="button" class="vibe" data-vibe="filmy">&#127916;<span>Filmy</span></button>
                 <button type="button" class="vibe" data-vibe="savage">&#128520;<span>Strict</span></button>
@@ -335,53 +385,75 @@
             </div>
 
             <button id="createReminderBtn" class="generate-button">
-                Save Entry &#9889;
+                Save &amp; Prepare Ping &#9889;
             </button>
         </div>
     </div>
 
-    <!-- 2. GROUP BILL SPLIT CALCULATOR + BILL ROULETTE SHEET -->
+    <!-- IN-APP SMART CONTACTS DRAWER -->
+    <div id="smartContactModal" class="contact-book-modal">
+        <div class="contact-book-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="margin:0; font-size:16px; color:#c4b5fd;">&#128210; Quick Contacts Book</h3>
+                <button type="button" onclick="closeSmartContactModal()" style="background:none; border:none; color:#9ca3af; font-size:20px; cursor:pointer;">&times;</button>
+            </div>
+            <p style="font-size:11.5px; color:#9ca3af; margin:0 0 12px 0; line-height:1.4;">
+                Tap a saved friend below, or save once to pick in 1-Tap anytime:
+            </p>
+            <div id="savedContactsList" style="max-height:180px; overflow-y:auto; margin-bottom:12px;"></div>
+            <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:10px;">
+                <div style="font-size:11px; color:#a78bfa; margin-bottom:6px; font-weight:700;">&#65291; Add Friend to Quick Book:</div>
+                <input id="quickContactName" type="text" placeholder="Friend Name (e.g. Aman)" style="width:100%; margin-bottom:6px; padding:8px 10px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:#09090f; color:#fff; font-size:13px;">
+                <input id="quickContactPhone" type="tel" maxlength="10" inputmode="numeric" placeholder="10-digit WhatsApp Number" style="width:100%; margin-bottom:10px; padding:8px 10px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:#09090f; color:#fff; font-size:13px;">
+                <button type="button" onclick="saveAndSelectQuickContact()" class="generate-button" style="width:100%; padding:10px; font-size:13px;">
+                    &#9989; Save &amp; Use Contact
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GROUP SPLIT CALCULATOR + BILL ROULETTE SHEET -->
     <div class="modal-overlay" id="splitCalcModal">
         <div class="modal bottom-sheet">
             <div class="sheet-handle"></div>
             <div class="modal-header">
                 <div>
                     <h2>&#127829; Group Bill Split &amp; Roulette</h2>
-                    <p>Party ya trip ka total bill dosto mein barabar baantein!</p>
+                    <p>Divide bills equally or spin to see who pays today!</p>
                 </div>
                 <button id="closeSplitCalcBtn" class="close-button">&times;</button>
             </div>
 
-            <label>Total Party / Trip Bill (&#8377;)</label>
-            <input id="calcTotalAmt" type="number" min="1" placeholder="e.g. 1200">
+            <label>Total Bill Amount (&#8377;)</label>
+            <input id="calcTotalAmt" type="number" min="1" placeholder="e.g. 2400">
 
-            <label>Party / Jagah Ka Naam <span class="optional">(optional)</span></label>
-            <input id="calcReason" type="text" placeholder="e.g. Pizza Party, Cafe, Trip">
+            <label>Event / Hangout Name <span class="optional">(optional)</span></label>
+            <input id="calcReason" type="text" placeholder="e.g. Chai Tapri, Pizza Night, Goa Trip">
 
-            <label>Sabhi Dosto Ke Naam <span class="optional">(Comma lagakar likhein)</span></label>
+            <label>Friends Names <span class="optional">(Comma separated &mdash; write 'Me' for yourself)</span></label>
             <input id="calcNames" type="text" placeholder="Rohan, Aman, Priya, Me">
 
-            <label>Reminder Message Style</label>
+            <label>Meme / Ping Tone</label>
             <div class="vibe-grid" style="grid-template-columns: repeat(3, 1fr);">
                 <button type="button" class="vibe active" data-calcvibe="funny">&#128514;<span>Funny</span></button>
-                <button type="button" class="vibe" data-calcvibe="soft">&#128578;<span>Pyar Se</span></button>
+                <button type="button" class="vibe" data-calcvibe="soft">&#128578;<span>Polite</span></button>
                 <button type="button" class="vibe" data-calcvibe="savage">&#128520;<span>Strict</span></button>
             </div>
 
             <div class="calc-dual-buttons">
                 <button id="calculateSplitBtn" class="calc-action-btn" style="flex:1.3;">
-                    &#9889; Barabar Baantein (Split)
+                    &#9889; Split Equally
                 </button>
                 <button id="spinRouletteBtn" type="button" class="roulette-btn" style="flex:1;">
-                    &#127922; Spin: Kaun Dega?
+                    &#127922; Spin Roulette
                 </button>
             </div>
 
             <!-- BILL ROULETTE RESULT BOX -->
             <div id="rouletteResultBox" class="roulette-result-box" style="display:none;">
-                <div class="roulette-title">&#127919; AAJ KA PARTY SPONSOR</div>
+                <div class="roulette-title">&#127919; BILL ROULETTE WINNER</div>
                 <div id="rouletteWinnerName" class="roulette-winner">AMAN</div>
-                <p id="rouletteSubText">aaj poora bill dega! &#127881;</p>
+                <p id="rouletteSubText">is sponsoring the entire bill today! &#127881;</p>
             </div>
 
             <div id="splitResultsContainer" style="margin-top: 14px; display: none;">
@@ -389,10 +461,10 @@
                 <div id="splitResultsList" class="split-results-list"></div>
                 <div style="display:flex; gap:8px; margin-top:12px;">
                     <button type="button" id="copyGroupSummaryBtn" class="studio-action-btn" style="flex:1;">
-                        &#128203; Copy Hisaab
+                        &#128203; Copy Group Table
                     </button>
                     <button type="button" id="addAllSplitsBtn" class="generate-button" style="flex:1.2; padding:11px;">
-                        &#10133; Khate Mein Save Karein
+                        &#10133; Save All to Khata
                     </button>
                 </div>
             </div>
@@ -403,7 +475,7 @@
     <div class="modal-overlay" id="reminderModal">
         <div class="modal bottom-sheet reminder-modal">
             <div class="sheet-handle"></div>
-            <div class="reminder-top">&#9889; Pingzy WhatsApp Reminder</div>
+            <div class="reminder-top">&#9889; Pingzy Smart Dispatcher</div>
             <div class="recipient" id="reminderRecipient">Someone</div>
             <div class="recipient-phone" id="reminderPhoneDisplay"></div>
             <div class="amount-display" id="reminderAmount">&#8377;0</div>
@@ -421,20 +493,20 @@
 
             <!-- SPECIAL VIRAL MODES BAR: AI BOT, BARTER TREAT, FILMY, DOSTI TAX -->
             <div class="special-modes-bar">
-                <button type="button" class="mode-pill" id="botModeBtn">&#129302; AI Bot Mode</button>
-                <button type="button" class="mode-pill" id="barterModeBtn">&#127829; Party Treat Maangein</button>
-                <button type="button" class="mode-pill" id="filmyModeBtn">&#127916; Filmy Dialogue</button>
-                <button type="button" class="mode-pill" id="dostiTaxBtn">&#128200; +Samosa Fine</button>
+                <button type="button" class="mode-pill" id="botModeBtn">&#129302; Blame AI Bot</button>
+                <button type="button" class="mode-pill" id="barterModeBtn">&#127829; Convert to Treat</button>
+                <button type="button" class="mode-pill" id="filmyModeBtn">&#127916; Filmy Meme</button>
+                <button type="button" class="mode-pill" id="dostiTaxBtn">&#128200; +Samosa Tax</button>
             </div>
 
             <div class="message-box">
-                <div class="message-label" id="messageBoxLabel">WhatsApp Par Bhejne Wala Message:</div>
+                <div class="message-label" id="messageBoxLabel">Generated Ping Message (Tap Remix for 100+ new lines!)</div>
                 <p id="generatedMessage"></p>
             </div>
 
             <!-- EXCUSE BUSTER (BAHANA RESPONDER) -->
             <div class="excuse-buster-box">
-                <div class="excuse-title">&#128737;&#65039; Dost Bahana Banaye Toh Tap Karein (Excuse Buster):</div>
+                <div class="excuse-title">&#128737;&#65039; Excuse Buster (Tap what excuse they gave!):</div>
                 <div class="excuse-chips-row">
                     <button type="button" class="excuse-chip" data-excuse="server">&#128246; Server Down</button>
                     <button type="button" class="excuse-chip" data-excuse="salary">&#128181; Salary Aane De</button>
@@ -452,7 +524,7 @@
 
             <div class="sticker-preview-box">
                 <div class="sticker-preview-label">
-                    &#10024; Meme Poster Card (Card par tap karke text badlein!)
+                    &#10024; Visual Ping Card (Tap card to cycle 40+ new headlines!)
                 </div>
 
                 <img id="stickerPreviewImg" alt="Ping Card Preview" title="Tap to remix text!" />
@@ -468,22 +540,22 @@
                     class="custom-sticker-input"
                     type="text"
                     maxlength="28"
-                    placeholder="Ya card ke upar apni line likhein..."
+                    placeholder="Or type custom card headline..."
                 >
             </div>
 
             <div class="reminder-actions">
                 <div class="primary-send-row">
-                    <button id="whatsappBtn" class="whatsapp-button">&#128172; Send on WhatsApp</button>
+                    <button id="whatsappBtn" class="whatsapp-button">&#128172; WhatsApp</button>
                     <button id="smsBtn" class="sms-button">&#128233; SMS Text</button>
                 </div>
                 <div class="secondary-send-row">
                     <button id="showQrBtn" type="button" class="new-reply-button">&#128242; Show QR</button>
-                    <button id="newReplyBtn" type="button" class="copy-button">&#128260; Change Line</button>
+                    <button id="newReplyBtn" type="button" class="copy-button">&#128260; Remix</button>
                     <button id="copyBtn" type="button" class="copy-button">&#128203; Copy</button>
-                    <button id="stickerBtn" type="button" class="sticker-button">&#11015;&#65039; Poster</button>
+                    <button id="stickerBtn" type="button" class="sticker-button">&#11015;&#65039; PNG</button>
                 </div>
-                <button id="closeReminderBtn" class="done-button">Band Karein (Close)</button>
+                <button id="closeReminderBtn" class="done-button">Close Sheet</button>
             </div>
         </div>
     </div>
@@ -493,12 +565,12 @@
         <div class="modal confirm-modal">
             <div class="confirm-icon">&#129534;</div>
             <h3 id="addMoreTitle">Add to Friend's Khata</h3>
-            <p id="addMoreSub">Isi dost ke khate mein aur paise jodein</p>
+            <p id="addMoreSub">Add another item to this split passbook</p>
             <input id="addMoreAmtInput" type="number" min="1" placeholder="Extra Amount (₹)" class="partial-input" style="margin-bottom:8px;">
             <input id="addMoreNoteInput" type="text" placeholder="Item (e.g. Cold Coffee, Auto)" style="margin-bottom:14px;">
             <div class="confirm-actions">
                 <button type="button" id="cancelAddMoreBtn" class="cancel-delete-btn">Cancel</button>
-                <button type="button" id="confirmAddMoreBtn" class="generate-button" style="flex:1; padding:11px;">&#10133; Khate Mein Jodein</button>
+                <button type="button" id="confirmAddMoreBtn" class="generate-button" style="flex:1; padding:11px;">&#10133; Add to Bill</button>
             </div>
         </div>
     </div>
@@ -507,16 +579,12 @@
     <div class="modal-overlay" id="partialPayModal">
         <div class="modal confirm-modal">
             <div class="confirm-icon">&#128184;</div>
-            <h3 id="partialPayTitle">Aadha Paisa Mila (Partial Pay)</h3>
-            <p id="partialPaySub">Dost ne abhi kitne paise de diye?</p>
-            <input id="partialAmountInput" type="number" min="1" placeholder="Mila hua amount (₹)" class="partial-input">
+            <h3 id="partialPayTitle">Record Partial Payment</h3>
+            <p id="partialPaySub">How much did they settle right now?</p>
+            <input id="partialAmountInput" type="number" min="1" placeholder="Enter amount received (₹)" class="partial-input">
             <div class="confirm-actions">
-                <button type="button" id="cancelPartialBtn" class="cancel-delete-btn">
-                    Cancel
-                </button>
-                <button type="button" id="confirmPartialBtn" class="generate-button" style="flex: 1; padding: 11px;">
-                    &#9989; Update Khata
-                </button>
+                <button type="button" id="cancelPartialBtn" class="cancel-delete-btn">Cancel</button>
+                <button type="button" id="confirmPartialBtn" class="generate-button" style="flex: 1; padding: 11px;">&#9989; Update Split</button>
             </div>
         </div>
     </div>
@@ -526,16 +594,10 @@
         <div class="modal confirm-modal">
             <div class="confirm-icon">&#9888;&#65039;</div>
             <h3 id="deleteModalTitle">Delete this entry?</h3>
-            <p id="deleteConfirmText">
-                Kya aap sach mein ye hisaab mitana chahte hain?
-            </p>
+            <p id="deleteConfirmText">Are you sure you want to remove this record?</p>
             <div class="confirm-actions">
-                <button type="button" id="cancelDeleteBtn" class="cancel-delete-btn">
-                    Cancel
-                </button>
-                <button type="button" id="confirmDeleteBtn" class="confirm-delete-btn">
-                    &#128465;&#65039; Yes, Delete
-                </button>
+                <button type="button" id="cancelDeleteBtn" class="cancel-delete-btn">Cancel</button>
+                <button type="button" id="confirmDeleteBtn" class="confirm-delete-btn">&#128465;&#65039; Yes, Delete</button>
             </div>
         </div>
     </div>
@@ -546,17 +608,71 @@
         <button id="toastUndoBtn" class="toast-undo-btn" style="display:none;">UNDO</button>
     </div>
 
-    <!-- MAIN APP LOGIC -->
-    <script src="script.js?v=9" charset="utf-8"></script>
+    <!-- CORE SCRIPT -->
+    <script src="script.js?v=12" charset="utf-8"></script>
 
-    <!-- AETHERBYTE STUDIOS UI CLARITY, CONTACTS FIX & SMART ALERTS ENGINE -->
+    <!-- =========================================================================
+         AETHERBYTE MEGA EXPANSION ENGINE:
+         1. 100+ Ping Messages across all tones & modes
+         2. 40+ Visual Sticker Headlines on Card Tap / Remix
+         3. 22+ Smart Notifications
+         4. Instant Bilingual Guide & Tab Translation (EN <-> HI)
+    ========================================================================== -->
     <script>
-      // 1. Register Service Worker
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js');
+        navigator.serviceWorker.register('./sw.js?v=6');
       }
 
-      // 2. Quick Guide Show/Hide
+      // -------------------------------------------------------------------------
+      // PART 1: INSTANT LANGUAGE DETECTION & GUIDE TRANSLATION (EN <-> HI)
+      // -------------------------------------------------------------------------
+      function isEnglishMode() {
+        const qBtn = document.getElementById('quickLangBtn');
+        const lBtn = document.getElementById('langToggleBtn');
+        // In script.js, when English is active, quickLangBtn shows "🌐 EN"
+        if (qBtn) {
+          const txt = qBtn.innerText.toUpperCase();
+          if (txt.includes('EN')) return true;
+          if (txt.includes('HI')) return false;
+        }
+        if (lBtn && lBtn.innerText.toLowerCase().includes('english')) return true;
+        return false;
+      }
+
+      function renderQuickGuideLanguage() {
+        const g = document.getElementById('pingzyQuickGuide');
+        const gBtn = document.getElementById('toggleGuideBtn');
+        if (!g) return;
+        const en = isEnglishMode();
+        if (gBtn) gBtn.innerHTML = en ? '&#10067; Guide' : '&#10067; Kaise Chalayein';
+
+        if (en) {
+          g.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <strong style="color:#c4b5fd; font-size:12.5px;">&#128161; How Pingzy Works (3 Easy Uses)</strong>
+              <button type="button" onclick="closeQuickGuide()" style="background:none; border:none; color:#9ca3af; font-size:16px; cursor:pointer; padding:0 4px;">&times;</button>
+            </div>
+            <div style="color:#d1d5db; font-size:11.5px;">
+              1&#65039;&#8419; <b>&#128210; Khata (To Collect / I Owe):</b> Track money friends owe you (<i>To Collect</i>) or money you owe them (<i>I Owe</i>).<br>
+              2&#65039;&#8419; <b>&#128172; WhatsApp Meme Ping:</b> Send funny/savage meme posters &amp; UPI QR links to collect dues without awkwardness.<br>
+              3&#65039;&#8419; <b>&#127829; Bill Split (Group):</b> Tap <b>Bill Split</b> below to divide party/trip bills equally or spin the Bill Roulette!
+            </div>
+          `;
+        } else {
+          g.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <strong style="color:#c4b5fd; font-size:12.5px;">&#128161; Pingzy Kis Kaam Aata Hai? (3 Easy Uses)</strong>
+              <button type="button" onclick="closeQuickGuide()" style="background:none; border:none; color:#9ca3af; font-size:16px; cursor:pointer; padding:0 4px;">&times;</button>
+            </div>
+            <div style="color:#d1d5db; font-size:11.5px;">
+              1&#65039;&#8419; <b>&#128210; Khata (Lena / Dena):</b> Dost se paise lene hain (<i>To Collect</i>) ya dene hain (<i>I Owe</i>), yahan likhein.<br>
+              2&#65039;&#8419; <b>&#128172; WhatsApp Meme Ping:</b> Bina sharam dost se paise mangne ke liye Funny Meme Card &amp; UPI QR bhejein.<br>
+              3&#65039;&#8419; <b>&#127829; Bill Split (Group):</b> Party ya trip ka total bill dosto mein barabar baantne ke liye niche <b>Bill Split</b> dabayein.
+            </div>
+          `;
+        }
+      }
+
       function closeQuickGuide() {
         const g = document.getElementById('pingzyQuickGuide');
         if (g) g.style.display = 'none';
@@ -568,6 +684,7 @@
         if (g.style.display === 'none') {
           g.style.display = 'block';
           localStorage.setItem('pingzy_hide_guide', 'false');
+          renderQuickGuideLanguage();
         } else {
           g.style.display = 'none';
           localStorage.setItem('pingzy_hide_guide', 'true');
@@ -578,184 +695,538 @@
         if (g) g.style.display = 'none';
       }
 
-      // 3. Make 'To Collect', 'I Owe', and 'Settled' Visually Distinct & Clear!
-      let currentActiveMode = 'pending'; // 'pending' | 'iowe' | 'settled'
+      let currentActiveMode = 'pending';
 
       function applyClearTabUI(mode) {
-        currentActiveMode = mode;
-        const vaultLabel = document.getElementById('vaultMainLabel');
-        const subStatLabel1 = document.getElementById('subStatLabel1');
-        const currentViewTitle = document.getElementById('currentViewTitle');
-        const emptyIcon = document.getElementById('emptyIcon');
-        const emptyTitle = document.getElementById('emptyTitle');
-        const emptyDesc = document.getElementById('emptyDesc');
-        const firstBtn = document.getElementById('firstReminderBtn');
-        const demoBtn = document.getElementById('loadDemoBtn');
-        const subTabs = document.getElementById('ledgerSubTabs');
-
+        if (mode) currentActiveMode = mode;
         setTimeout(() => {
-          if (mode === 'pending') {
+          const en = isEnglishMode();
+          renderQuickGuideLanguage();
+
+          const vaultLabel = document.getElementById('vaultMainLabel');
+          const subStatLabel1 = document.getElementById('subStatLabel1');
+          const currentViewTitle = document.getElementById('currentViewTitle');
+          const emptyIcon = document.getElementById('emptyIcon');
+          const emptyTitle = document.getElementById('emptyTitle');
+          const emptyDesc = document.getElementById('emptyDesc');
+          const firstBtn = document.getElementById('firstReminderBtn');
+          const demoBtn = document.getElementById('loadDemoBtn');
+          const subTabs = document.getElementById('ledgerSubTabs');
+
+          if (currentActiveMode === 'pending') {
             if (subTabs) subTabs.style.display = 'flex';
-            if (vaultLabel) vaultLabel.innerHTML = '&#128229; MUJHE LENE HAIN (TO COLLECT)';
-            if (subStatLabel1) subStatLabel1.innerHTML = 'Mujhe Dene (I Owe) &#128228;';
-            if (currentViewTitle) currentViewTitle.innerHTML = '&#128229; Mujhe Lene Hain (Vasooli List)';
+            if (vaultLabel) vaultLabel.innerHTML = en ? '&#128229; TOTAL TO COLLECT' : '&#128229; MUJHE LENE HAIN (TO COLLECT)';
+            if (subStatLabel1) subStatLabel1.innerHTML = en ? 'I Owe &#128228;' : 'Mujhe Dene (I Owe) &#128228;';
+            if (currentViewTitle) currentViewTitle.innerHTML = en ? '&#128229; TO COLLECT (PENDING)' : '&#128229; Mujhe Lene Hain (Vasooli List)';
             if (emptyIcon) emptyIcon.innerHTML = '&#128184;';
-            if (emptyTitle) emptyTitle.innerText = 'Kisi dost se paise nahi lene!';
-            if (emptyDesc) emptyDesc.innerHTML = 'Dost ne udhaar liya hai? Niche <b>&#65291; Paisa Lena Hai</b> dabayein aur WhatsApp par Funny Meme Ping bhejein!';
-            if (firstBtn) {
-              firstBtn.style.display = 'inline-flex';
-              firstBtn.innerHTML = '&#65291; Paisa Lena Hai (Add Udhaar)';
+            if (emptyTitle) emptyTitle.innerText = en ? 'No pending dues to collect!' : 'Kisi dost se paise nahi lene!';
+            if (emptyDesc) {
+              emptyDesc.innerHTML = en
+                ? 'Did a friend borrow money? Tap <b>&#65291; Add To Collect</b> below to save it &amp; send a WhatsApp Meme Ping!'
+                : 'Dost ne udhaar liya hai? Niche <b>&#65291; Paisa Lena Hai</b> dabayein aur WhatsApp par Funny Meme Ping bhejein!';
             }
-            if (demoBtn) demoBtn.style.display = 'inline-flex';
-          } else if (mode === 'iowe') {
-            if (subTabs) subTabs.style.display = 'flex';
-            if (vaultLabel) vaultLabel.innerHTML = '&#128228; MUJHE DENE HAIN (I OWE)';
-            if (subStatLabel1) subStatLabel1.innerHTML = 'Mujhe Lene (Collect) &#128229;';
-            if (currentViewTitle) currentViewTitle.innerHTML = '&#128228; Mujhe Dene Hain (Mere Upar Udhaar)';
-            if (emptyIcon) emptyIcon.innerHTML = '&#128524;';
-            if (emptyTitle) emptyTitle.innerText = 'Aapke upar kisi ka udhaar nahi hai!';
-            if (emptyDesc) emptyDesc.innerHTML = 'Agar aapko kisi dost ko paise wapas chukane hain, toh niche button daba kar yaad ke liye likh lein.';
             if (firstBtn) {
               firstBtn.style.display = 'inline-flex';
-              firstBtn.innerHTML = '&#65291; Paisa Dena Hai (Add I Owe)';
+              firstBtn.innerHTML = en ? '&#65291; Add To Collect' : '&#65291; Paisa Lena Hai (Add Udhaar)';
+            }
+            if (demoBtn) {
+              demoBtn.style.display = 'inline-flex';
+              demoBtn.innerHTML = en ? '&#10024; Load 1-Click Demo' : '&#10024; Demo Dekhein (Sample)';
+            }
+          } else if (currentActiveMode === 'iowe') {
+            if (subTabs) subTabs.style.display = 'flex';
+            if (vaultLabel) vaultLabel.innerHTML = en ? '&#128228; TOTAL I OWE' : '&#128228; MUJHE DENE HAIN (I OWE)';
+            if (subStatLabel1) subStatLabel1.innerHTML = en ? 'To Collect &#128229;' : 'Mujhe Lene (Collect) &#128229;';
+            if (currentViewTitle) currentViewTitle.innerHTML = en ? '&#128228; I OWE (TO PAY BACK)' : '&#128228; Mujhe Dene Hain (Mere Upar Udhaar)';
+            if (emptyIcon) emptyIcon.innerHTML = '&#128524;';
+            if (emptyTitle) emptyTitle.innerText = en ? 'You are 100% debt-free!' : 'Aapke upar kisi ka udhaar nahi hai!';
+            if (emptyDesc) {
+              emptyDesc.innerHTML = en
+                ? 'Need to pay a friend back later? Tap the button below to record what you owe.'
+                : 'Agar aapko kisi dost ko paise wapas chukane hain, toh niche button daba kar yaad ke liye likh lein.';
+            }
+            if (firstBtn) {
+              firstBtn.style.display = 'inline-flex';
+              firstBtn.innerHTML = en ? '&#65291; Add What I Owe' : '&#65291; Paisa Dena Hai (Add I Owe)';
             }
             if (demoBtn) demoBtn.style.display = 'none';
-          } else if (mode === 'settled') {
+          } else if (currentActiveMode === 'settled') {
             if (subTabs) subTabs.style.display = 'none';
-            if (currentViewTitle) currentViewTitle.innerHTML = '&#127881; Chukta Hisaab (Settled History)';
+            if (currentViewTitle) currentViewTitle.innerHTML = en ? '&#127881; SETTLED HISTORY' : '&#127881; Chukta Hisaab (Settled History)';
             if (emptyIcon) emptyIcon.innerHTML = '&#127881;';
-            if (emptyTitle) emptyTitle.innerText = 'Abhi tak koi hisaab settle nahi hua';
-            if (emptyDesc) emptyDesc.innerHTML = 'Jab koi dost aapke paise wapas de dega (ya aap chuka denge), toh uska purana record yahan safe rahega.';
+            if (emptyTitle) emptyTitle.innerText = en ? 'No settled records yet' : 'Abhi tak koi hisaab settle nahi hua';
+            if (emptyDesc) {
+              emptyDesc.innerHTML = en
+                ? 'Once a friend pays you back (or you settle what you owe), the completed history stays safe here.'
+                : 'Jab koi dost aapke paise wapas de dega (ya aap chuka denge), toh uska purana record yahan dikhega.';
+            }
             if (firstBtn) firstBtn.style.display = 'none';
             if (demoBtn) demoBtn.style.display = 'none';
           }
         }, 30);
       }
 
-      // Sync Add Modal Labels (Lena Hai vs Dena Hai)
-      function syncAddModalLabels(isIOwe) {
-        const title = document.getElementById('addModalTitle');
-        const sub = document.getElementById('addModalSub');
-        const amtLabel = document.getElementById('amountFieldLabel');
-        const saveBtn = document.getElementById('createReminderBtn');
-        if (isIOwe) {
-          if (title) title.innerHTML = '&#128228; Mujhe Paise Dene Hain (I Owe)';
-          if (sub) sub.innerHTML = 'Jis dost ko paise wapas chukane hain uska naam likhein';
-          if (amtLabel) amtLabel.innerHTML = 'Kitne Paise Dene Hain? (&#8377;)';
-          if (saveBtn) saveBtn.innerHTML = 'Save Entry (Mujhe Dene Hain) &#9989;';
-        } else {
-          if (title) title.innerHTML = '&#128229; Mujhe Paise Lene Hain (To Collect)';
-          if (sub) sub.innerHTML = 'Jis dost se paise mangne hain uska naam aur amount likhein &#9889;';
-          if (amtLabel) amtLabel.innerHTML = 'Kitne Paise Lene Hain? (&#8377;)';
-          if (saveBtn) saveBtn.innerHTML = 'Save &amp; Prepare WhatsApp Ping &#9889;';
+      // -------------------------------------------------------------------------
+      // PART 2: 100+ MEGA PING MESSAGE ENGINE & 40+ STICKER HEADLINES
+      // -------------------------------------------------------------------------
+      const MEGA_PING_BANK = {
+        soft: [
+          "Hey {name}! 🙂 Chota sa reminder — pichle split ke {amt} pending the. Jab free ho toh UPI kar dena bhai! ⚡",
+          "Hi {name}! Bas yaad dila raha tha ki {amt} ka hisaab bacha hua hai. Jab convenient ho toh settle kar lena 🙏",
+          "Hey {name} bro! Apna {amt} wala split pending dikha raha tha khate mein. Time mile toh GPay/PhonePe kar dena ✨",
+          "Hello {name}! 🙂 No rush, bas yaad ke liye ping kar raha hu — {amt} pending hain. Jab mauka mile bhej dena!",
+          "Hey {name}! Month-end hisaab clear kar raha tha toh dekha tere {amt} bache hain. Free hoke bhej dena bhai 💜",
+          "Hi {name}! Hope all good 🙂 Apna {amt} ka chota sa split bacha tha, jab UPI khole toh निपटा dena!",
+          "Hey {name}! Gentle ping ⚡ {amt} pending hain apni pichli outing ke. Jab aasan lage transfer kar dena!",
+          "Bro {name}! 🙂 Apna khata clean kar raha tha — {amt} pending hain. Jab free ho toh 1-tap UPI kar dena!",
+          "Hey {name}! Quick friendly reminder for {amt} 😊 Whenever you get a second, please UPI it over!",
+          "Hi {name}! Just clearing up old splits on Pingzy — {amt} is pending from your side. Send whenever free! ✨"
+        ],
+        funny: [
+          "Bhai {name} 😂 Mere {amt} pe 18% GST aur 2 Samosa ब्याज lagne se pehle UPI kar de yaar!",
+          "Breaking News 🚨: NASA ne confirm kiya hai ki {name} ke paas mere {amt} abhi tak pade hue hain. Jaldi bhej bhai! 😂",
+          "Bhai {name}, mere {amt} mutual fund mein daale hain kya jo itna lock-in period chal raha hai? 😂💸 Bhej de ab!",
+          "Oye {name} 😂 Mera Astrologer bol raha tha ki jab tak tu mere {amt} wapas nahi karega, teri kundli mein Shani bhaari rahega! 🪐",
+          "Bhai {name}, {amt} bhej de yaar, meri Maggi aur Chai ki liquidity crisis chal rahi hai! 🍜😂",
+          "Hello {name} 😂 Tere paas jo mere {amt} hain, unki yaad mein maine aaj 2 minute ka maun rakha. Ab toh UPI kar de!",
+          "Bhai {name}, agar agle 10 minute mein {amt} UPI nahi aaye, toh main tere ghar ke bahar dharne pe baith jaunga! 😂🪧",
+          "Oye {name}! 😂 Mere {amt} itne din se tere account mein reh rahe hain, ab toh unka rent bhi banta hai!",
+          "Bro {name} 😂 RBI ka naya rule aaya hai: Dosto ke {amt} दबाने par seedha Zomato coupon block ho jata hai! Jaldi GPay kar!",
+          "Bhai {name}, kidney nahi maang raha hu, bas apne {amt} maang raha hu! 😂 Halka sa UPI kar de!",
+          "Alert {name} 😂: Tere paas mere {amt} itne purane ho gaye hain ki ab wo Archaeology department ke under aane wale hain!",
+          "Oye {name}! 😂 Dosti apni jagah, lekin mere {amt} wapas karne ka muhurat kab nikal raha hai pandit ji?"
+        ],
+        filmy: [
+          "Babu Bhaiya style mein bol raha hu {name}: '25 din mein paisa double nahi chahiye, bas mere asli {amt} wapas de de re baba!' 🎬😂",
+          "Mirzapur Alert {name} 🔥: 'Kaleen Bhaiya ka aadesh hai — izzat se {amt} GPay kar do, warna agla season tere ghar pe shoot hoga!' 🎬",
+          "Kachra Seth voice: '150 rupiya nahi, poore {amt} dega!' 😂🎬 Bhai {name}, jaldi UPI ghuma de!",
+          "Shark Tank India Update {name} 🦈: 'Tere bahane sun kar main is udhaar se OUT hu! Mere {amt} abhi ke abhi wapas kar!'",
+          "Gangs of Wasseypur {name} 🎬: 'Baap ka, dada ka, bhai ka... sabka hisaab barabar karega tera ye dost! {amt} bhej jaldi!'",
+          "Welcome Movie {name} 🎬: 'Control Uday, Control... main control kar raha hu warna {amt} ke liye abhi tere ghar aa jata!' 😂",
+          "Amitabh Bachchan KBC {name} 🎬: '7 Crore nahi, deviyon aur sajjano, {name} ko bas mere {amt} UPI karne hain! Lock kiya jaye!'",
+          "Pushpa Mode {name} 🔥: 'Pushpa naam sun ke flower samjha kya? Fire hai main! Aur mere {amt} abhi tak pending hain!' 🎬",
+          "3 Idiots {name} 🎬: 'All Izz Well tabhi hoga jab mere {amt} mere account mein dikhenge! Jaldi bhej bhai!'",
+          "Golmaal Vasooli Bhai {name} 🎬: 'Jaldi bol kal subah Panvel nikalna hai... mere {amt} abhi ke abhi GPay kar!' 😂",
+          "Sholay Gabbar {name} 🎬: 'Kitne paise the re Kalia? Sardar, poore {amt}! Toh abhi tak UPI kyun nahi hua?!'"
+        ],
+        savage: [
+          "Oye {name} 😈 Jab bill split hua tha tab toh bada 'Bro-Bro' kar raha tha, ab {amt} bhejne mein ungli dard ho rahi hai kya?",
+          "Bhai {name}, Zomato aur Swiggy pe toh tera UPI 5G speed pe chalta hai, mere {amt} bhejne ke time hi network jaata hai kya? 😈💸",
+          "Listen {name} 🚨 Tera Friendship CIBIL Score gir kar -50 ho gaya hai. {amt} abhi UPI kar aur apni izzat bacha!",
+          "Bhai {name} 😈 Message seen karke ghost karne se {amt} maaf nahi ho jayenge. Seedhe-seedhe GPay kar abhi!",
+          "Oye {name}, gareeb ki haaye aur dost ka udhaar ({amt}) kabhi hazam nahi hota 💀 Abhi scan karke chukta kar!",
+          "Strict Warning {name} ⚡: Bohot ho gaya 'kal bhejta hu'. Abhi 30 second lagte hain GPay kholne mein — {amt} transfer kar!",
+          "Bhai {name} 😈 Instagram pe story lagane ka data hai tere paas, par mere {amt} UPI karne ka 2KB data nahi bacha?",
+          "Oye {name}! Paise lete waqt toh teri speed Bullet Train jaisi thi, {amt} lautaate waqt बैलगाड़ी kyun ban gaya? 😈",
+          "Final Reminder {name} 🚨: Mere {amt} bhej raha hai ya group mein tera 'Udhaar Defaulter' poster viral karu? 😈",
+          "Bro {name}, bahane mat bana. {amt} abhi turant UPI kar, hisaab saaf rakh! ⚡"
+        ],
+        professional: [
+          "Hi {name}, this is an official settlement reminder for the pending balance of {amt}. Kindly transfer via UPI at your earliest convenience. 💼",
+          "Dear {name}, as per our shared expense ledger, an amount of {amt} is currently overdue. Please clear the dues today. 📋",
+          "Hello {name}, kindly take a moment to settle the pending split of {amt} via Google Pay / PhonePe. Thank you! 💼",
+          "Invoice Notice: {name}, your account shows an outstanding shared expense of {amt}. Prompt UPI settlement is appreciated. ⚡",
+          "Hi {name}, wrapping up this week's accounts — please process the pending {amt} transfer when you get a moment. Best regards! 💼",
+          "Gentle Accounting Reminder for {name}: Pending balance of {amt}. Please complete the UPI transaction today. 📊",
+          "Hello {name}, hope you're doing well. Requesting a quick settlement of {amt} towards our recent split bill. Thanks! 💼"
+        ],
+        bot: [
+          "🤖 [PINGZY AI BOT v4.2]: Beep Boop! Hello {name}, main Harsh ka Automated Vasooli Bot hu. Aapke upar {amt} pending hain. Har 2 ghante mein auto-ping aane se rokne ke liye abhi UPI karein! ⚡",
+          "🤖 [AUTO-COLLECTION AI]: Namaste {name}! AI scan mein paya gaya hai ki aapne {amt} abhi tak nahi bheje. Kripya turant GPay karke apna naam Defaulter List se hatayein!",
+          "🤖 [CYBER KHATA BOT]: Alert {name}! Mere malik ko bolne mein sharam aa rahi thi, isliye mujhe bheja hai. Chup-chap {amt} UPI kar do warna main spam mode ON kar dunga! 🚨",
+          "🤖 [PINGZY ROBO-AGENT]: Automated Notice #404 for {name} — Outstanding balance: {amt}. Human friendship detected, awaiting UPI confirmation! ⚡",
+          "🤖 [AI VASOOLI ENGINE]: Hi {name}! Main ek emotionless AI bot hu, mujhpe 'Server Down' ya 'Kal Dunga' bahana kaam nahi karta. Please pay {amt} now! 🤖💸"
+        ],
+        barter: [
+          "🍕 [TREAT BARTER DEAL]: Oye {name}! Agar {amt} cash/UPI nahi de sakta, toh aaj shaam ko utne ke गरमा-गरम Momos aur Cold Coffee khila ke hisaab barabar kar! Deal? 🤝",
+          "🍔 [FOOD SETTLEMENT]: Bhai {name}! {amt} ke badle aaj Burger + Fries + Coke ki party de de, main khate se tera naam abhi काट dunga! बोल मंजूर है? 🍟",
+          "☕ [CHAI-SAMOSA BARTER]: Sun {name}! {amt} UPI karne mein maut aa rahi hai toh Tapri pe chal aur poore group ko Samosa-Chai pila ke udhaar chukta kar! 🥟",
+          "🍗 [BIRYANI EXCHANGE OFFER]: Special Scheme for {name}: {amt} ka udhaar maaf ho sakta hai agar tu aaj shaam Biryani/Roll treat sponsor kar de! Deal lock karein? 🔥",
+          "🍕 [PIZZA BARTER MODE]: Bhai {name}, paise chhod — {amt} ke badle Pizza party kra de, hisaab 100% settled! Kya bolta hai? 🎉"
+        ],
+        dostiTax: [
+          "📈 [LATE FEE + SAMOSA TAX]: Bhai {name}! Asli udhaar tha {amt}, par itna late karne ke jurm mein ab '1 Garma-Garam Samosa + Chai Tax' jud gaya hai! Jaldi pay kar warna Biryani Tax lagega! 🥟😂",
+          "📈 [DOSTI INFLATION ALERT]: Oye {name}! Tere {amt} pe ab Dosti RBI ke hisaab se roz 1 Plate Golgappe ka vyaj chadh raha hai. Abhi UPI karke meter rok le! 🚨",
+          "📈 [SURCHARGE NOTICE]: {name} bhai, {amt} pending rakhe hue itne din ho gaye ki ab uspe ₹20 'Dimag Kharab Surcharge' lag chuka hai! Turant settle kar! 💸",
+          "📈 [PENALTY APPLIED]: Alert {name}! {amt} + 1 Cold Drink Penalty active ho chuki hai. Agle 1 ghante mein UPI karoge toh penalty maaf! ⚡"
+        ],
+        excuse_server: [
+          "📶 'Server Down' ka bahana mat mar {name}! 😂 Abhi Zomato/Swiggy pe order karega toh 1 second mein payment ho jayegi. Doosre bank se {amt} bhej ya cash nikaal!",
+          "📶 Oye {name}, SBI ka server down ho sakta hai par GPay/PhonePe/Paytm teeno ek sath kabhi down nahi hote! 😂 Chup-chap {amt} bhej!",
+          "📶 Bhai {name}, tera bank server hamesha mere {amt} dene ke time hi kyun chhutti pe jata hai? 😂 QR scan kar, abhi chalega!",
+          "📶 Server down hai toh koi baat nahi {name}, ATM se nikaal ke de de ya kisi dusre dost se mere UPI pe {amt} dalwa de! Bahana Reject ❌"
+        ],
+        excuse_salary: [
+          "💵 'Salary aane de'?! Bhai {name}, tujhse Elon Musk ki company nahi maang raha, bas {amt} maang raha hu! 😂 Abhi GPay kar!",
+          "💵 Oye {name}! {amt} dene ke liye konsi 7th Pay Commission ki salary ka wait kar raha hai? 😂 Chillar hai bhai, abhi निपटा!",
+          "💵 Bhai {name}, agar {amt} ke liye tujhe salary ka wait karna pad raha hai, toh ₹50-₹50 ki 2 EMI bana ke abhi pehli kist UPI kar! 😂",
+          "💵 Salary toh har mahine aake chali jati hai {name}, par mere {amt} kab aayenge? Bahana band kar aur GPay khol! 💸"
+        ],
+        excuse_tomorrow: [
+          "📅 'Kal Pakka'?! Bhai {name}, tera 'Kal' 1947 se aaj tak nahi aaya! 😂 Jo karna hai AAJ aur ABHI kar — {amt} UPI bhej!",
+          "📅 Kabir Das ji keh gaye hain {name}: 'Kaal kare so aaj kar, aaj kare so AB!' Toh {amt} abhi GPay kar aur punya kama! 😂🙏",
+          "📅 Oye {name}, 'Kal dunga' bol-bol ke tune poore hafte ki tarikh badal di! Abhi 10 second lagenge, {amt} transfer kar! ⚡",
+          "📅 Bhai {name}, tere 'Kal Pakka' pe ab mujhe 0% bharosa hai 😂 Abhi screenshot bhej {amt} pay karke!"
+        ],
+        excuse_forgot: [
+          "🤔 'Bhool gaya tha'?! Khana khana aur Reels scroll karna toh kabhi nahi bhoolta {name}! 😂 Lo ab yaad dila diya, turant {amt} UPI kar!",
+          "🤔 Isiliye toh Pingzy app banayi hai {name} taaki teri 'Ghajini' wali memory ko {amt} yaad rahe! 😂 Abhi ke abhi GPay kar!",
+          "🤔 Oye {name}, roz subah 4 bheeghe hue Badam khaya kar — aur badam khane se pehle mere {amt} UPI kar de! 😂🧠",
+          "🤔 Bhool gaya tha na? Ab toh message padh liya! Toh bina screen band kiye seedha GPay khol aur {amt} bhej de {name}! ⚡"
+        ]
+      };
+
+      // 40+ Visual Sticker Headlines Pool (Max 28 chars for crisp Canvas rendering)
+      const MEGA_STICKER_HEADLINES = [
+        "UDHAAR WAPAS KAR BHAI ⚡",
+        "150 RUPIYA NIKAAL RE BABA!",
+        "SWIGGY CHALTA, GPAY NAHI? 😂",
+        "SERVER DOWN BAHANA BAND ❌",
+        "DOSTI APNI JAGAH, PAISA APNI",
+        "WANTED: MISSING UDHAAR 🚨",
+        "SHARAM KAR LE THODI SI 😂",
+        "CBI NOTICE: PENDING DUES 🔍",
+        "FRIENDSHIP CIBIL: LOW 📉",
+        "GAREEB KI HAAYE LAGEGI 💀",
+        "SCAN KAR AUR MUKTI PA ⚡",
+        "25 DIN HO GAYE RE BABA! 🎬",
+        "KAL PAKKA NAHI, AAJ BHEJ!",
+        "SAMOSA TAX LAG JAYEGA 🥟",
+        "MESSAGE SEEN MAT CHHOD 😈",
+        "KIDNEY NAHI, PAISA MAANGA 😂",
+        "GHAJINI MAT BAN, GPAY KAR!",
+        "CHAI-MOMOS KA HISAAB DE 🍜",
+        "AI BOT VASOOLI ACTIVE 🤖",
+        "MONTH END CRISIS HAI BHAI 💸",
+        "BHAI HAI TOH ABHI BHEJ ❤️️",
+        "UDHAAR DEFAULTER ALERT 🚨",
+        "PAISA BHEJ WARNA MEME JAYEGA",
+        "LOCK-IN PERIOD KHATAM KAR 😂",
+        "CONTROL UDAY, GPAY KAR! 🎬",
+        "KALEEN BHAIYA KA AADESH 🔥",
+        "NO EXCUSES, ONLY UPI ⚡",
+        "TERE UPAR SHANI BHAARI HAI 🪐",
+        "CHUP-CHAP SCAN KAR BHAI 📲",
+        " PARTY TREAT DE YA PAISA! 🍕",
+        "ACCOUNT MEIN SANNATA HAI 😢",
+        "VIP REMINDER: PAY NOW 👑"
+      ];
+
+      // 22+ Smart Notification Messages Pool
+      const MEGA_NOTIFICATIONS = [
+        { title: '⚡ PINGZY Smart Khata!', body: 'Ab koi dost udhaar daba kar nahi bhaag payega. Check your splits!' },
+        { title: '💸 Udhaar Check Time!', body: 'Bhai, kisi dost ke chai-sutta ya momos ke paise pending toh nahi hain?' },
+        { title: '🔥 Savage Ping Ready!', body: 'Sharam chhod, 1-Tap WhatsApp Meme Ping bhej aur apna paisa vasool kar!' },
+        { title: '🧾 Aaj Ka Hisaab Likha?', body: 'Aaj dosto pe jo kharcha kiya wo add karna bhool toh nahi gaya? Tap + now!' },
+        { title: '🎬 Babu Bhaiya Alert!', body: '25 din mein paisa double nahi hoga, par Pingzy se wapas zaroor mil jayega!' },
+        { title: '🍕 Party Bill Split Karo!', body: 'Dosto ke sath khana khaya? Bill Split tab se 5 second mein barabar baanto!' },
+        { title: '😈 Ghosting Band Karwao!', body: 'Jo dost message seen karke chhod raha hai, use Strict Mode ping bhejo!' },
+        { title: '🛡️ Excuse Buster Active!', body: 'Dost bole "Server Down hai"? Pingzy ka Excuse Buster daba ke jawab do!' },
+        { title: '📲 1-Tap UPI QR Ready!', body: 'Studio tab mein apni UPI ID save rakho taaki dost seedha scan karke pay kare!' },
+        { title: '👑 AetherByte Vault Safe!', body: 'Tera poora khata 100% tere phone mein safe hai. Dekh le kaun kitna maangta hai!' },
+        { title: '🥟 Samosa Tax Laga Dein?', body: 'Jo dost 1 hafte se paise nahi de raha, uspe +Samosa Tax laga ke ping bhej!' },
+        { title: '🎲 Bill Roulette Try Kiya?', body: 'Aaj chai ka bill kaun dega? Group Split mein Roulette ghumao aur dekho!' }
+      ];
+
+      let lastMsgText = '';
+      let lastStickerText = '';
+      let currentVibeCategory = 'soft';
+
+      function getReminderContext() {
+        const nameEl = document.getElementById('reminderRecipient');
+        const amtEl = document.getElementById('reminderAmount');
+        const upiEl = document.getElementById('userUpiInput');
+        const name = (nameEl && nameEl.innerText.trim()) ? nameEl.innerText.trim() : 'Bhai';
+        const amt = (amtEl && amtEl.innerText.trim()) ? amtEl.innerText.trim() : '₹500';
+        const upi = (upiEl && upiEl.value.trim()) ? upiEl.value.trim() : (localStorage.getItem('pingzy_upi_id') || '');
+        return { name, amt, upi };
+      }
+
+      function generateExpandedMessage(category) {
+        if (category) currentVibeCategory = category;
+        const pool = MEGA_PING_BANK[currentVibeCategory] || MEGA_PING_BANK.funny;
+        const { name, amt, upi } = getReminderContext();
+
+        let candidates = pool.filter((t) => t !== lastMsgText);
+        if (candidates.length === 0) candidates = pool;
+        const template = candidates[Math.floor(Math.random() * candidates.length)];
+        lastMsgText = template;
+
+        let finalMsg = template.replace(/\{name\}/g, name).replace(/\{amt\}/g, amt);
+        if (upi) {
+          finalMsg += `\n\n⚡ Instant UPI ID: ${upi}`;
+        }
+        const msgEl = document.getElementById('generatedMessage');
+        if (msgEl) msgEl.innerText = finalMsg;
+      }
+
+      function cycleMegaStickerHeadline() {
+        const customInput = document.getElementById('customStickerInput');
+        if (!customInput) return;
+        let candidates = MEGA_STICKER_HEADLINES.filter((h) => h !== lastStickerText);
+        if (candidates.length === 0) candidates = MEGA_STICKER_HEADLINES;
+        const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+        lastStickerText = chosen;
+
+        // Feed into customStickerInput so script.js redraws the Canvas with this headline!
+        customInput.value = chosen;
+        customInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+
+      // -------------------------------------------------------------------------
+      // PART 3: CONTACTS BOOK FALLBACK & SMART ALERTS ENGINE
+      // -------------------------------------------------------------------------
+      function fillContactIntoForm(name, phone) {
+        const nameInput = document.getElementById('personName');
+        const phoneInput = document.getElementById('personPhone');
+        if (name && nameInput) {
+          nameInput.value = name.trim();
+          nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        if (phone && phoneInput) {
+          let digits = String(phone).replace(/\D/g, '');
+          if (digits.length > 10) digits = digits.slice(-10);
+          phoneInput.value = digits;
+          phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
       }
 
-      // Attach listeners for Tab & Modal Clarity
+      function getSavedFriendsList() {
+        const map = new Map();
+        try {
+          const customList = JSON.parse(localStorage.getItem('pingzy_quick_contacts') || '[]');
+          customList.forEach((c) => {
+            if (c.name) map.set(c.name.toLowerCase(), { name: c.name, phone: c.phone || '' });
+          });
+        } catch (e) {}
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          try {
+            const val = JSON.parse(localStorage.getItem(k));
+            if (Array.isArray(val)) {
+              val.forEach((item) => {
+                const n = item.person || item.name;
+                const p = item.phone || item.mobile || '';
+                if (n && typeof n === 'string') map.set(n.toLowerCase(), { name: n, phone: p });
+              });
+            }
+          } catch (e) {}
+        }
+        return Array.from(map.values());
+      }
+
+      function openSmartContactModal() {
+        const modal = document.getElementById('smartContactModal');
+        const listBox = document.getElementById('savedContactsList');
+        if (!modal || !listBox) return;
+        const friends = getSavedFriendsList();
+        if (friends.length === 0) {
+          listBox.innerHTML = '<div style="text-align:center; padding:14px; color:#6b7280; font-size:12px;">No saved friends yet. Add a friend below for 1-Tap selection!</div>';
+        } else {
+          listBox.innerHTML = friends.map((f, idx) => `
+            <div class="saved-contact-item" onclick="selectSavedFriend(${idx})">
+              <div>
+                <div style="font-weight:700; font-size:13.5px; color:#f3f4f6;">&#128100; ${f.name}</div>
+                <div style="font-size:11px; color:#9ca3af;">${f.phone ? '&#128222; ' + f.phone : 'No number'}</div>
+              </div>
+              <span style="background:rgba(139,92,246,0.2); color:#c4b5fd; padding:4px 10px; border-radius:99px; font-size:11px; font-weight:700;">Select</span>
+            </div>
+          `).join('');
+        }
+        modal.style.display = 'flex';
+      }
+
+      function closeSmartContactModal() {
+        const modal = document.getElementById('smartContactModal');
+        if (modal) modal.style.display = 'none';
+      }
+
+      window.selectSavedFriend = function(idx) {
+        const f = getSavedFriendsList()[idx];
+        if (f) fillContactIntoForm(f.name, f.phone);
+        closeSmartContactModal();
+      };
+
+      window.saveAndSelectQuickContact = function() {
+        const nInput = document.getElementById('quickContactName');
+        const pInput = document.getElementById('quickContactPhone');
+        const name = nInput ? nInput.value.trim() : '';
+        const phone = pInput ? pInput.value.replace(/\D/g, '').slice(-10) : '';
+        if (!name) {
+          alert('Please enter friend name!');
+          return;
+        }
+        try {
+          const list = JSON.parse(localStorage.getItem('pingzy_quick_contacts') || '[]');
+          list.unshift({ name, phone });
+          localStorage.setItem('pingzy_quick_contacts', JSON.stringify(list.slice(0, 50)));
+        } catch (e) {}
+        fillContactIntoForm(name, phone);
+        if (nInput) nInput.value = '';
+        if (pInput) pInput.value = '';
+        closeSmartContactModal();
+      };
+
+      // -------------------------------------------------------------------------
+      // PART 4: INITIALIZE ALL LISTENERS ON LOAD
+      // -------------------------------------------------------------------------
       window.addEventListener('DOMContentLoaded', () => {
         const subCollect = document.getElementById('subTabCollectBtn');
         const subIOwe = document.getElementById('subTabIOweBtn');
         const navPending = document.getElementById('navPendingBtn');
         const navPaid = document.getElementById('navPaidBtn');
-        const typeCollect = document.getElementById('typeCollectBtn');
-        const typeIOwe = document.getElementById('typeIOweBtn');
-        const firstBtn = document.getElementById('firstReminderBtn');
-        const addMoneyBtn = document.getElementById('addMoneyBtn');
+        const quickLangBtn = document.getElementById('quickLangBtn');
+        const langToggleBtn = document.getElementById('langToggleBtn');
 
         if (subCollect) subCollect.addEventListener('click', () => applyClearTabUI('pending'));
         if (subIOwe) subIOwe.addEventListener('click', () => applyClearTabUI('iowe'));
         if (navPending) navPending.addEventListener('click', () => applyClearTabUI('pending'));
         if (navPaid) navPaid.addEventListener('click', () => applyClearTabUI('settled'));
+        if (quickLangBtn) quickLangBtn.addEventListener('click', () => applyClearTabUI(currentActiveMode));
+        if (langToggleBtn) langToggleBtn.addEventListener('click', () => applyClearTabUI(currentActiveMode));
 
-        if (typeCollect) typeCollect.addEventListener('click', () => syncAddModalLabels(false));
-        if (typeIOwe) typeIOwe.addEventListener('click', () => syncAddModalLabels(true));
-
-        if (firstBtn) {
-          firstBtn.addEventListener('click', () => {
-            setTimeout(() => {
-              if (currentActiveMode === 'iowe' && typeIOwe) {
-                typeIOwe.click();
-                syncAddModalLabels(true);
-              } else if (typeCollect) {
-                typeCollect.click();
-                syncAddModalLabels(false);
-              }
-            }, 20);
+        // Watch quickLangBtn text changes with MutationObserver so Guide NEVER misses a translation!
+        if (quickLangBtn) {
+          const obs = new MutationObserver(() => {
+            renderQuickGuideLanguage();
           });
+          obs.observe(quickLangBtn, { childList: true, characterData: true, subtree: true });
         }
 
-        if (addMoneyBtn) {
-          addMoneyBtn.addEventListener('click', () => {
-            setTimeout(() => {
-              if (currentActiveMode === 'iowe' && typeIOwe) {
-                typeIOwe.click();
-                syncAddModalLabels(true);
-              } else if (typeCollect) {
-                typeCollect.click();
-                syncAddModalLabels(false);
-              }
-            }, 20);
-          });
-        }
-
+        renderQuickGuideLanguage();
         applyClearTabUI('pending');
 
-        // 4. Fix Phone Contacts Picker Button (Capture Phase Override)
-        const pickBtn = document.getElementById('pickContactBtn');
-        if (pickBtn) {
-          pickBtn.addEventListener('click', async (e) => {
+        // Track selected vibe from Add Modal
+        document.querySelectorAll('#mainVibeGrid .vibe').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            currentVibeCategory = btn.getAttribute('data-vibe') || 'soft';
+          });
+        });
+
+        // Hook Remix Button (#newReplyBtn) -> Generates from 100+ Message Pool AND cycles 40+ Sticker Lines!
+        const newReplyBtn = document.getElementById('newReplyBtn');
+        if (newReplyBtn) {
+          newReplyBtn.addEventListener('click', () => {
+            setTimeout(() => {
+              generateExpandedMessage(currentVibeCategory);
+              cycleMegaStickerHeadline();
+            }, 20);
+          });
+        }
+
+        // Hook Sticker Image Tap & Style Chips -> Cycles 40+ Sticker Headlines
+        const stickerImg = document.getElementById('stickerPreviewImg');
+        if (stickerImg) {
+          stickerImg.addEventListener('click', () => {
+            setTimeout(() => cycleMegaStickerHeadline(), 20);
+          });
+        }
+        document.querySelectorAll('.sticker-style-bar .style-chip').forEach((chip) => {
+          chip.addEventListener('click', () => {
+            setTimeout(() => cycleMegaStickerHeadline(), 25);
+          });
+        });
+
+        // Hook Special Viral Mode Pills -> Uses Expanded Pools
+        const botBtn = document.getElementById('botModeBtn');
+        const barterBtn = document.getElementById('barterModeBtn');
+        const filmyBtn = document.getElementById('filmyModeBtn');
+        const taxBtn = document.getElementById('dostiTaxBtn');
+        const escalateBtn = document.getElementById('escalateSavageBtn');
+
+        if (botBtn) botBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('bot'), 20));
+        if (barterBtn) barterBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('barter'), 20));
+        if (filmyBtn) filmyBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('filmy'), 20));
+        if (taxBtn) taxBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('dostiTax'), 20));
+        if (escalateBtn) escalateBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('savage'), 20));
+
+        // Hook Excuse Buster Chips -> Uses 24+ Savage Comebacks
+        document.querySelectorAll('.excuse-chip').forEach((chip) => {
+          chip.addEventListener('click', () => {
+            const ex = chip.getAttribute('data-excuse');
+            setTimeout(() => generateExpandedMessage('excuse_' + ex), 20);
+          });
+        });
+
+        // Ensure WhatsApp, SMS & Copy Buttons ALWAYS send the exact displayed message from #generatedMessage
+        const waBtn = document.getElementById('whatsappBtn');
+        const smsBtn = document.getElementById('smsBtn');
+        const cpBtn = document.getElementById('copyBtn');
+
+        if (cpBtn) {
+          cpBtn.addEventListener('click', (e) => {
+            const msgEl = document.getElementById('generatedMessage');
+            if (msgEl && msgEl.innerText.trim() && navigator.clipboard) {
+              navigator.clipboard.writeText(msgEl.innerText.trim());
+            }
+          });
+        }
+
+        if (waBtn) {
+          waBtn.addEventListener('click', (e) => {
+            const msgEl = document.getElementById('generatedMessage');
+            const phoneEl = document.getElementById('reminderPhoneDisplay');
+            if (!msgEl || !msgEl.innerText.trim()) return;
             e.preventDefault();
             e.stopImmediatePropagation();
-
-            // Check if native Android Chrome Contact Picker API is available
-            if ('contacts' in navigator && 'ContactsManager' in window) {
-              try {
-                const props = ['name', 'tel'];
-                const contacts = await navigator.contacts.select(props, { multiple: false });
-                if (contacts && contacts.length > 0) {
-                  const c = contacts[0];
-                  const nameInput = document.getElementById('personName');
-                  const phoneInput = document.getElementById('personPhone');
-
-                  if (c.name && c.name[0] && nameInput) {
-                    nameInput.value = c.name[0];
-                    nameInput.dispatchEvent(new Event('input', { bubbles: true }));
-                  }
-                  if (c.tel && c.tel[0] && phoneInput) {
-                    // Clean +91, spaces, dashes -> keep last 10 digits
-                    let rawDigits = c.tel[0].replace(/\D/g, '');
-                    if (rawDigits.length > 10) rawDigits = rawDigits.slice(-10);
-                    phoneInput.value = rawDigits;
-                    phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
-                  }
-                }
-                return;
-              } catch (err) {
-                // User cancelled or WebView blocked it
-                console.log('Contact picker cancelled or restricted:', err);
-              }
-            }
-
-            // Fallback if WebView/Browser restricts direct Phonebook access
-            alert('💡 Tip: Agar aapke phone browser mein direct Contact Book band hai, toh niche diye box mein dost ka naam aur 10-digit WhatsApp number type kar dein (Ek baar save hone ke baad dost ka naam upar 1-Tap Recent Bar mein hamesha dikhega!).');
-            const nameInput = document.getElementById('personName');
-            if (nameInput) nameInput.focus();
+            const text = encodeURIComponent(msgEl.innerText.trim());
+            let digits = phoneEl ? phoneEl.innerText.replace(/\D/g, '') : '';
+            if (digits.length > 10) digits = digits.slice(-10);
+            const url = digits.length === 10
+              ? `https://wa.me/91${digits}?text=${text}`
+              : `https://wa.me/?text=${text}`;
+            window.open(url, '_blank');
           }, true);
         }
 
-        // 5. Wire Smart Notification Toggle inside Studio Settings (#notifBtn)
+        if (smsBtn) {
+          smsBtn.addEventListener('click', (e) => {
+            const msgEl = document.getElementById('generatedMessage');
+            const phoneEl = document.getElementById('reminderPhoneDisplay');
+            if (!msgEl || !msgEl.innerText.trim()) return;
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            const text = encodeURIComponent(msgEl.innerText.trim());
+            let digits = phoneEl ? phoneEl.innerText.replace(/\D/g, '') : '';
+            if (digits.length > 10) digits = digits.slice(-10);
+            window.location.href = `sms:${digits}?body=${text}`;
+          }, true);
+        }
+
+        // Contacts Button Handler
+        const oldBtn = document.getElementById('pickContactBtn');
+        if (oldBtn && oldBtn.parentNode) {
+          const freshBtn = oldBtn.cloneNode(true);
+          oldBtn.parentNode.replaceChild(freshBtn, oldBtn);
+          freshBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if ('contacts' in navigator && 'ContactsManager' in window) {
+              try {
+                const contacts = await navigator.contacts.select(['name', 'tel'], { multiple: false });
+                if (contacts && contacts.length > 0) {
+                  const c = contacts[0];
+                  fillContactIntoForm((c.name && c.name[0]) || '', (c.tel && c.tel[0]) || '');
+                  return;
+                }
+              } catch (err) {}
+            }
+            openSmartContactModal();
+          });
+        }
+
+        // Studio Smart Notification Toggle (22+ Rotating Alerts)
         const studioNotifBtn = document.getElementById('notifBtn');
-        const PINGZY_MESSAGES = [
-          { title: '⚡ PINGZY Alert Active!', body: 'Ab koi dost udhaar daba kar nahi bhaag payega. Check your Khata!' },
-          { title: '💸 Udhaar Check Time!', body: 'Bhai, kisi dost ke chai-sutta ya party ke paise pending toh nahi hain?' },
-          { title: '🔥 Savage Ping Ready!', body: 'Sharam chhod, 1-Tap Meme Ping bhej aur apna paisa vasool kar!' },
-          { title: '🧾 Khata Update!', body: 'Aaj ka kharcha add karna bhool toh nahi gaya? Tap + to note it down!' }
-        ];
+        let lastNotifIdx = -1;
 
         async function triggerSmartAlert() {
           if (!('Notification' in window) || Notification.permission !== 'granted') return;
           if (localStorage.getItem('pingzy_alerts_enabled') !== 'true') return;
-          const msg = PINGZY_MESSAGES[Math.floor(Math.random() * PINGZY_MESSAGES.length)];
+          let idx = Math.floor(Math.random() * MEGA_NOTIFICATIONS.length);
+          if (idx === lastNotifIdx) idx = (idx + 1) % MEGA_NOTIFICATIONS.length;
+          lastNotifIdx = idx;
+          const msg = MEGA_NOTIFICATIONS[idx];
+
           try {
             const reg = await navigator.serviceWorker.getRegistration();
             if (reg && reg.showNotification) {
@@ -791,9 +1262,8 @@
           studioNotifBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
-
             if (!('Notification' in window)) {
-              alert('Is browser mein notifications supported nahi hain.');
+              alert('Notifications are not supported in this browser.');
               return;
             }
             const currentlyOn = localStorage.getItem('pingzy_alerts_enabled') === 'true';
@@ -808,7 +1278,7 @@
               syncStudioNotifButton();
               triggerSmartAlert();
             } else {
-              alert('Phone/Browser settings se Notification permission Allow karein!');
+              alert('Please allow Notification permission in browser/phone settings!');
             }
           }, true);
         }
