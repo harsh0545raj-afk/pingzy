@@ -1,125 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy — PINGZY ⚡ | AetherByte Studios</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #040407;
-      --card: #0c0c14;
-      --border: rgba(139, 92, 246, 0.22);
-      --violet: #8b5cf6;
-      --gold: #f59e0b;
-      --text: #f3f4f6;
-      --muted: #9ca3af;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      line-height: 1.7;
-      padding: 40px 20px;
-    }
-    .container {
-      max-width: 760px;
-      margin: 0 auto;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 36px 28px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-    }
-    .badge {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--gold);
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 4px 12px;
-      border-radius: 99px;
-      margin-bottom: 16px;
-    }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 8px;
-      background: linear-gradient(90deg, #ffffff, #a78bfa);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 28px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      color: #c4b5fd;
-      margin: 24px 0 10px;
-    }
-    p, li {
-      font-size: 15px;
-      color: #d1d5db;
-      margin-bottom: 12px;
-    }
-    ul { padding-left: 20px; margin-bottom: 16px; }
-    .footer {
-      margin-top: 36px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      text-align: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .footer span { color: var(--gold); }
-    a { color: var(--violet); text-decoration: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050507">
+    <title>Privacy Policy &mdash; Pingzy by AetherByte Studios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050507;
+            --card: #101018;
+            --border: rgba(139, 92, 246, 0.3);
+            --primary: #8b5cf6;
+            --primary-light: #c4b5fd;
+            --gold: #f59e0b;
+            --emerald: #10b981;
+            --text: #f3f4f6;
+            --muted: #9ca3af;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.65;
+            padding: 24px 16px 60px 16px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-badge {
+            background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+        .back-btn {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid var(--border);
+            color: var(--primary-light);
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .hero-banner {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.14), rgba(245, 158, 11, 0.08));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+        .hero-banner h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .meta-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            color: var(--gold);
+        }
+        .policy-card {
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .policy-card h2 {
+            font-size: 16.5px;
+            font-weight: 800;
+            color: var(--primary-light);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .policy-card p, .policy-card li {
+            font-size: 13.5px;
+            color: #d1d5db;
+            margin-bottom: 8px;
+        }
+        .policy-card ul {
+            padding-left: 20px;
+        }
+        .highlight-pill {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #6ee7b7;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 99px;
+            margin-bottom: 10px;
+        }
+        .contact-box {
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.06);
+        }
+        a {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 700;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--muted);
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="badge">🔒 100% PRIVATE • ZERO SERVER TRACKING</div>
-    <h1>Privacy Policy — PINGZY ⚡</h1>
-    <div class="meta">
-      Published by <strong>AetherByte Studios</strong> • Effective Date: October 2026
+    <div class="container">
+        <div class="top-bar">
+            <div class="brand-box">
+                <div class="logo-badge">P&#9889;</div>
+                <div>
+                    <div style="font-weight: 800; font-size: 16px;">Pingzy</div>
+                    <div style="font-size: 11px; color: var(--muted);">AetherByte Studios</div>
+                </div>
+            </div>
+            <a href="./index.html" class="back-btn">&larr; Back to App</a>
+        </div>
+
+        <div class="hero-banner">
+            <span class="highlight-pill">&#128274; 100% ON-DEVICE PRIVACY VAULT</span>
+            <h1>Privacy Policy &amp; Data Safety</h1>
+            <div class="meta-line">Effective Date: October 2026 &bull; Developer: AetherByte Studios (Harsh Raj)</div>
+        </div>
+
+        <div class="policy-card">
+            <h2>1. Zero Cloud Collection (100% Local Storage)</h2>
+            <p>
+                <strong>Pingzy</strong> is engineered by <strong>AetherByte Studios</strong> as a privacy-first, offline-capable personal ledger and bill-splitting utility. We do <strong>not</strong> operate any external database servers to collect, store, sell, or track your personal data.
+            </p>
+            <ul>
+                <li>All khata entries, friend names, phone numbers, split calculations, and optional UPI IDs are stored strictly inside your own device's local browser storage (<code>localStorage</code>).</li>
+                <li>You have full control to edit, delete, or export your data as a backup file at any time directly from the app.</li>
+            </ul>
+        </div>
+
+        <div class="policy-card">
+            <h2>2. Device Permissions &amp; How They Are Used</h2>
+            <ul>
+                <li><strong>Photos &amp; Media (Optional Poster Studio):</strong> When you select a friend's photo to create a custom Movie Meme Poster, the image is processed <strong>100% locally on your phone</strong> using HTML5 Canvas. Your photos are never uploaded to any server.</li>
+                <li><strong>Contacts Picker (Optional):</strong> If you use the <em>Contacts</em> button, the app uses the standard Android Contact Picker API only to autofill the selected friend's name and 10-digit number into your form. We never read or upload your address book.</li>
+                <li><strong>Notifications (Optional):</strong> If enabled in Studio settings, Pingzy triggers local on-device reminders for your pending dues. You can turn notifications OFF at any time with a single tap.</li>
+            </ul>
+        </div>
+
+        <div class="policy-card">
+            <h2>3. Financial &amp; UPI Disclaimer</h2>
+            <p>
+                <strong>Pingzy is a personal calculation and reminder utility only.</strong>
+            </p>
+            <ul>
+                <li>Pingzy does <strong>not</strong> provide loans, credit, banking services, or financial advice.</li>
+                <li>Pingzy does <strong>not</strong> process payments or access your bank accounts. Optional UPI QR codes and payment links generated by the app simply open standard UPI applications installed on the user's device.</li>
+            </ul>
+        </div>
+
+        <div class="policy-card">
+            <h2>4. Third-Party Sharing (WhatsApp / SMS)</h2>
+            <p>
+                Messages, posters, or links are only shared when you explicitly tap the <strong>WhatsApp</strong>, <strong>Share Poster</strong>, or <strong>SMS</strong> buttons, which open your device's native sharing interface under your control.
+            </p>
+        </div>
+
+        <div class="policy-card contact-box">
+            <h2 style="color: #fbbf24;">5. Official Developer Contact</h2>
+            <p>
+                If you have any questions, feedback, or support requests regarding Pingzy or its privacy practices, please reach out to us:
+            </p>
+            <ul>
+                <li><strong>Studio / Developer:</strong> AetherByte Studios (Engineered by Harsh Raj)</li>
+                <li><strong>Official Support Email:</strong> <a href="mailto:official.aetherbyte@gmail.com">official.aetherbyte@gmail.com</a></li>
+                <li><strong>Official Instagram:</strong> <a href="https://instagram.com/aetherbyte.studios" target="_blank" rel="noopener" style="color:#f472b6;">@aetherbyte.studios</a></li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            &copy; 2026 AETHERBYTE STUDIOS ⚡ &bull; ALL RIGHTS RESERVED
+        </div>
     </div>
-
-    <h2>1. Overview & Privacy First Commitment</h2>
-    <p><strong>PINGZY</strong> ("the App"), developed and published by <strong>AetherByte Studios</strong> (engineered by Harsh Raj), is built on a strict privacy-first architecture. We do not collect, transmit, store, or sell any of your personal or financial data on external servers.</p>
-
-    <h2>2. 100% Local On-Device Storage</h2>
-    <ul>
-      <li>All group names, participant names, expense splits, dues, and UPI IDs entered into PINGZY are stored strictly locally on your device using browser/app <code>localStorage</code>.</li>
-      <li>No account registration, phone number, or cloud login is required to use the App.</li>
-      <li>Clearing your app data or uninstalling the App permanently removes all locally stored records from your device.</li>
-    </ul>
-
-    <h2>3. Zero Ads & Zero Analytics Tracking</h2>
-    <p>PINGZY contains <strong>zero third-party advertisements</strong> and does not use invasive background tracking SDKs or data brokers.</p>
-
-    <h2>4. Third-Party Actions (WhatsApp & Payment Links)</h2>
-    <p>When you use the 1-Tap Share or Reminder feature, PINGZY simply formats text on your device and opens WhatsApp or your chosen messaging app via standard device intents. We do not read your contacts, messages, or bank transactions.</p>
-
-    <h2>5. Contact & Developer Information</h2>
-    <p>If you have any questions about this Privacy Policy or the App, please reach out to our official studio channel:</p>
-    <ul>
-      <li><strong>Studio:</strong> AetherByte Studios</li>
-      <li><strong>Developer:</strong> Harsh Raj</li>
-      <li><strong>Instagram:</strong> <a href="https://instagram.com/aetherbyte.studios" target="_blank">@aetherbyte.studios</a></li>
-    </ul>
-
-    <div class="footer">
-      AETHERBYTE STUDIOS ⚡ • <span>✦ DESIGNED & ENGINEERED BY HARSH RAJ ✦</span>
-    </div>
-  </div>
 </body>
 </html>
