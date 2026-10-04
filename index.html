@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=16">
+    <link rel="stylesheet" href="style.css?v=17">
     <style>
         /* Fit all 5 Ping Tone buttons cleanly without clipping */
         #mainVibeGrid {
@@ -44,8 +44,8 @@
             border-radius: 14px;
             cursor: pointer;
             transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
-            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(245, 158, 11, 0.45);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            border: 1.5px solid rgba(245, 158, 11, 0.55);
         }
         #stickerPreviewImg.pop-anim {
             transform: scale(0.95) rotate(-1.5deg);
@@ -54,8 +54,8 @@
             display: flex;
             gap: 6px;
             overflow-x: auto;
-            padding: 6px 2px 8px 2px;
-            margin-top: 6px;
+            padding: 5px 2px 7px 2px;
+            margin-top: 4px;
             scrollbar-width: none;
         }
         .interactive-sticker-controls::-webkit-scrollbar {
@@ -80,34 +80,76 @@
             transform: scale(0.96);
         }
 
+        /* Interactive Props Bar (Jail Bars, Crown, Sniper Target, Thug Shades) */
+        .prop-controls-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 4px 2px 8px 2px;
+            scrollbar-width: none;
+        }
+        .prop-controls-bar::-webkit-scrollbar {
+            display: none;
+        }
+        .prop-btn {
+            white-space: nowrap;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fde68a;
+            padding: 6px 11px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .prop-btn.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #050507;
+            border-color: #fef08a;
+            font-weight: 800;
+        }
+
         /* Friend Photo Upload Bar inside Poster Studio */
         .photo-upload-bar {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             margin: 8px 0;
         }
         .photo-upload-btn {
             flex: 1;
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(217, 119, 6, 0.15));
-            border: 1px dashed #f59e0b;
-            color: #fde68a;
-            padding: 9px 12px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.15));
+            border: 1px dashed #10b981;
+            color: #a7f3d0;
+            padding: 9px 10px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 5px;
+            text-align: center;
+        }
+        .photo-filter-btn {
+            background: rgba(139, 92, 246, 0.18);
+            border: 1px solid rgba(139, 92, 246, 0.5);
+            color: #ddd6fe;
+            padding: 9px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
         }
         .photo-remove-btn {
             background: rgba(239, 68, 68, 0.18);
             border: 1px solid rgba(239, 68, 68, 0.5);
             color: #fca5a5;
-            padding: 9px 12px;
+            padding: 9px 10px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             cursor: pointer;
             display: none;
@@ -670,7 +712,7 @@
         </div>
     </div>
 
-    <!-- 3. REMINDER, VIRAL ARSENAL, EXCUSE BUSTER & MOVIE PHOTO POSTER STUDIO -->
+    <!-- 3. REMINDER, VIRAL ARSENAL, EXCUSE BUSTER & CUSTOM MOVIE POSTER STUDIO -->
     <div class="modal-overlay" id="reminderModal">
         <div class="modal bottom-sheet reminder-modal">
             <div class="sheet-handle"></div>
@@ -736,48 +778,63 @@
                 <div id="qrUpiText" class="qr-upi-id"></div>
             </div>
 
-            <!-- INTERACTIVE MOVIE POSTER & FRIEND PHOTO STUDIO -->
+            <!-- ===============================================================
+                 INTERACTIVE CINEMA ARTWORK POSTER & PROP STUDIO
+            ================================================================ -->
             <div class="sticker-preview-box">
                 <div class="sticker-preview-label" style="display:flex; justify-content:space-between; align-items:center;">
-                    <span>&#127916; Famous Movie Poster Studio</span>
+                    <span>&#127916; Interactive Cinema Poster Studio</span>
                     <span style="color:#fbbf24; font-size:10px;">&#128070; Tap Poster to Remix</span>
                 </div>
 
                 <img id="stickerPreviewImg" alt="Interactive Movie Meme Poster" title="Tap to remix stamp & punchline!" />
 
-                <!-- UPLOAD FRIEND PHOTO ON POSTER BAR -->
+                <!-- 1. UPLOAD FRIEND PHOTO + FILTER CYCLER BAR -->
                 <div class="photo-upload-bar">
                     <label for="posterFriendPhotoInput" class="photo-upload-btn" id="posterPhotoLabel">
-                        &#128248; Dost Ki Photo Lagao (Add Photo on Poster)
+                        &#128248; Dost Ki Photo Lagao
                     </label>
                     <input type="file" id="posterFriendPhotoInput" accept="image/*" style="display:none;">
+                    <button type="button" class="photo-filter-btn" id="photoFilterBtn" onclick="cyclePhotoFilter()">
+                        &#127912; Filter: Normal
+                    </button>
                     <button type="button" id="removeFriendPhotoBtn" class="photo-remove-btn" onclick="removeFriendPosterPhoto()">
-                        &#128465;&#65039; Remove
+                        &#128465;&#65039;
                     </button>
                 </div>
 
-                <!-- 10 FAMOUS MOVIE & VIRAL POSTER TEMPLATES -->
-                <div style="font-size:10.5px; color:#9ca3af; margin-top:4px;">&#127912; Swipe &amp; Pick Famous Movie Poster Theme:</div>
-                <div class="interactive-sticker-controls" id="interactiveThemeBar">
-                    <button type="button" class="isticker-btn active" data-stheme="don">&#128374;&#65039; DON (11 Mulk)</button>
-                    <button type="button" class="isticker-btn" data-stheme="stree">&#128123; STREE (Kal Aana)</button>
-                    <button type="button" class="isticker-btn" data-stheme="herapheri">&#128184; HERA PHERI</button>
-                    <button type="button" class="isticker-btn" data-stheme="mirzapur">&#128293; MIRZAPUR</button>
-                    <button type="button" class="isticker-btn" data-stheme="sholay">&#128014; SHOLAY (Gabbar)</button>
-                    <button type="button" class="isticker-btn" data-stheme="deewaar">&#129521; DEEWAAR (786)</button>
-                    <button type="button" class="isticker-btn" data-stheme="wanted">&#128680; CBI Wanted</button>
-                    <button type="button" class="isticker-btn" data-stheme="news">&#128250; Breaking News</button>
-                    <button type="button" class="isticker-btn" data-stheme="cibil">&#128201; CIBIL Score</button>
-                    <button type="button" class="isticker-btn" data-stheme="challan">&#9878;&#65039; Court Challan</button>
+                <!-- 2. 1-TAP INTERACTIVE PROPS OVERLAY BAR (Jail Bars, Target, Crown, Thug Shades) -->
+                <div style="font-size:10.5px; color:#fde68a; margin-top:2px; font-weight:700;">&#127917; Add Fun Prop on Friend's Photo:</div>
+                <div class="prop-controls-bar" id="propControlsBar">
+                    <button type="button" class="prop-btn active" data-prop="none">&#10024; Clean</button>
+                    <button type="button" class="prop-btn" data-prop="jail">&#9939;&#65039; Jail Bars (#420)</button>
+                    <button type="button" class="prop-btn" data-prop="target">&#127919; Red Target Arrow</button>
+                    <button type="button" class="prop-btn" data-prop="crown">&#128081; Udhaar Samrat Crown</button>
+                    <button type="button" class="prop-btn" data-prop="thug">&#128374;&#65039; Thug Life Shades</button>
                 </div>
 
-                <!-- INTERACTIVE STAMP & PUNCHLINE CYCLERS -->
+                <!-- 3. 10 UNIQUE MOVIE ARTWORK TEMPLATES -->
+                <div style="font-size:10.5px; color:#c4b5fd; margin-top:2px; font-weight:700;">&#127916; Pick Authentic Movie Artwork Theme:</div>
+                <div class="interactive-sticker-controls" id="interactiveThemeBar">
+                    <button type="button" class="isticker-btn active" data-stheme="stree">&#128123; STREE (Haveli Wall)</button>
+                    <button type="button" class="isticker-btn" data-stheme="herapheri">&#128184; LAXMI CHIT FUND CHEQUE</button>
+                    <button type="button" class="isticker-btn" data-stheme="sholay">&#128014; SHOLAY (Bullet Holes)</button>
+                    <button type="button" class="isticker-btn" data-stheme="deewaar">&#129521; DEEWAAR (Billa #786)</button>
+                    <button type="button" class="isticker-btn" data-stheme="don">&#128374;&#65039; DON (Interpol File)</button>
+                    <button type="button" class="isticker-btn" data-stheme="mirzapur">&#128293; MIRZAPUR (Bhaukal)</button>
+                    <button type="button" class="isticker-btn" data-stheme="news">&#128250; BREAKING NEWS TV</button>
+                    <button type="button" class="isticker-btn" data-stheme="wanted">&#128680; CRIME SCENE TAPE</button>
+                    <button type="button" class="isticker-btn" data-stheme="cibil">&#128201; CIBIL METER (-420)</button>
+                    <button type="button" class="isticker-btn" data-stheme="challan">&#9878;&#65039; COURT CHALLAN</button>
+                </div>
+
+                <!-- 4. INTERACTIVE STAMP & DIALOGUE CYCLERS -->
                 <div class="stamp-cycler-bar">
                     <button type="button" class="stamp-action-pill" onclick="cycleStickerStamp()">
                         &#127991;&#65039; Change Thappa (Stamp)
                     </button>
                     <button type="button" class="stamp-action-pill" onclick="cycleMegaStickerHeadline()" style="background:rgba(16,185,129,0.14); border-color:rgba(16,185,129,0.45); color:#a7f3d0;">
-                        &#127922; Change Dialogue
+                        &#127922; Change Poster Line
                     </button>
                 </div>
 
@@ -792,8 +849,8 @@
                     id="customStickerInput"
                     class="custom-sticker-input"
                     type="text"
-                    maxlength="34"
-                    placeholder="Or type custom dialogue on poster..."
+                    maxlength="36"
+                    placeholder="Or type your own custom dialogue on poster..."
                 >
             </div>
 
@@ -863,18 +920,18 @@
     </div>
 
     <!-- CORE SCRIPT -->
-    <script src="script.js?v=16" charset="utf-8"></script>
+    <script src="script.js?v=17" charset="utf-8"></script>
 
     <!-- =========================================================================
-         AETHERBYTE MASTER ENGINE V4.0:
-         1. 45-60 Min Smart Pending Friend Notification Engine + Instant Test
-         2. 10 Famous Movie Posters + Upload Friend Photo Mugshot
-         3. Individual Friend Boxes in Split (Add / Delete)
-         4. 120+ Viral Cult Dialogues & Bilingual Guide (EN <-> HI)
+         AETHERBYTE MASTER ENGINE V5.0:
+         1. Authentic Custom Movie Artwork Canvas Engine (10 Distinct Layouts!)
+         2. Interactive Photo Props (Jail Bars, Sniper Target, Crown, Thug Shades)
+         3. Cinema Photo Filters (Normal, B&W Mugshot, 70s Sepia)
+         4. 45-60 Min Smart Notification Engine + Individual Split Boxes
     ========================================================================== -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js?v=9');
+        navigator.serviceWorker.register('./sw.js?v=10');
       }
 
       // -------------------------------------------------------------------------
@@ -984,8 +1041,8 @@
             </div>
             <div style="color:#d1d5db; font-size:11.5px;">
               1&#65039;&#8419; <b>&#128210; Ledger (To Collect / I Owe):</b> Track money friends owe you or money you owe them.<br>
-              2&#65039;&#8419; <b>&#128248; Movie Poster with Friend's Photo:</b> Put your friend's photo on Don, Stree, or Hera Pheri posters &amp; share on WhatsApp!<br>
-              3&#65039;&#8419; <b>&#127829; Split (Group Bills):</b> Tap <b>Split</b> below, add friends box-by-box, and split bills equally!
+              2&#65039;&#8419; <b>&#127916; Interactive Movie Posters:</b> Put your friend's photo behind Jail Bars or on Stree, Hera Pheri &amp; Sholay posters!<br>
+              3&#65039;&#8419; <b>&#127829; Split (Group Bills):</b> Tap <b>Split</b> below, add friends box-by-box, and divide bills equally!
             </div>
           `;
         } else {
@@ -996,7 +1053,7 @@
             </div>
             <div style="color:#d1d5db; font-size:11.5px;">
               1&#65039;&#8419; <b>&#128210; Khata (Lena / Dena):</b> Dost se paise lene hain (<i>To Collect</i>) ya dene hain (<i>I Owe</i>), yahan likhein.<br>
-              2&#65039;&#8419; <b>&#128248; Dost Ki Photo Wala Movie Poster:</b> Don, Stree ya Hera Pheri poster mein dost ki photo laga kar WhatsApp par bhejein!<br>
+              2&#65039;&#8419; <b>&#127916; Interactive Movie Posters:</b> Stree, Laxmi Chit Fund ya Sholay poster mein dost ki photo aur Jail Saliyaan laga kar WhatsApp bhejein!<br>
               3&#65039;&#8419; <b>&#127829; Split (Party Bill):</b> Niche <b>Split</b> dabayein, ek-ek box mein dosto ka naam daalein aur bill barabar baantein.
             </div>
           `;
@@ -1144,7 +1201,7 @@
         ],
         filmy: [
           "O Stree Kal Aana... par {name} bhai tu mere {amt} AAJ hi laana! 👻😂",
-          "Deewaar Style {name} 🕶️️: 'Aaj khush toh bohot hoge tum... mere {amt} daba ke jo baithe ho! Jaldi UPI kar!'"
+          "Deewaar Style {name} 🕶: 'Aaj khush toh bohot hoge tum... mere {amt} daba ke jo baithe ho! Jaldi UPI kar!'"
         ],
         savage: [
           "Oye {name} 😈 Jab bill split hua tha tab toh bada 'Bro-Bro' kar raha tha, ab {amt} bhejne mein ungli dard ho rahi hai kya?",
@@ -1178,7 +1235,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 4. FAMOUS MOVIE POSTER ENGINE + CUSTOM FRIEND PHOTO MUGSHOT!
+      // 4. AUTHENTIC MOVIE ARTWORK CANVAS ENGINE + PROPS + PHOTO FILTERS!
       // -------------------------------------------------------------------------
       const STICKER_STAMPS = [
         "11 MULKON MEIN WANTED 🕶️",
@@ -1194,97 +1251,34 @@
       ];
 
       const STICKER_PUNCHLINES = [
-        "DON KO PAKADNA NAMUMKIN HAI! 🕶️",
-        "O STREE KAL AANA, PAISA AAJ LA! 👻",
-        "150 RUPIYA NAHI, POORA DE! 🎬",
-        "DEKH RAHA HAI BINOD?! ☕",
-        "AAJ KHUSH TOH BOHOT HOGE TUM 🧱",
-        "SWIGGY CHALTA HAI, GPAY NAHI? 😂",
-        "KALEEN BHAIYA KA AADESH HAI 🔥",
-        "KITNE PAISE THE RE KALIA?! 🐎",
-        "CONTROL UDAY, CONTROL... 🎬",
-        "REVIVE DE BHAI, UPI KAR! 🎮"
+        "ओ भाई कल मत कहना, आज ही GPay करना!",
+        "25 DIN MEIN PAISA DOUBLE NAHI, ASLI DE!",
+        "SARKAR NE IS DOST PAR INAAM RAKHA HAI!",
+        "DON KO PAKADNA NAMUMKIN HO GAYA HAI!",
+        "AAJ KHUSH TOH BOHOT HOGE TUM... PAISA DE!",
+        "SWIGGY CHALTA HAI, PAR GPAY NAHI? 😂",
+        "DEKH RAHA HAI BINOD? SEEN KARKE CHHOD DIYA!",
+        "KALEEN BHAIYA KA AADESH: TURANT UPI KAR!",
+        "150 RUPIYA NAHI, POORA HISAB CHUKTA KAR!",
+        "REVIVE DE BHAI, BANK ACCOUNT BACHALE! 🎮"
       ];
 
-      const MOVIE_POSTER_CONFIGS = {
-        don: {
-          bg1: '#0a0f1d', bg2: '#1e1b4b', accent: '#f59e0b', border: '#fbbf24',
-          topBanner: '🕶️ INTERPOL & 11 MULKON KI POLICE ALERT • DON ARCHIVE 🕶️',
-          subHeader: 'UDHAAR KA ASLI KINGPIN:',
-          badgeText: 'DON #001',
-          defaultQuote: 'Don se udhaar nikalwana mushkil hi nahi, namumkin ho gaya hai!'
-        },
-        stree: {
-          bg1: '#2a0514', bg2: '#09040a', accent: '#f43f5e', border: '#fb7185',
-          topBanner: '👻 CHANDERI PURAAN NOTICE • STREE 2 VASOOLI ALERT 👻',
-          subHeader: 'O STREE KAL AANA, PAR YE DOST AAJ PAY KARE:',
-          badgeText: 'CHANDERI VIP',
-          defaultQuote: 'O Bhai Kal Mat Kehna — Mera Udhaar AAJ Hi GPay Karna!'
-        },
-        herapheri: {
-          bg1: '#1e1b08', bg2: '#3b2f0c', accent: '#facc15', border: '#fde047',
-          topBanner: '💸 ANURADHA LAXMI CHIT FUND • BABU BHAIYA KHATA 💸',
-          subHeader: '25 DIN MEIN PAISA DOUBLE SCHEME HOLDER:',
-          badgeText: '150 RUPIYA!',
-          defaultQuote: 'Utha le re baba! Mere paise iske account se utha ke mere GPay me daal de!'
-        },
-        mirzapur: {
-          bg1: '#2b0905', bg2: '#0c0504', accent: '#ea580c', border: '#f97316',
-          topBanner: '🔥 KALEEN BHAIYA CARPET & VASOOLI BHAUKAL • MIRZAPUR 🔥',
-          subHeader: 'MIRZAPUR GADDI DEFAULTER:',
-          badgeText: 'BHAUKAL 100%',
-          defaultQuote: 'Abki baar milein toh izzat se GPay kar dena — Chacha Vidhayak nahi hain!'
-        },
-        sholay: {
-          bg1: '#291506', bg2: '#140a03', accent: '#d97706', border: '#f59e0b',
-          topBanner: '🐎 RAMGARH POLICE STATION • GABBAR SINGH BOUNTY 🐎',
-          subHeader: 'SARKAR NE IS DOST PAR INAAM RAKHA HAI:',
-          badgeText: 'KITNE PAISE?!',
-          defaultQuote: 'Kitne paise bache the re Kalia? Sardar, poore itne! Abhi GPay kar!'
-        },
-        deewaar: {
-          bg1: '#0f172a', bg2: '#1e293b', accent: '#38bdf8', border: '#7dd3fc',
-          topBanner: '🧱 DOCKYARD BILLA NO. 786 • DEEWAAR CULT ARCHIVE 🧱',
-          subHeader: 'AAJ KHUSH TOH BOHOT HOGE TUM:',
-          badgeText: 'BILLA #786',
-          defaultQuote: 'Mere paas gaadi nahi, bangla nahi... kyunki mera paisa iske paas hai!'
-        },
-        wanted: {
-          bg1: '#2a0808', bg2: '#120303', accent: '#ef4444', border: '#f87171',
-          topBanner: '🚨 CBI SPECIAL UDHAAR CELL • MOST WANTED DEFAULTER 🚨',
-          subHeader: 'MISSING SINCE LAST BILL SPLIT:',
-          badgeText: 'WANTED #420',
-          defaultQuote: 'Seen karke bhaagne wale dost ko pakad ke turant GPay karwayein!'
-        },
-        news: {
-          bg1: '#090d16', bg2: '#172554', accent: '#dc2626', border: '#facc15',
-          topBanner: '📺 AAJ KI TAAZA KHABAR • BREAKING NEWS LIVE 🔴',
-          subHeader: 'SANSANI KHEJ KHULASA — DOST KE PAAS FASA PAISA:',
-          badgeText: 'LIVE EXPOSE',
-          defaultQuote: 'Zomato pe 5G chalta hai, dost ko GPay karte waqt Server Down ho jata hai!'
-        },
-        cibil: {
-          bg1: '#051b14', bg2: '#090d16', accent: '#10b981', border: '#34d399',
-          topBanner: '📉 OFFICIAL FRIENDSHIP CIBIL CREDIT REPORT 📊',
-          subHeader: 'CRITICAL CREDIT SCORE (-420 / 900):',
-          badgeText: 'SCORE: -420',
-          defaultQuote: 'Turant UPI karke apna Dosti CIBIL Score wapas 900 par laayein!'
-        },
-        challan: {
-          bg1: '#272010', bg2: '#18181b', accent: '#f59e0b', border: '#fbbf24',
-          topBanner: '⚖️ SUPREME COURT OF BHAICHARA • E-CHALLAN NOTICE ⚖️',
-          subHeader: 'SECTION 420 — KHANA KHA KE GAYAB HONE KA JURM:',
-          badgeText: 'COURT NOTICE',
-          defaultQuote: 'Agli party se pehle ye challan UPI se chukta karna anivarya hai!'
-        }
-      };
-
-      let activeStickerTheme = 'don';
+      let activeStickerTheme = 'stree';
+      let activePropType = 'none'; // 'none' | 'jail' | 'target' | 'crown' | 'thug'
+      let activePhotoFilter = 0; // 0: Normal, 1: B&W Mugshot, 2: 70s Vintage Sepia
+      const FILTER_NAMES = ['Normal', 'B&W Mugshot', '70s Vintage'];
       let activeStampIdx = 0;
       let activePunchlineIdx = 0;
       let lastMsgText = '';
       let currentVibeCategory = 'cult_bollywood';
       window._friendPosterPhotoImg = null;
+
+      window.cyclePhotoFilter = function() {
+        activePhotoFilter = (activePhotoFilter + 1) % FILTER_NAMES.length;
+        const fBtn = document.getElementById('photoFilterBtn');
+        if (fBtn) fBtn.innerHTML = '&#127912; Filter: ' + FILTER_NAMES[activePhotoFilter];
+        renderInteractiveSticker();
+      };
 
       function getReminderContext() {
         const nameEl = document.getElementById('reminderRecipient');
@@ -1294,9 +1288,8 @@
         const name = (nameEl && nameEl.innerText.trim()) ? nameEl.innerText.trim() : 'ROHAN';
         const amt = (amtEl && amtEl.innerText.trim()) ? amtEl.innerText.trim() : '₹500';
         const upi = (upiEl && upiEl.value.trim()) ? upiEl.value.trim() : (localStorage.getItem('pingzy_upi_id') || '');
-        const cfg = MOVIE_POSTER_CONFIGS[activeStickerTheme] || MOVIE_POSTER_CONFIGS.don;
-        const customText = (customInput && customInput.value.trim()) ? customInput.value.trim() : cfg.defaultQuote;
-        return { name, amt, upi, customText, cfg };
+        const customText = (customInput && customInput.value.trim()) ? customInput.value.trim() : '';
+        return { name, amt, upi, customText };
       }
 
       function drawRoundRect(ctx, x, y, w, h, r) {
@@ -1309,170 +1302,945 @@
         ctx.closePath();
       }
 
-      function drawCoverPhoto(ctx, img, x, y, w, h, radius) {
+      // Draw Friend Photo (or Cool Wanted Silhouette Avatar if no photo yet) + Apply Selected Prop!
+      function drawPortraitWithProps(ctx, x, y, w, h, radius, borderCol, badgeLabel) {
         ctx.save();
         drawRoundRect(ctx, x, y, w, h, radius);
         ctx.clip();
-        const imgRatio = img.width / img.height;
-        const boxRatio = w / h;
-        let sx = 0, sy = 0, sw = img.width, sh = img.height;
-        if (imgRatio > boxRatio) {
-          sw = img.height * boxRatio;
-          sx = (img.width - sw) / 2;
-        } else {
-          sh = img.width / boxRatio;
-          sy = (img.height - sh) / 2;
+
+        // Background inside portrait frame
+        const bgGrad = ctx.createLinearGradient(x, y, x, y + h);
+        bgGrad.addColorStop(0, '#1f2937');
+        bgGrad.addColorStop(1, '#090d16');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(x, y, w, h);
+
+        // Mugshot Height Measurement Lines in background
+        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+        ctx.lineWidth = 1;
+        for (let ly = y + 30; ly < y + h - 30; ly += 32) {
+          ctx.beginPath();
+          ctx.moveTo(x + 10, ly);
+          ctx.lineTo(x + w - 10, ly);
+          ctx.stroke();
         }
-        ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+
+        // Draw Uploaded Friend Photo OR Stylized Silhouette Avatar
+        if (window._friendPosterPhotoImg) {
+          const img = window._friendPosterPhotoImg;
+          ctx.save();
+          if (activePhotoFilter === 1) {
+            ctx.filter = 'grayscale(100%) contrast(135%)';
+          } else if (activePhotoFilter === 2) {
+            ctx.filter = 'sepia(85%) contrast(120%) brightness(95%)';
+          }
+          const imgRatio = img.width / img.height;
+          const boxRatio = w / h;
+          let sx = 0, sy = 0, sw = img.width, sh = img.height;
+          if (imgRatio > boxRatio) {
+            sw = img.height * boxRatio;
+            sx = (img.width - sw) / 2;
+          } else {
+            sh = img.width / boxRatio;
+            sy = (img.height - sh) / 2;
+          }
+          ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+          ctx.restore();
+        } else {
+          // Cool Wanted Agent / Bandit Silhouette so props look awesome even before photo upload!
+          const cx = x + w / 2;
+          const cy = y + h / 2 - 12;
+          ctx.fillStyle = '#374151';
+          ctx.beginPath();
+          ctx.arc(cx, cy - 22, 44, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(cx, cy + 88, 78, Math.PI, 0, false);
+          ctx.fill();
+
+          ctx.fillStyle = 'rgba(255,255,255,0.7)';
+          ctx.font = '800 12px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('📸 ADD DOST PHOTO', cx, y + h - 46);
+        }
+
+        // =========================================================
+        // OVERLAY INTERACTIVE PROPS ON PORTRAIT
+        // =========================================================
+        const cx = x + w / 2;
+        const cy = y + h / 2;
+
+        // PROP 1: IRON JAIL BARS (SALIYAAN) + QAIDI #420 PLACARD
+        if (activePropType === 'jail') {
+          ctx.strokeStyle = '#9ca3af';
+          ctx.lineWidth = 7;
+          for (let bx = x + 24; bx < x + w; bx += 36) {
+            ctx.beginPath();
+            ctx.moveTo(bx, y);
+            ctx.lineTo(bx, y + h);
+            ctx.stroke();
+          }
+          // Horizontal prison crossbars
+          ctx.lineWidth = 8;
+          ctx.strokeStyle = '#4b5563';
+          ctx.beginPath();
+          ctx.moveTo(x, y + 60);
+          ctx.lineTo(x + w, y + 60);
+          ctx.moveTo(x, y + h - 75);
+          ctx.lineTo(x + w, y + h - 75);
+          ctx.stroke();
+
+          // Prisoner #420 Slate Board
+          ctx.fillStyle = '#111827';
+          drawRoundRect(ctx, x + 22, y + h - 92, w - 44, 52, 6);
+          ctx.fill();
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.fillStyle = '#facc15';
+          ctx.font = '900 15px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('QAIDI NO. 420', cx, y + h - 68);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '700 11px "JetBrains Mono", monospace';
+          ctx.fillText('CENTRAL JAIL UDHAAR', cx, y + h - 50);
+        }
+
+        // PROP 2: SNIPER TARGET CROSSHAIR + BREAKING NEWS RED CIRCLE
+        else if (activePropType === 'target') {
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.arc(cx, cy - 15, 68, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(cx, cy - 15, 36, 0, Math.PI * 2);
+          ctx.stroke();
+          // Crosshair lines
+          ctx.beginPath();
+          ctx.moveTo(cx - 85, cy - 15);
+          ctx.lineTo(cx + 85, cy - 15);
+          ctx.moveTo(cx, cy - 100);
+          ctx.lineTo(cx, cy + 70);
+          ctx.stroke();
+          // Red dot
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath();
+          ctx.arc(cx, cy - 15, 6, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#dc2626';
+          drawRoundRect(ctx, x + 18, y + 12, w - 36, 28, 6);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 13px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🎯 TARGET LOCKED', cx, y + 31);
+        }
+
+        // PROP 3: UDHAAR SAMRAT GOLDEN CROWN
+        else if (activePropType === 'crown') {
+          ctx.save();
+          ctx.translate(cx, y + 52);
+          ctx.fillStyle = '#facc15';
+          ctx.strokeStyle = '#b45309';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(-58, 18);
+          ctx.lineTo(-68, -28);
+          ctx.lineTo(-28, -4);
+          ctx.lineTo(0, -38);
+          ctx.lineTo(28, -4);
+          ctx.lineTo(68, -28);
+          ctx.lineTo(58, 18);
+          ctx.closePath();
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#dc2626';
+          ctx.font = '900 11px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('👑 UDHAAR SAMRAT', 0, 12);
+          ctx.restore();
+        }
+
+        // PROP 4: THUG LIFE PIXEL SHADES + GOLD CHAIN
+        else if (activePropType === 'thug') {
+          const sy = cy - 36;
+          ctx.fillStyle = '#050507';
+          // Left & Right Lenses
+          ctx.fillRect(cx - 58, sy, 48, 24);
+          ctx.fillRect(cx + 10, sy, 48, 24);
+          // Bridge & Temple arms
+          ctx.fillRect(cx - 12, sy + 4, 24, 6);
+          ctx.fillRect(cx - 78, sy + 2, 22, 6);
+          ctx.fillRect(cx + 56, sy + 2, 22, 6);
+          // White pixel glint
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(cx - 48, sy + 5, 10, 5);
+          ctx.fillRect(cx - 38, sy + 10, 10, 5);
+          ctx.fillRect(cx + 20, sy + 5, 10, 5);
+          ctx.fillRect(cx + 30, sy + 10, 10, 5);
+
+          ctx.fillStyle = '#111827';
+          drawRoundRect(ctx, x + 20, y + 12, w - 40, 26, 6);
+          ctx.fill();
+          ctx.fillStyle = '#fbbf24';
+          ctx.font = '900 12px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🕶️ THUG DEFAULTER', cx, y + 29);
+        }
+
+        // Bottom Badge Label on Portrait
+        if (badgeLabel) {
+          ctx.fillStyle = borderCol || '#f59e0b';
+          drawRoundRect(ctx, x + 12, y + h - 32, w - 24, 24, 6);
+          ctx.fill();
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 13px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(badgeLabel, cx, y + h - 15);
+        }
+
         ctx.restore();
+
+        // Outer Frame Border
+        ctx.strokeStyle = borderCol || '#fbbf24';
+        ctx.lineWidth = 4;
+        drawRoundRect(ctx, x, y, w, h, radius);
+        ctx.stroke();
       }
 
+      // =========================================================================
+      // MASTER ARTWORK RENDERER (10 DISTINCT CINEMATIC POSTERS!)
+      // =========================================================================
       function renderInteractiveSticker() {
         const imgEl = document.getElementById('stickerPreviewImg');
         if (!imgEl) return;
 
-        const { name, amt, upi, customText, cfg } = getReminderContext();
+        const { name, amt, upi, customText } = getReminderContext();
         const stampText = STICKER_STAMPS[activeStampIdx % STICKER_STAMPS.length];
-        const hasPhoto = Boolean(window._friendPosterPhotoImg);
 
         const canvas = document.createElement('canvas');
         canvas.width = 800;
         canvas.height = 500;
         const ctx = canvas.getContext('2d');
 
-        const grad = ctx.createLinearGradient(0, 0, 800, 500);
-        grad.addColorStop(0, cfg.bg1);
-        grad.addColorStop(1, cfg.bg2);
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, 800, 500);
+        // ---------------------------------------------------------------------
+        // 1. STREE (CHANDERI HAVELI WALL + BLOOD DRIPS + RED MOON & BATS)
+        // ---------------------------------------------------------------------
+        if (activeStickerTheme === 'stree') {
+          const grad = ctx.createLinearGradient(0, 0, 0, 500);
+          grad.addColorStop(0, '#1a040c');
+          grad.addColorStop(0.6, '#2b0712');
+          grad.addColorStop(1, '#090205');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
 
-        ctx.fillStyle = cfg.accent;
-        ctx.fillRect(0, 0, 800, 52);
-        ctx.fillStyle = '#050507';
-        ctx.fillRect(0, 448, 800, 52);
+          // Draw Old Haveli Brick Wall Pattern
+          ctx.strokeStyle = 'rgba(255, 80, 100, 0.08)';
+          ctx.lineWidth = 2;
+          for (let row = 0; row < 500; row += 36) {
+            ctx.beginPath();
+            ctx.moveTo(0, row);
+            ctx.lineTo(800, row);
+            ctx.stroke();
+            const offset = (row / 36) % 2 === 0 ? 0 : 45;
+            for (let col = offset; col < 800; col += 90) {
+              ctx.beginPath();
+              ctx.moveTo(col, row);
+              ctx.lineTo(col, row + 36);
+              ctx.stroke();
+            }
+          }
 
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '900 20px "JetBrains Mono", monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText(cfg.topBanner, 400, 33);
-
-        ctx.fillStyle = '#fbbf24';
-        ctx.font = '800 16.5px "JetBrains Mono", monospace';
-        ctx.fillText(
-          upi ? `📲 SCAN OR PAY ON UPI: ${upi}  •  ⚡ @aetherbyte.studios` : '📲 ABHI GPAY / PHONEPE KAREIN  •  ⚡ @aetherbyte.studios',
-          400,
-          480
-        );
-
-        ctx.strokeStyle = cfg.border;
-        ctx.lineWidth = 4;
-        drawRoundRect(ctx, 22, 66, 756, 366, 18);
-        ctx.stroke();
-
-        if (hasPhoto) {
-          const px = 44, py = 88, pw = 235, ph = 295;
+          // Glowing Full Red Moon in Top Right
           ctx.save();
-          ctx.shadowColor = cfg.border;
-          ctx.shadowBlur = 18;
-          drawCoverPhoto(ctx, window._friendPosterPhotoImg, px, py, pw, ph, 16);
+          ctx.fillStyle = 'rgba(225, 29, 72, 0.28)';
+          ctx.beginPath();
+          ctx.arc(690, 115, 72, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = 'rgba(244, 63, 94, 0.45)';
+          ctx.beginPath();
+          ctx.arc(690, 115, 52, 0, Math.PI * 2);
+          ctx.fill();
           ctx.restore();
 
-          ctx.strokeStyle = cfg.border;
-          ctx.lineWidth = 4;
-          drawRoundRect(ctx, px, py, pw, ph, 16);
+          // Dripping Red Paint at Top Wall
+          ctx.fillStyle = '#be123c';
+          ctx.fillRect(0, 0, 800, 48);
+          const drips = [60, 140, 230, 350, 470, 580, 710];
+          drips.forEach((dx, i) => {
+            const dh = 22 + (i % 3) * 16;
+            drawRoundRect(ctx, dx, 40, 10, dh, 5);
+            ctx.fill();
+          });
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 20px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('👻 चंदेरी पुराण चेतावनी • STREE 2 VASOOLI CELL 👻', 400, 31);
+
+          // Portrait Mugshot on Left
+          drawPortraitWithProps(ctx, 42, 82, 225, 315, 16, '#f43f5e', 'CHANDERI VIP');
+
+          // Hand-Painted Red Wall Writing on Right
+          const rx = 528;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#fda4af';
+          ctx.font = '900 24px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('“ओ स्त्री कल आना...”', rx, 112);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 38px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`पर ${name.toUpperCase()} भाई`, rx, 162);
+
+          // Blood Red Paint Brush Box for Amount
+          ctx.fillStyle = 'rgba(190, 18, 60, 0.45)';
+          drawRoundRect(ctx, 315, 185, 425, 105, 18);
+          ctx.fill();
+          ctx.strokeStyle = '#fb7185';
+          ctx.lineWidth = 3;
           ctx.stroke();
 
-          ctx.fillStyle = cfg.accent;
-          drawRoundRect(ctx, px + 14, py + ph - 36, pw - 28, 30, 8);
-          ctx.fill();
-          ctx.fillStyle = '#ffffff';
-          ctx.font = '900 15px "JetBrains Mono", monospace';
-          ctx.textAlign = 'center';
-          ctx.fillText(cfg.badgeText, px + pw / 2, py + ph - 15);
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 58px "JetBrains Mono", monospace';
+          ctx.fillText(`${amt} आज लाना!`, rx, 255);
 
-          const rx = 530;
+          const quote = customText || 'चंदेरी की दीवारों पर लिखा है: उधार दबाने वाले को भूत पकड़ता है!';
+          ctx.fillStyle = '#fecdd3';
+          ctx.font = '800 18.5px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('🩸 ' + quote.slice(0, 44), rx, 342);
+
+          ctx.fillStyle = '#050507';
+          ctx.fillRect(0, 448, 800, 52);
+          ctx.fillStyle = '#fb7185';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 रक्षा सूत्र (UPI ID): ${upi} • @aetherbyte.studios` : '📲 आज ही GPAY करें और अपनी चोटी बचाएं • @aetherbyte.studios', 400, 480);
+        }
+
+        // ---------------------------------------------------------------------
+        // 2. HERA PHERI (ANURADHA LAXMI CHIT FUND BANK CHEQUE / CERTIFICATE!)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'herapheri') {
+          // Cream / Golden Bank Bond Paper
+          const grad = ctx.createLinearGradient(0, 0, 800, 500);
+          grad.addColorStop(0, '#fef9c3');
+          grad.addColorStop(0.5, '#fef08a');
+          grad.addColorStop(1, '#fde047');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Ornate Double Bank Border
+          ctx.strokeStyle = '#854d0e';
+          ctx.lineWidth = 6;
+          ctx.strokeRect(16, 16, 768, 468);
+          ctx.strokeStyle = '#ca8a04';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(26, 26, 748, 448);
+
+          // Top Bank Header Strip
+          ctx.fillStyle = '#713f12';
+          drawRoundRect(ctx, 36, 36, 728, 56, 10);
+          ctx.fill();
+
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 22px "JetBrains Mono", monospace';
           ctx.textAlign = 'center';
-          ctx.fillStyle = cfg.border;
-          ctx.font = '800 16px "Plus Jakarta Sans", sans-serif';
-          ctx.fillText(cfg.subHeader, rx, 115);
+          ctx.fillText('🏦 ANURADHA LAXMI CHIT FUND BANK (REGD. #420) 🏦', 400, 71);
+
+          // Portrait on Left
+          drawPortraitWithProps(ctx, 44, 108, 215, 295, 12, '#854d0e', 'BABU BHAIYA VIP');
+
+          // Cheque Lines on Right
+          ctx.textAlign = 'left';
+          ctx.fillStyle = '#713f12';
+          ctx.font = '800 17px "JetBrains Mono", monospace';
+          ctx.fillText('CHEQUE NO: #25-DIN-DOUBLE', 285, 132);
+          ctx.fillText('DATE: AAJ AUR ABHI ⚡', 565, 132);
+
+          // Payee Line
+          ctx.fillStyle = '#422006';
+          ctx.font = '900 21px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`DEFAULTER PARTY:  ${name.toUpperCase()}`, 285, 178);
+          ctx.strokeStyle = '#a16207';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(285, 188);
+          ctx.lineTo(745, 188);
+          ctx.stroke();
+
+          // Amount Box (Like Real Bank Cheque ₹ Box)
+          ctx.fillStyle = '#ffffff';
+          drawRoundRect(ctx, 285, 206, 460, 86, 12);
+          ctx.fill();
+          ctx.strokeStyle = '#dc2626';
+          ctx.lineWidth = 3.5;
+          ctx.stroke();
+
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#dc2626';
+          ctx.font = '900 54px "JetBrains Mono", monospace';
+          ctx.fillText(`PAY: ${amt} ONLY/-`, 515, 267);
+
+          const quote = customText || 'Utha le re baba! Mere paise iske account se utha ke GPay me daal!';
+          ctx.fillStyle = '#713f12';
+          ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 46)}"`, 515, 330);
+
+          // Signatures & Babu Rao Spectacles at Bottom Right
+          ctx.fillStyle = '#1e3a8a';
+          ctx.font = 'italic 900 20px "Plus Jakarta Sans", serif';
+          ctx.fillText('Signed: Babu Rao Ganpatrao Apte & Kachra Seth 👓', 515, 385);
+
+          // MICR Cheque Code Bottom Bar
+          ctx.fillStyle = '#422006';
+          ctx.fillRect(16, 434, 768, 50);
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `⑈420⑈  UPI ID: ${upi}  ⑈150-RUPIYA-DEGA⑈` : '⑈420⑈  SCAN & PAY VIA PINGZY  ⑈25-DIN-PAISA-DOUBLE⑈', 400, 465);
+        }
+
+        // ---------------------------------------------------------------------
+        // 3. SHOLAY (RAMGARH BURNT PARCHMENT + REALISTIC BULLET HOLES!)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'sholay') {
+          // Burnt Western Parchment Gradient
+          const grad = ctx.createRadialGradient(400, 250, 80, 400, 250, 460);
+          grad.addColorStop(0, '#f5d08b');
+          grad.addColorStop(0.7, '#d99b4e');
+          grad.addColorStop(1, '#451a03');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Rugged Western Frame
+          ctx.strokeStyle = '#451a03';
+          ctx.lineWidth = 6;
+          ctx.strokeRect(24, 24, 752, 452);
+
+          // Draw Realistic Bullet Holes with Radial Cracks!
+          const bullets = [{x: 735, y: 75}, {x: 68, y: 425}, {x: 720, y: 395}, {x: 310, y: 85}];
+          bullets.forEach((b) => {
+            ctx.save();
+            ctx.strokeStyle = '#270e02';
+            ctx.lineWidth = 2;
+            for (let a = 0; a < 7; a++) {
+              const ang = (a * Math.PI * 2) / 7;
+              ctx.beginPath();
+              ctx.moveTo(b.x, b.y);
+              ctx.lineTo(b.x + Math.cos(ang) * 24, b.y + Math.sin(ang) * 24);
+              ctx.stroke();
+            }
+            ctx.fillStyle = '#090401';
+            ctx.beginPath();
+            ctx.arc(b.x, b.y, 9, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#78350f';
+            ctx.stroke();
+            ctx.restore();
+          });
+
+          ctx.fillStyle = '#451a03';
+          ctx.font = '900 30px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🐎 RAMGARH BOUNTY • GABBAR SINGH FARMAAN 🐎', 400, 66);
+
+          drawPortraitWithProps(ctx, 46, 94, 220, 310, 10, '#451a03', 'ZINDA YA GPAY');
+
+          const rx = 525;
+          ctx.fillStyle = '#7c2d12';
+          ctx.font = '900 22px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('“अरे ओ सांभा... कितना उधार बाकी है रे?!”', rx, 125);
+
+          ctx.fillStyle = '#1c0a00';
+          ctx.font = '900 46px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(name.toUpperCase(), rx, 182);
+
+          // Burnt Wood Bounty Box
+          ctx.fillStyle = '#451a03';
+          drawRoundRect(ctx, 315, 202, 420, 96, 12);
+          ctx.fill();
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 54px "JetBrains Mono", monospace';
+          ctx.fillText(`INAAM: ${amt}`, rx, 268);
+
+          const quote = customText || 'जो डर गया समझो मर गया — और जो GPay कर गया वो बच गया!';
+          ctx.fillStyle = '#451a03';
+          ctx.font = '900 19px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 44)}"`, rx, 345);
+
+          ctx.fillStyle = '#270e02';
+          ctx.fillRect(24, 430, 752, 46);
+          ctx.fillStyle = '#fde68a';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `🔫 THAKUR KA HUKUM — PAY UPI: ${upi}` : '🔫 RAMGARH KHATA CELL • @aetherbyte.studios', 400, 459);
+        }
+
+        // ---------------------------------------------------------------------
+        // 4. DEEWAAR (70s RETRO BOLLYWOOD SUNBURST RAYS + BILLA NO. 786 BADGE!)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'deewaar') {
+          // 1970s Retro Sunburst Background Rays from Center
+          ctx.save();
+          const cx = 400, cy = 250;
+          const numRays = 24;
+          for (let i = 0; i < numRays; i++) {
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            const a1 = (i * Math.PI * 2) / numRays;
+            const a2 = ((i + 1) * Math.PI * 2) / numRays;
+            ctx.arc(cx, cy, 600, a1, a2);
+            ctx.closePath();
+            ctx.fillStyle = i % 2 === 0 ? '#1e1b4b' : '#31102f';
+            ctx.fill();
+          }
+          ctx.restore();
+
+          // Top Banner
+          ctx.fillStyle = '#dc2626';
+          ctx.fillRect(0, 0, 800, 54);
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 21px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🧱 DOCKYARD VASOOLI • DEEWAAR CULT ARCHIVE (1975) 🧱', 400, 34);
+
+          drawPortraitWithProps(ctx, 44, 84, 225, 315, 14, '#facc15', 'VIJAY VERMA MODE');
+
+          // Iconic Red Brass Hexagonal "BILLA NO. 786" Badge
+          ctx.save();
+          ctx.translate(685, 125);
+          ctx.rotate(-0.12);
+          ctx.fillStyle = '#dc2626';
+          drawRoundRect(ctx, -85, -36, 170, 72, 12);
+          ctx.fill();
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 3.5;
+          ctx.stroke();
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 13px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('BILLA NO.', 0, -10);
+          ctx.font = '900 28px "JetBrains Mono", monospace';
+          ctx.fillText('786', 0, 22);
+          ctx.restore();
+
+          const rx = 515;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#fde047';
+          ctx.font = '900 21px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('“आज खुश तो बहुत होगे तुम...”', rx, 130);
 
           ctx.fillStyle = '#ffffff';
           ctx.font = '900 44px "Plus Jakarta Sans", sans-serif';
-          ctx.fillText(name.toUpperCase().slice(0, 14), rx, 168);
+          ctx.fillText(name.toUpperCase(), rx, 185);
 
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
-          drawRoundRect(ctx, 325, 188, 410, 92, 16);
+          ctx.fillStyle = 'rgba(0,0,0,0.65)';
+          drawRoundRect(ctx, 310, 205, 425, 95, 14);
           ctx.fill();
-          ctx.strokeStyle = cfg.border;
-          ctx.lineWidth = 2.5;
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 3;
           ctx.stroke();
 
           ctx.fillStyle = '#4ade80';
           ctx.font = '900 54px "JetBrains Mono", monospace';
-          ctx.fillText(amt, rx, 253);
+          ctx.fillText(`MERA ${amt}`, rx, 270);
 
-          ctx.fillStyle = '#fde68a';
-          ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
-          const words = customText.split(' ');
-          let line1 = '', line2 = '';
-          words.forEach((w) => {
-            if ((line1 + ' ' + w).trim().length <= 32) line1 = (line1 + ' ' + w).trim();
-            else line2 = (line2 + ' ' + w).trim();
-          });
-          ctx.fillText('"' + line1 + (line2 ? '' : '"'), rx, 324);
-          if (line2) {
-            ctx.fillText(line2.slice(0, 36) + '"', rx, 352);
+          const quote = customText || 'मेरे पास गाड़ी नहीं, बंगला नहीं... क्योंकि मेरा पैसा तेरे पास है!';
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '800 18.5px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 45)}"`, rx, 345);
+
+          ctx.fillStyle = '#050507';
+          ctx.fillRect(0, 448, 800, 52);
+          ctx.fillStyle = '#facc15';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 MANDIR KI SEEDHIYAAN — UPI ID: ${upi}` : '📲 MAIN FEKE HUE PAISE NAHI, GPAY LETA HU • @aetherbyte.studios', 400, 480);
+        }
+
+        // ---------------------------------------------------------------------
+        // 5. DON (INTERPOL TOP-SECRET CYBER DOSSIER + RADAR + BARCODE!)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'don') {
+          ctx.fillStyle = '#060b16';
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Cyber Radar Grid Lines
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+          ctx.lineWidth = 1;
+          for (let x = 0; x < 800; x += 40) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 500); ctx.stroke();
           }
-        } else {
+          for (let y = 0; y < 500; y += 40) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(800, y); ctx.stroke();
+          }
+
+          // Radar Target Rings behind Right Side
+          ctx.strokeStyle = 'rgba(245, 158, 11, 0.14)';
+          ctx.lineWidth = 2;
+          [70, 120, 170].forEach((r) => {
+            ctx.beginPath(); ctx.arc(540, 240, r, 0, Math.PI * 2); ctx.stroke();
+          });
+
+          ctx.fillStyle = '#f59e0b';
+          ctx.fillRect(0, 0, 800, 52);
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 20px "JetBrains Mono", monospace';
           ctx.textAlign = 'center';
-          ctx.fillStyle = cfg.border;
-          ctx.font = '800 19px "Plus Jakarta Sans", sans-serif';
-          ctx.fillText(cfg.subHeader, 400, 112);
+          ctx.fillText('🕶️ INTERPOL RED CORNER DOSSIER • 11 MULKON KI POLICE 🕶️', 400, 33);
+
+          drawPortraitWithProps(ctx, 44, 82, 225, 315, 14, '#f59e0b', 'SYNDICATE #001');
+
+          const rx = 530;
+          ctx.fillStyle = '#38bdf8';
+          ctx.font = '800 17px "JetBrains Mono", monospace';
+          ctx.fillText('CLASSIFIED FILE // UNDERWORLD UDHAAR KINGPIN', rx, 112);
 
           ctx.fillStyle = '#ffffff';
-          ctx.font = '900 52px "Plus Jakarta Sans", sans-serif';
-          ctx.fillText(name.toUpperCase(), 400, 172);
+          ctx.font = '900 46px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`DON ${name.toUpperCase()}`, rx, 168);
 
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.48)';
-          drawRoundRect(ctx, 175, 192, 450, 98, 16);
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.15)';
+          drawRoundRect(ctx, 315, 190, 430, 96, 14);
           ctx.fill();
-          ctx.strokeStyle = cfg.border;
+          ctx.strokeStyle = '#f59e0b';
           ctx.lineWidth = 2.5;
           ctx.stroke();
 
-          ctx.fillStyle = '#4ade80';
-          ctx.font = '900 60px "JetBrains Mono", monospace';
-          ctx.fillText(amt, 400, 262);
+          ctx.fillStyle = '#fde047';
+          ctx.font = '900 56px "JetBrains Mono", monospace';
+          ctx.fillText(amt, rx, 258);
 
-          ctx.fillStyle = '#fde68a';
-          ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
-          const words = customText.split(' ');
-          let line1 = '', line2 = '';
-          words.forEach((w) => {
-            if ((line1 + ' ' + w).trim().length <= 44) line1 = (line1 + ' ' + w).trim();
-            else line2 = (line2 + ' ' + w).trim();
-          });
-          ctx.fillText('"' + line1 + (line2 ? '' : '"'), 400, 336);
-          if (line2) {
-            ctx.fillText(line2.slice(0, 48) + '"', 400, 366);
+          const quote = customText || 'Don se udhaar nikalwana mushkil hi nahi, namumkin ho gaya hai!';
+          ctx.fillStyle = '#e2e8f0';
+          ctx.font = '800 18.5px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 46)}"`, rx, 336);
+
+          // Barcode at Bottom Right
+          ctx.fillStyle = '#94a3b8';
+          for (let bx = 420; bx < 640; bx += 6) {
+            ctx.fillRect(bx, 365, (bx % 12 === 0) ? 4 : 2, 28);
           }
 
-          ctx.fillStyle = 'rgba(255,255,255,0.55)';
-          ctx.font = '700 14px "JetBrains Mono", monospace';
-          ctx.fillText('💡 TIP: Tap "📸 Dost Ki Photo Lagao" below to add their face on this poster!', 400, 412);
+          ctx.fillStyle = '#020617';
+          ctx.fillRect(0, 448, 800, 52);
+          ctx.fillStyle = '#38bdf8';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 SURRENDER DUES ON UPI: ${upi} • @aetherbyte.studios` : '📲 INTERPOL VASOOLI CELL • @aetherbyte.studios', 400, 480);
         }
 
+        // ---------------------------------------------------------------------
+        // 6. MIRZAPUR (KALEEN BHAIYA CARPET BORDER & BHAUKAL MODE)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'mirzapur') {
+          const grad = ctx.createLinearGradient(0, 0, 800, 500);
+          grad.addColorStop(0, '#2e0903');
+          grad.addColorStop(1, '#0c0302');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Ornate Carpet Diamond Pattern Border
+          ctx.strokeStyle = '#ea580c';
+          ctx.lineWidth = 4;
+          ctx.strokeRect(20, 62, 760, 374);
+
+          ctx.fillStyle = '#ea580c';
+          ctx.fillRect(0, 0, 800, 52);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 21px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🔥 KALEEN BHAIYA BHAUKAL • MIRZAPUR VASOOLI GADDI 🔥', 400, 33);
+
+          drawPortraitWithProps(ctx, 44, 82, 225, 315, 14, '#f97316', 'BHAUKAL 100%');
+
+          const rx = 530;
+          ctx.fillStyle = '#fdba74';
+          ctx.font = '900 20px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('“अंकल जी, गद्दी पर बैठना है तो उधार चुकाइए!”', rx, 118);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 46px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(name.toUpperCase(), rx, 175);
+
+          ctx.fillStyle = 'rgba(234, 88, 12, 0.22)';
+          drawRoundRect(ctx, 315, 195, 430, 96, 14);
+          ctx.fill();
+          ctx.strokeStyle = '#fb923c';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          ctx.fillStyle = '#fde047';
+          ctx.font = '900 56px "JetBrains Mono", monospace';
+          ctx.fillText(`BAKI: ${amt}`, rx, 262);
+
+          const quote = customText || 'अबकी बार मिलें तो इज़्ज़त से GPay कर देना — चाचा विधायक नहीं हैं!';
+          ctx.fillStyle = '#fed7aa';
+          ctx.font = '800 18.5px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 46)}"`, rx, 342);
+
+          ctx.fillStyle = '#050507';
+          ctx.fillRect(0, 448, 800, 52);
+          ctx.fillStyle = '#fb923c';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 KING OF MIRZAPUR UPI: ${upi} • @aetherbyte.studios` : '📲 MUNNA BHAIYA VASOOLI SQUAD • @aetherbyte.studios', 400, 480);
+        }
+
+        // ---------------------------------------------------------------------
+        // 7. BREAKING NEWS TV CHANNEL (RED ARROW + BLINKING LIVE + NEWS TICKER)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'news') {
+          ctx.fillStyle = '#091128';
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Top Breaking News Bar
+          ctx.fillStyle = '#dc2626';
+          ctx.fillRect(0, 0, 800, 62);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 28px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.fillText('📺 PINGZY AAJ TAK • BREAKING NEWS', 26, 41);
+
+          // LIVE Badge
+          ctx.fillStyle = '#facc15';
+          drawRoundRect(ctx, 645, 13, 130, 36, 8);
+          ctx.fill();
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 18px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🔴 LIVE TV', 710, 37);
+
+          drawPortraitWithProps(ctx, 42, 82, 225, 305, 12, '#dc2626', 'EXPOSED LIVE');
+
+          // Giant Red Circle & Arrow pointing to Friend's Photo!
+          ctx.save();
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.moveTo(335, 145);
+          ctx.lineTo(276, 175);
+          ctx.stroke();
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath();
+          ctx.moveTo(272, 175);
+          ctx.lineTo(292, 162);
+          ctx.lineTo(290, 184);
+          ctx.closePath();
+          ctx.fill();
+          ctx.restore();
+
+          const rx = 535;
+          ctx.textAlign = 'center';
+          ctx.fillStyle = '#facc15';
+          ctx.font = '900 20px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('⬅️ यही है वो दोस्त जो पैसे दबा कर बैठा है!', rx, 115);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 44px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(name.toUpperCase(), rx, 172);
+
+          ctx.fillStyle = '#dc2626';
+          drawRoundRect(ctx, 320, 192, 435, 95, 12);
+          ctx.fill();
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 54px "JetBrains Mono", monospace';
+          ctx.fillText(`GHOTALA: ${amt}`, rx, 258);
+
+          const quote = customText || 'देश जानना चाहता है: Swiggy पर 5G चलता है तो GPay पर सर्वर डाउन क्यों?!';
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(quote.slice(0, 48), rx, 336);
+
+          // Yellow & Red TV News Lower Ticker
+          ctx.fillStyle = '#facc15';
+          ctx.fillRect(0, 405, 800, 45);
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 19px "JetBrains Mono", monospace';
+          ctx.fillText('🔥 FLASH NEWS: DOST NE MESSAGE SEEN KARKE BHI NAHI KIYA UPI! 🔥', 400, 434);
+
+          ctx.fillStyle = '#991b1b';
+          ctx.fillRect(0, 450, 800, 50);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 LIVE UPI NUMBER: ${upi} • @aetherbyte.studios` : '📲 REPORT BY PINGZY NEWS • @aetherbyte.studios', 400, 481);
+        }
+
+        // ---------------------------------------------------------------------
+        // 8. CIBIL SCORE METER (LIVE SPEEDOMETER GAUGE: -420 TO 900!)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'cibil') {
+          ctx.fillStyle = '#071318';
+          ctx.fillRect(0, 0, 800, 500);
+
+          ctx.fillStyle = '#10b981';
+          ctx.fillRect(0, 0, 800, 50);
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 20px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('📉 OFFICIAL FRIENDSHIP CIBIL CREDIT BUREAU REPORT 📊', 400, 32);
+
+          drawPortraitWithProps(ctx, 42, 78, 225, 320, 14, '#ef4444', 'SCORE: -420 🚨');
+
+          // Draw Speedometer Gauge Arc on Right!
+          const gx = 535, gy = 205, gr = 95;
+          ctx.lineWidth = 22;
+          // Red zone
+          ctx.strokeStyle = '#ef4444';
+          ctx.beginPath(); ctx.arc(gx, gy, gr, Math.PI, Math.PI * 1.35); ctx.stroke();
+          // Yellow zone
+          ctx.strokeStyle = '#f59e0b';
+          ctx.beginPath(); ctx.arc(gx, gy, gr, Math.PI * 1.35, Math.PI * 1.68); ctx.stroke();
+          // Green zone
+          ctx.strokeStyle = '#10b981';
+          ctx.beginPath(); ctx.arc(gx, gy, gr, Math.PI * 1.68, Math.PI * 2); ctx.stroke();
+
+          // Needle pointing deep into RED (-420)!
+          ctx.strokeStyle = '#ffffff';
+          ctx.lineWidth = 5;
+          ctx.beginPath();
+          ctx.moveTo(gx, gy);
+          ctx.lineTo(gx - 78, gy - 32);
+          ctx.stroke();
+          ctx.fillStyle = '#ef4444';
+          ctx.beginPath(); ctx.arc(gx, gy, 10, 0, Math.PI * 2); ctx.fill();
+
+          ctx.fillStyle = '#f87171';
+          ctx.font = '900 26px "JetBrains Mono", monospace';
+          ctx.fillText(`DOSTI CIBIL: -420 (DANGER)`, gx, 245);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 38px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`${name.toUpperCase()} • ${amt}`, gx, 302);
+
+          const quote = customText || 'आपका दोस्ती CIBIL स्कोर रसातल में जा चुका है! अभी UPI करके 900 करें!';
+          ctx.fillStyle = '#a7f3d0';
+          ctx.font = '800 17.5px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(quote.slice(0, 48), gx, 355);
+
+          ctx.fillStyle = '#050507';
+          ctx.fillRect(0, 448, 800, 52);
+          ctx.fillStyle = '#34d399';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 RESTORE CIBIL VIA UPI: ${upi} • @aetherbyte.studios` : '📲 PINGZY CREDIT BUREAU • @aetherbyte.studios', 400, 480);
+        }
+
+        // ---------------------------------------------------------------------
+        // 9. CRIME SCENE TAPE (YELLOW HAZARD STRIPES + CBI WANTED)
+        // ---------------------------------------------------------------------
+        else if (activeStickerTheme === 'wanted') {
+          ctx.fillStyle = '#180606';
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Yellow & Black Diagonal Crime Scene Tape Top & Bottom
+          ctx.fillStyle = '#facc15';
+          ctx.fillRect(0, 0, 800, 52);
+          ctx.fillRect(0, 448, 800, 52);
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 20px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('⚠️ DOSTI CRIME SCENE • DO NOT CROSS WITHOUT GPAY ⚠️', 400, 33);
+          ctx.fillText(upi ? `🚨 CBI RECOVERY UPI: ${upi} • @aetherbyte.studios` : '🚨 CBI UDHAAR CELL • @aetherbyte.studios', 400, 480);
+
+          drawPortraitWithProps(ctx, 42, 78, 225, 320, 14, '#facc15', 'WANTED #420');
+
+          const rx = 530;
+          ctx.fillStyle = '#f87171';
+          ctx.font = '900 21px "JetBrains Mono", monospace';
+          ctx.fillText('🚨 MISSING SINCE BILL SPLIT 🚨', rx, 115);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 48px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(name.toUpperCase(), rx, 175);
+
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
+          drawRoundRect(ctx, 315, 195, 430, 96, 14);
+          ctx.fill();
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 58px "JetBrains Mono", monospace';
+          ctx.fillText(amt, rx, 263);
+
+          const quote = customText || 'खाना खाते वक्त सबसे आगे, बिल देते वक्त सबसे पीछे!';
+          ctx.fillStyle = '#fca5a5';
+          ctx.font = '800 19px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 45)}"`, rx, 345);
+        }
+
+        // ---------------------------------------------------------------------
+        // 10. SUPREME COURT OF BHAICHARA E-CHALLAN
+        // ---------------------------------------------------------------------
+        else {
+          ctx.fillStyle = '#fef3c7';
+          ctx.fillRect(0, 0, 800, 500);
+
+          ctx.strokeStyle = '#92400e';
+          ctx.lineWidth = 5;
+          ctx.strokeRect(18, 18, 764, 464);
+
+          ctx.fillStyle = '#78350f';
+          ctx.fillRect(18, 18, 764, 54);
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '900 21px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('⚖️ SUPREME COURT OF BHAICHARA • E-CHALLAN #420 ⚖️', 400, 52);
+
+          drawPortraitWithProps(ctx, 42, 92, 220, 310, 12, '#92400e', 'SECTION 420');
+
+          const rx = 528;
+          ctx.fillStyle = '#92400e';
+          ctx.font = '900 18px "JetBrains Mono", monospace';
+          ctx.fillText('OFFENCE: SEEN ZONING & SERVER DOWN BAHANA', rx, 118);
+
+          ctx.fillStyle = '#111827';
+          ctx.font = '900 44px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(name.toUpperCase(), rx, 172);
+
+          ctx.fillStyle = '#fee2e2';
+          drawRoundRect(ctx, 315, 192, 430, 92, 12);
+          ctx.fill();
+          ctx.strokeStyle = '#dc2626';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          ctx.fillStyle = '#dc2626';
+          ctx.font = '900 54px "JetBrains Mono", monospace';
+          ctx.fillText(`FINE: ${amt}`, rx, 256);
+
+          const quote = customText || 'अदालत आदेश देती है कि आज शाम तक सारा पैसा GPay किया जाए!';
+          ctx.fillStyle = '#451a03';
+          ctx.font = '800 18.5px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 45)}"`, rx, 336);
+
+          ctx.fillStyle = '#78350f';
+          ctx.fillRect(18, 432, 764, 50);
+          ctx.fillStyle = '#fef08a';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `🏛️ PAY CHALLAN ON UPI: ${upi} • @aetherbyte.studios` : '🏛️ HIGH COURT OF DOSTI • @aetherbyte.studios', 400, 463);
+        }
+
+        // ---------------------------------------------------------------------
+        // TILTED RUBBER STAMP OVERLAY ON TOP RIGHT
+        // ---------------------------------------------------------------------
         ctx.save();
-        ctx.translate(635, 118);
-        ctx.rotate(0.2);
+        ctx.translate(640, 92);
+        ctx.rotate(0.16);
         ctx.fillStyle = 'rgba(220, 38, 38, 0.94)';
-        drawRoundRect(ctx, -125, -23, 250, 46, 9);
+        drawRoundRect(ctx, -120, -21, 240, 42, 8);
         ctx.fill();
         ctx.strokeStyle = '#fef08a';
         ctx.lineWidth = 2;
         ctx.stroke();
         ctx.fillStyle = '#ffffff';
-        ctx.font = '900 14.5px "JetBrains Mono", monospace';
+        ctx.font = '900 13.5px "JetBrains Mono", monospace';
         ctx.textAlign = 'center';
         ctx.fillText(stampText, 0, 5);
         ctx.restore();
@@ -1488,7 +2256,7 @@
         const lbl = document.getElementById('posterPhotoLabel');
         if (fInput) fInput.value = '';
         if (remBtn) remBtn.style.display = 'none';
-        if (lbl) lbl.innerHTML = '&#128248; Dost Ki Photo Lagao (Add Photo on Poster)';
+        if (lbl) lbl.innerHTML = '&#128248; Dost Ki Photo Lagao';
         renderInteractiveSticker();
       };
 
@@ -1533,7 +2301,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 5. SMART 45-60 MINUTE UDHAAR NOTIFICATION ENGINE (WITH PENDING FRIENDS!)
+      // 5. SMART 45-60 MINUTE UDHAAR NOTIFICATION ENGINE
       // -------------------------------------------------------------------------
       const MEGA_NOTIFICATIONS = [
         { title: '🕶️ Don Alert: Udhaar Pending!', body: '11 mulkon ki police nahi, tera Pingzy Khata bol raha hai: {friend} se {amount} vasool kar!' },
@@ -1546,12 +2314,9 @@
         { title: '💸 Vasooli Time Bhai!', body: 'Tere khate mein {total} To Collect dikha raha hai ({friend}). Tap to dispatch WhatsApp reminder!' }
       ];
 
-      // Scan DOM & LocalStorage for real pending friends so notification is 100% personalized!
       function getPendingFriendSummary() {
         const totalEl = document.getElementById('totalOwed');
         const totalText = (totalEl && totalEl.innerText.trim()) ? totalEl.innerText.trim() : '₹0';
-
-        // Try scanning localStorage for unpaid To-Collect entries
         const pendingPeople = [];
         for (let i = 0; i < localStorage.length; i++) {
           const k = localStorage.key(i);
@@ -1570,7 +2335,6 @@
             }
           } catch (e) {}
         }
-
         if (pendingPeople.length > 0) {
           const pick = pendingPeople[Math.floor(Math.random() * pendingPeople.length)];
           return {
@@ -1580,7 +2344,6 @@
             total: totalText !== '₹0' ? totalText : pick.amount
           };
         }
-
         return {
           hasPending: totalText !== '₹0',
           friend: 'Dost',
@@ -1589,9 +2352,8 @@
         };
       }
 
-      // Generate random interval between 45 and 60 minutes (in milliseconds)
       function getNext45To60MinDelay() {
-        const mins = 45 + Math.floor(Math.random() * 16); // 45 to 60 mins
+        const mins = 45 + Math.floor(Math.random() * 16);
         return mins * 60 * 1000;
       }
 
@@ -1625,7 +2387,7 @@
               body: body,
               icon: './icon-192.png',
               badge: './icon-192.png',
-              tag: 'pingzy-alert-' + now, // Unique tag so Android NEVER suppresses it
+              tag: 'pingzy-alert-' + now,
               renotify: true,
               vibrate: [200, 100, 200]
             });
@@ -1640,15 +2402,11 @@
         return false;
       }
 
-      // Background 45-60 Minute Check Loop
       function checkAndRunScheduledNotification() {
         if (localStorage.getItem('pingzy_alerts_enabled') !== 'true') return;
         if (!('Notification' in window) || Notification.permission !== 'granted') return;
-
         const now = Date.now();
         let nextTs = Number(localStorage.getItem('pingzy_next_notif_ts') || 0);
-
-        // If never scheduled or time has arrived (every 45-60 mins) -> Fire notification!
         if (!nextTs || now >= nextTs) {
           firePingzySmartNotification(false);
         }
@@ -1752,7 +2510,7 @@
         renderSplitFriendBoxes();
         forceCleanNavLabels();
 
-        // Hook Friend Photo File Upload Input
+        // Friend Photo File Upload Input
         const photoInput = document.getElementById('posterFriendPhotoInput');
         if (photoInput) {
           photoInput.addEventListener('change', (e) => {
@@ -1766,7 +2524,7 @@
                 const remBtn = document.getElementById('removeFriendPhotoBtn');
                 const lbl = document.getElementById('posterPhotoLabel');
                 if (remBtn) remBtn.style.display = 'inline-block';
-                if (lbl) lbl.innerHTML = '&#9989; Change Dost Photo';
+                if (lbl) lbl.innerHTML = '&#9989; Photo Added (Change)';
                 renderInteractiveSticker();
               };
               img.src = evt.target.result;
@@ -1774,6 +2532,21 @@
             reader.readAsDataURL(file);
           });
         }
+
+        // Prop Buttons (Clean, Jail Bars, Red Target, Udhaar Crown, Thug Shades)
+        document.querySelectorAll('#propControlsBar .prop-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('#propControlsBar .prop-btn').forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            activePropType = btn.getAttribute('data-prop') || 'none';
+            const imgEl = document.getElementById('stickerPreviewImg');
+            if (imgEl) {
+              imgEl.classList.add('pop-anim');
+              setTimeout(() => imgEl.classList.remove('pop-anim'), 200);
+            }
+            renderInteractiveSticker();
+          });
+        });
 
         const subCollect = document.getElementById('subTabCollectBtn');
         const subIOwe = document.getElementById('subTabIOweBtn');
@@ -1830,20 +2603,27 @@
           btn.addEventListener('click', () => {
             document.querySelectorAll('#interactiveThemeBar .isticker-btn').forEach((b) => b.classList.remove('active'));
             btn.classList.add('active');
-            activeStickerTheme = btn.getAttribute('data-stheme') || 'don';
+            activeStickerTheme = btn.getAttribute('data-stheme') || 'stree';
             const customInput = document.getElementById('customStickerInput');
             if (customInput) customInput.value = '';
             renderInteractiveSticker();
           });
         });
 
+        // Tapping on Poster Image directly -> Cycles Prop + Stamp + Quote for Instant Fun!
         const stickerImg = document.getElementById('stickerPreviewImg');
         if (stickerImg) {
           stickerImg.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopImmediatePropagation();
+            const propOrder = ['none', 'jail', 'target', 'crown', 'thug'];
+            const nextPropIdx = (propOrder.indexOf(activePropType) + 1) % propOrder.length;
+            activePropType = propOrder[nextPropIdx];
+            document.querySelectorAll('#propControlsBar .prop-btn').forEach((b) => {
+              b.classList.toggle('active', b.getAttribute('data-prop') === activePropType);
+            });
             activeStampIdx = (activeStampIdx + 1) % STICKER_STAMPS.length;
-            cycleMegaStickerHeadline();
+            renderInteractiveSticker();
           }, true);
         }
 
@@ -2024,7 +2804,6 @@
           }
         }
 
-        // Replace #notifBtn node so script.js's old 24hr handler cannot block it
         if (studioNotifBtn && studioNotifBtn.parentNode) {
           const cleanNotifBtn = studioNotifBtn.cloneNode(true);
           studioNotifBtn.parentNode.replaceChild(cleanNotifBtn, studioNotifBtn);
@@ -2046,7 +2825,6 @@
             if (perm === 'granted') {
               localStorage.setItem('pingzy_alerts_enabled', 'true');
               syncStudioNotifUI();
-              // Fire 1st confirmation notification immediately with pending friend's name!
               await firePingzySmartNotification(true);
             } else {
               alert('Phone/Browser settings se Notification permission Allow karein!');
@@ -2054,7 +2832,6 @@
           });
         }
 
-        // Instant Test Alert Button (#testNotifNowBtn)
         if (testNotifBtn) {
           testNotifBtn.addEventListener('click', async () => {
             if (!('Notification' in window)) {
@@ -2072,7 +2849,6 @@
           });
         }
 
-        // Sync UI & start 45-60 minute background ticker
         syncStudioNotifUI();
         setTimeout(() => checkAndRunScheduledNotification(), 3500);
         setInterval(() => checkAndRunScheduledNotification(), 60 * 1000);
