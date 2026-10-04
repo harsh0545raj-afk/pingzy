@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=15">
+    <link rel="stylesheet" href="style.css?v=16">
     <style>
-        /* Fit all 5 Ping Tone buttons cleanly */
+        /* Fit all 5 Ping Tone buttons cleanly without clipping */
         #mainVibeGrid {
             display: grid !important;
             grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -80,7 +80,7 @@
             transform: scale(0.96);
         }
 
-        /* Photo Upload Bar inside Poster Studio */
+        /* Friend Photo Upload Bar inside Poster Studio */
         .photo-upload-bar {
             display: flex;
             gap: 8px;
@@ -153,7 +153,7 @@
             cursor: pointer;
         }
 
-        /* Individual Friend Boxes in Split Modal (No Comma Confusion!) */
+        /* Individual Friend Boxes in Split Modal */
         .friend-box-list {
             display: flex;
             flex-direction: column;
@@ -214,10 +214,6 @@
             cursor: pointer;
             margin-bottom: 12px;
             transition: 0.15s;
-        }
-        .add-friend-box-btn:active {
-            transform: scale(0.98);
-            background: rgba(16, 185, 129, 0.25);
         }
 
         /* Quick Contacts Book Modal */
@@ -373,13 +369,15 @@
                     </div>
                 </div>
 
-                <!-- MAIN SCREEN STUDIO FOOTER -->
-                <div style="text-align:center; padding: 24px 10px 40px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9ca3af; letter-spacing: 0.6px;">
-                    <span style="color: #f59e0b; font-weight: 700;">&#10022; AETHERBYTE STUDIOS &#9889; &#10022;</span><br>
-                    <div style="margin-top:6px;">
-                        <a href="./privacy.html" style="color: #a78bfa; text-decoration: none;">&#128274; Privacy Policy</a>
-                        &nbsp;&bull;&nbsp;
+                <!-- MAIN SCREEN STUDIO FOOTER (Only Studio Highlight + Insta + Mail + Privacy) -->
+                <div style="text-align:center; padding: 24px 10px 42px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9ca3af; letter-spacing: 0.5px;">
+                    <span style="color: #f59e0b; font-weight: 800;">&#10022; AETHERBYTE STUDIOS &#9889; &#10022;</span><br>
+                    <div style="margin-top:7px; display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <a href="https://instagram.com/aetherbyte.studios" target="_blank" rel="noopener" style="color: #f472b6; text-decoration: none; font-weight:700;">&#128248; @aetherbyte.studios</a>
+                        <span>&bull;</span>
                         <a href="mailto:official.aetherbyte@gmail.com" style="color: #9ca3af; text-decoration: none;">&#9993;&#65039; Support</a>
+                        <span>&bull;</span>
+                        <a href="./privacy.html" style="color: #a78bfa; text-decoration: none;">&#128274; Privacy</a>
                     </div>
                 </div>
 
@@ -434,25 +432,35 @@
                 </div>
 
                 <div class="studio-section">
-                    <h3 class="studio-heading">&#9881;&#65039; App Preferences &amp; Smart Alerts</h3>
+                    <h3 class="studio-heading">&#9881;&#65039; App Preferences &amp; 45-60 Min Smart Alerts</h3>
                     <div class="pref-row">
                         <span>Language Mode (Hinglish / English)</span>
                         <button type="button" id="langToggleBtn" class="pref-toggle-btn">&#127470;&#127475; Hinglish</button>
                     </div>
                     <div class="pref-row" style="margin-top: 10px;">
-                        <span>Filmy &amp; Savage Reminder Notifications</span>
-                        <button type="button" id="notifBtn" class="pref-toggle-btn">&#128277; OFF</button>
+                        <div>
+                            <div style="font-weight:700;">Smart Udhaar Alerts (Every 45&ndash;60 Min)</div>
+                            <div id="notifStatusSub" style="font-size:10.5px; color:#9ca3af;">Reminds you about pending friends every ~50 mins</div>
+                        </div>
+                        <div style="display:flex; gap:6px; align-items:center;">
+                            <button type="button" id="testNotifNowBtn" class="pref-toggle-btn" style="background:rgba(245,158,11,0.15); border-color:rgba(245,158,11,0.45); color:#fde68a; padding:6px 10px; font-size:11px;" title="Send Test Notification Right Now">
+                                &#9889; Test
+                            </button>
+                            <button type="button" id="notifBtn" class="pref-toggle-btn">&#128277; OFF</button>
+                        </div>
                     </div>
                 </div>
 
+                <!-- OFFICIAL STUDIO, INSTAGRAM & HARSH RAJ CREDITS CARD -->
                 <div class="studio-section" style="border: 1px solid rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.05);">
                     <h3 class="studio-heading" style="color: #fbbf24;">&#9889; About AetherByte Studios</h3>
                     <p class="studio-sub" style="margin-bottom: 10px;">
                         <b>Pingzy v1.0</b> &mdash; Smart Khata, Group Bill Splitter &amp; Interactive Movie Poster Reminder.<br>
                         <span style="color: #fde68a; font-weight: 700;">&#10022; Engineered by Harsh Raj &#10022;</span>
                     </p>
-                    <div style="font-size: 12px; color: #d1d5db; line-height: 1.7;">
-                        &#128231; Official Contact: <a href="mailto:official.aetherbyte@gmail.com" style="color: #a78bfa; text-decoration: none; font-weight: 700;">official.aetherbyte@gmail.com</a><br>
+                    <div style="font-size: 12px; color: #d1d5db; line-height: 1.85;">
+                        &#128248; Instagram: <a href="https://instagram.com/aetherbyte.studios" target="_blank" rel="noopener" style="color: #f472b6; text-decoration: none; font-weight: 700;">@aetherbyte.studios</a><br>
+                        &#128231; Official Email: <a href="mailto:official.aetherbyte@gmail.com" style="color: #a78bfa; text-decoration: none; font-weight: 700;">official.aetherbyte@gmail.com</a><br>
                         &#128274; Legal &amp; Data Safety: <a href="./privacy.html" style="color: #a78bfa; text-decoration: none; font-weight: 700;">Read Privacy Policy</a>
                     </div>
                 </div>
@@ -608,7 +616,7 @@
             <label>Party / Hangout Name <span class="optional">(optional)</span></label>
             <input id="calcReason" type="text" placeholder="e.g. Pizza Party, Chai Tapri, Goa Trip">
 
-            <!-- NEW: INDIVIDUAL FRIEND BOXES (No Comma Needed!) -->
+            <!-- INDIVIDUAL FRIEND BOXES (No Comma Needed!) -->
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
                 <label style="margin:0;">Friends in Split <span class="optional">(1 box per person)</span></label>
                 <span id="splitFriendCountBadge" style="font-size:11px; color:#a78bfa; font-weight:700;">3 People</span>
@@ -748,7 +756,7 @@
                     </button>
                 </div>
 
-                <!-- 10 FAMOUS MOVIE & VIRAL POSTER TEMPLATES (Swipeable) -->
+                <!-- 10 FAMOUS MOVIE & VIRAL POSTER TEMPLATES -->
                 <div style="font-size:10.5px; color:#9ca3af; margin-top:4px;">&#127912; Swipe &amp; Pick Famous Movie Poster Theme:</div>
                 <div class="interactive-sticker-controls" id="interactiveThemeBar">
                     <button type="button" class="isticker-btn active" data-stheme="don">&#128374;&#65039; DON (11 Mulk)</button>
@@ -855,14 +863,18 @@
     </div>
 
     <!-- CORE SCRIPT -->
-    <script src="script.js?v=15" charset="utf-8"></script>
+    <script src="script.js?v=16" charset="utf-8"></script>
 
     <!-- =========================================================================
-         AETHERBYTE MOVIE PHOTO POSTER STUDIO + INDIVIDUAL SPLIT BOXES ENGINE V3.0
+         AETHERBYTE MASTER ENGINE V4.0:
+         1. 45-60 Min Smart Pending Friend Notification Engine + Instant Test
+         2. 10 Famous Movie Posters + Upload Friend Photo Mugshot
+         3. Individual Friend Boxes in Split (Add / Delete)
+         4. 120+ Viral Cult Dialogues & Bilingual Guide (EN <-> HI)
     ========================================================================== -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js?v=8');
+        navigator.serviceWorker.register('./sw.js?v=9');
       }
 
       // -------------------------------------------------------------------------
@@ -1132,7 +1144,7 @@
         ],
         filmy: [
           "O Stree Kal Aana... par {name} bhai tu mere {amt} AAJ hi laana! 👻😂",
-          "Deewaar Style {name} 🕶️: 'Aaj khush toh bohot hoge tum... mere {amt} daba ke jo baithe ho! Jaldi UPI kar!'"
+          "Deewaar Style {name} 🕶️️: 'Aaj khush toh bohot hoge tum... mere {amt} daba ke jo baithe ho! Jaldi UPI kar!'"
         ],
         savage: [
           "Oye {name} 😈 Jab bill split hua tha tab toh bada 'Bro-Bro' kar raha tha, ab {amt} bhejne mein ungli dard ho rahi hai kya?",
@@ -1194,7 +1206,6 @@
         "REVIVE DE BHAI, UPI KAR! 🎮"
       ];
 
-      // Movie Theme Metadata (10 Famous Templates!)
       const MOVIE_POSTER_CONFIGS = {
         don: {
           bg1: '#0a0f1d', bg2: '#1e1b4b', accent: '#f59e0b', border: '#fbbf24',
@@ -1273,7 +1284,7 @@
       let activePunchlineIdx = 0;
       let lastMsgText = '';
       let currentVibeCategory = 'cult_bollywood';
-      window._friendPosterPhotoImg = null; // Stores uploaded friend photo Image object
+      window._friendPosterPhotoImg = null;
 
       function getReminderContext() {
         const nameEl = document.getElementById('reminderRecipient');
@@ -1288,7 +1299,6 @@
         return { name, amt, upi, customText, cfg };
       }
 
-      // Helper to draw rounded rectangle
       function drawRoundRect(ctx, x, y, w, h, r) {
         ctx.beginPath();
         ctx.moveTo(x + r, y);
@@ -1299,16 +1309,13 @@
         ctx.closePath();
       }
 
-      // Helper to center-crop & draw Friend's uploaded photo inside Mugshot Frame
       function drawCoverPhoto(ctx, img, x, y, w, h, radius) {
         ctx.save();
         drawRoundRect(ctx, x, y, w, h, radius);
         ctx.clip();
-
         const imgRatio = img.width / img.height;
         const boxRatio = w / h;
         let sx = 0, sy = 0, sw = img.width, sh = img.height;
-
         if (imgRatio > boxRatio) {
           sw = img.height * boxRatio;
           sx = (img.width - sw) / 2;
@@ -1320,7 +1327,6 @@
         ctx.restore();
       }
 
-      // Main Canvas Renderer (Supports both With-Photo Mugshot Layout & Full Text Layout!)
       function renderInteractiveSticker() {
         const imgEl = document.getElementById('stickerPreviewImg');
         if (!imgEl) return;
@@ -1334,14 +1340,12 @@
         canvas.height = 500;
         const ctx = canvas.getContext('2d');
 
-        // 1. Background Gradient
         const grad = ctx.createLinearGradient(0, 0, 800, 500);
         grad.addColorStop(0, cfg.bg1);
         grad.addColorStop(1, cfg.bg2);
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, 800, 500);
 
-        // 2. Top & Bottom Movie Strip Banners
         ctx.fillStyle = cfg.accent;
         ctx.fillRect(0, 0, 800, 52);
         ctx.fillStyle = '#050507';
@@ -1353,24 +1357,20 @@
         ctx.fillText(cfg.topBanner, 400, 33);
 
         ctx.fillStyle = '#fbbf24';
-        ctx.font = '800 17px "JetBrains Mono", monospace';
+        ctx.font = '800 16.5px "JetBrains Mono", monospace';
         ctx.fillText(
-          upi ? `📲 SCAN OR PAY ON UPI: ${upi}  •  ⚡ PINGZY BY AETHERBYTE STUDIOS` : '📲 ABHI GPAY / PHONEPE KAREIN  •  ⚡ PINGZY BY AETHERBYTE STUDIOS',
+          upi ? `📲 SCAN OR PAY ON UPI: ${upi}  •  ⚡ @aetherbyte.studios` : '📲 ABHI GPAY / PHONEPE KAREIN  •  ⚡ @aetherbyte.studios',
           400,
           480
         );
 
-        // 3. Outer Poster Frame
         ctx.strokeStyle = cfg.border;
         ctx.lineWidth = 4;
         drawRoundRect(ctx, 22, 66, 756, 366, 18);
         ctx.stroke();
 
-        // 4A. IF FRIEND PHOTO IS UPLOADED -> DRAW MOVIE MUGSHOT LEFT + DETAILS RIGHT!
         if (hasPhoto) {
           const px = 44, py = 88, pw = 235, ph = 295;
-
-          // Photo Frame Glow & Border
           ctx.save();
           ctx.shadowColor = cfg.border;
           ctx.shadowBlur = 18;
@@ -1382,7 +1382,6 @@
           drawRoundRect(ctx, px, py, pw, ph, 16);
           ctx.stroke();
 
-          // Mugshot Bottom Tag
           ctx.fillStyle = cfg.accent;
           drawRoundRect(ctx, px + 14, py + ph - 36, pw - 28, 30, 8);
           ctx.fill();
@@ -1391,10 +1390,8 @@
           ctx.textAlign = 'center';
           ctx.fillText(cfg.badgeText, px + pw / 2, py + ph - 15);
 
-          // Right Column Content (Centered around X = 530)
           const rx = 530;
           ctx.textAlign = 'center';
-
           ctx.fillStyle = cfg.border;
           ctx.font = '800 16px "Plus Jakarta Sans", sans-serif';
           ctx.fillText(cfg.subHeader, rx, 115);
@@ -1403,7 +1400,6 @@
           ctx.font = '900 44px "Plus Jakarta Sans", sans-serif';
           ctx.fillText(name.toUpperCase().slice(0, 14), rx, 168);
 
-          // Amount Box on Right
           ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
           drawRoundRect(ctx, 325, 188, 410, 92, 16);
           ctx.fill();
@@ -1415,7 +1411,6 @@
           ctx.font = '900 54px "JetBrains Mono", monospace';
           ctx.fillText(amt, rx, 253);
 
-          // Movie Quote / Punchline (Wrapped into 2 lines if long)
           ctx.fillStyle = '#fde68a';
           ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
           const words = customText.split(' ');
@@ -1428,10 +1423,7 @@
           if (line2) {
             ctx.fillText(line2.slice(0, 36) + '"', rx, 352);
           }
-        }
-
-        // 4B. IF NO PHOTO UPLOADED -> FULL WIDTH CINEMATIC POSTER
-        else {
+        } else {
           ctx.textAlign = 'center';
           ctx.fillStyle = cfg.border;
           ctx.font = '800 19px "Plus Jakarta Sans", sans-serif';
@@ -1470,7 +1462,6 @@
           ctx.fillText('💡 TIP: Tap "📸 Dost Ki Photo Lagao" below to add their face on this poster!', 400, 412);
         }
 
-        // 5. Tilted Rubber Stamp (Top Right)
         ctx.save();
         ctx.translate(635, 118);
         ctx.rotate(0.2);
@@ -1490,7 +1481,6 @@
         window._latestPingzyPosterCanvas = canvas;
       }
 
-      // Friend Photo Upload & Remove Handlers
       window.removeFriendPosterPhoto = function() {
         window._friendPosterPhotoImg = null;
         const fInput = document.getElementById('posterFriendPhotoInput');
@@ -1543,7 +1533,129 @@
       };
 
       // -------------------------------------------------------------------------
-      // 5. CONTACTS HELPER & INITIALIZATION
+      // 5. SMART 45-60 MINUTE UDHAAR NOTIFICATION ENGINE (WITH PENDING FRIENDS!)
+      // -------------------------------------------------------------------------
+      const MEGA_NOTIFICATIONS = [
+        { title: '🕶️ Don Alert: Udhaar Pending!', body: '11 mulkon ki police nahi, tera Pingzy Khata bol raha hai: {friend} se {amount} vasool kar!' },
+        { title: '👻 O Stree Kal Aana!', body: 'Par {friend} se apne {amount} AAJ hi mangwa le bhai! Tap to send a Movie Poster Ping ⚡' },
+        { title: '🎬 Babu Bhaiya Khata Update!', body: '25 din mein paisa double nahi hoga, {friend} ko ping bhej ke apne {amount} wapas manga le!' },
+        { title: '🔥 Kaleen Bhaiya Ka Aadesh!', body: '{friend} pe {amount} baki hai! Izzat se WhatsApp Meme Poster bhej ke hisaab barabar kar!' },
+        { title: '☕ Dekh Raha Hai Binod?', body: 'Kaise {friend} ke paas {amount} pade hain aur tune abhi tak Reminder nahi bheja! Tap now!' },
+        { title: '📉 Friendship CIBIL Alert!', body: '{friend} ka udhaar ({amount}) pending chal raha hai. Send a 1-Tap UPI QR Ping now!' },
+        { title: '🥟 Samosa Tax Laga Dein?', body: '{friend} se {amount} lene hain! Late fee lagne se pehle 1-Tap Savage Ping bhej!' },
+        { title: '💸 Vasooli Time Bhai!', body: 'Tere khate mein {total} To Collect dikha raha hai ({friend}). Tap to dispatch WhatsApp reminder!' }
+      ];
+
+      // Scan DOM & LocalStorage for real pending friends so notification is 100% personalized!
+      function getPendingFriendSummary() {
+        const totalEl = document.getElementById('totalOwed');
+        const totalText = (totalEl && totalEl.innerText.trim()) ? totalEl.innerText.trim() : '₹0';
+
+        // Try scanning localStorage for unpaid To-Collect entries
+        const pendingPeople = [];
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          try {
+            const val = JSON.parse(localStorage.getItem(k));
+            if (Array.isArray(val)) {
+              val.forEach((item) => {
+                const n = item.person || item.name;
+                const a = item.amount || item.amt;
+                const isPaid = item.paid === true || item.settled === true || item.status === 'paid';
+                const isIOwe = item.type === 'iowe' || item.direction === 'iowe' || item.isIOwe === true;
+                if (n && a && !isPaid && !isIOwe) {
+                  pendingPeople.push({ name: n, amount: '₹' + a });
+                }
+              });
+            }
+          } catch (e) {}
+        }
+
+        if (pendingPeople.length > 0) {
+          const pick = pendingPeople[Math.floor(Math.random() * pendingPeople.length)];
+          return {
+            hasPending: true,
+            friend: pick.name,
+            amount: pick.amount,
+            total: totalText !== '₹0' ? totalText : pick.amount
+          };
+        }
+
+        return {
+          hasPending: totalText !== '₹0',
+          friend: 'Dost',
+          amount: totalText !== '₹0' ? totalText : 'udhaar ke paise',
+          total: totalText
+        };
+      }
+
+      // Generate random interval between 45 and 60 minutes (in milliseconds)
+      function getNext45To60MinDelay() {
+        const mins = 45 + Math.floor(Math.random() * 16); // 45 to 60 mins
+        return mins * 60 * 1000;
+      }
+
+      let lastNotifIndex = -1;
+
+      async function firePingzySmartNotification(forceImmediate) {
+        if (!('Notification' in window) || Notification.permission !== 'granted') return false;
+        if (!forceImmediate && localStorage.getItem('pingzy_alerts_enabled') !== 'true') return false;
+
+        const info = getPendingFriendSummary();
+        let idx = Math.floor(Math.random() * MEGA_NOTIFICATIONS.length);
+        if (idx === lastNotifIndex) idx = (idx + 1) % MEGA_NOTIFICATIONS.length;
+        lastNotifIndex = idx;
+
+        const template = MEGA_NOTIFICATIONS[idx];
+        const title = template.title;
+        const body = template.body
+          .replace(/\{friend\}/g, info.friend)
+          .replace(/\{amount\}/g, info.amount)
+          .replace(/\{total\}/g, info.total);
+
+        const now = Date.now();
+        const nextDelay = getNext45To60MinDelay();
+        localStorage.setItem('pingzy_last_notif_ts', String(now));
+        localStorage.setItem('pingzy_next_notif_ts', String(now + nextDelay));
+
+        try {
+          const reg = await navigator.serviceWorker.getRegistration();
+          if (reg && reg.showNotification) {
+            await reg.showNotification(title, {
+              body: body,
+              icon: './icon-192.png',
+              badge: './icon-192.png',
+              tag: 'pingzy-alert-' + now, // Unique tag so Android NEVER suppresses it
+              renotify: true,
+              vibrate: [200, 100, 200]
+            });
+            return true;
+          }
+        } catch (e) {}
+
+        try {
+          new Notification(title, { body: body, icon: './icon-192.png' });
+          return true;
+        } catch (e) {}
+        return false;
+      }
+
+      // Background 45-60 Minute Check Loop
+      function checkAndRunScheduledNotification() {
+        if (localStorage.getItem('pingzy_alerts_enabled') !== 'true') return;
+        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+        const now = Date.now();
+        let nextTs = Number(localStorage.getItem('pingzy_next_notif_ts') || 0);
+
+        // If never scheduled or time has arrived (every 45-60 mins) -> Fire notification!
+        if (!nextTs || now >= nextTs) {
+          firePingzySmartNotification(false);
+        }
+      }
+
+      // -------------------------------------------------------------------------
+      // 6. CONTACTS HELPER & INITIALIZATION
       // -------------------------------------------------------------------------
       function fillContactIntoForm(name, phone) {
         const nameInput = document.getElementById('personName');
@@ -1637,7 +1749,6 @@
       };
 
       window.addEventListener('DOMContentLoaded', () => {
-        // Initialize Individual Split Friend Boxes
         renderSplitFriendBoxes();
         forceCleanNavLabels();
 
@@ -1686,13 +1797,11 @@
         renderQuickGuideLanguage();
         applyClearTabUI('pending');
 
-        // Re-sync Split Friend Boxes right before Split Equally or Spin Roulette runs!
         const calcBtn = document.getElementById('calculateSplitBtn');
         const spinBtn = document.getElementById('spinRouletteBtn');
         if (calcBtn) calcBtn.addEventListener('click', () => syncSplitBoxesToHiddenInput(), true);
         if (spinBtn) spinBtn.addEventListener('click', () => syncSplitBoxesToHiddenInput(), true);
 
-        // Watch Reminder Modal Open -> Render Cult Message & Movie Poster Automatically
         const remModal = document.getElementById('reminderModal');
         if (remModal) {
           const modalObs = new MutationObserver(() => {
@@ -1716,19 +1825,18 @@
           });
         }
 
-        // Movie Poster Theme Buttons (Don, Stree, Hera Pheri, Mirzapur, Sholay, Deewaar, etc.)
+        // Movie Poster Theme Buttons
         document.querySelectorAll('#interactiveThemeBar .isticker-btn').forEach((btn) => {
           btn.addEventListener('click', () => {
             document.querySelectorAll('#interactiveThemeBar .isticker-btn').forEach((b) => b.classList.remove('active'));
             btn.classList.add('active');
             activeStickerTheme = btn.getAttribute('data-stheme') || 'don';
             const customInput = document.getElementById('customStickerInput');
-            if (customInput) customInput.value = ''; // Reset to movie's signature quote
+            if (customInput) customInput.value = '';
             renderInteractiveSticker();
           });
         });
 
-        // Tapping on Poster Image directly -> Flips & Randomizes Stamp + Quote
         const stickerImg = document.getElementById('stickerPreviewImg');
         if (stickerImg) {
           stickerImg.addEventListener('click', (e) => {
@@ -1739,7 +1847,6 @@
           }, true);
         }
 
-        // Custom Input Live Typing on Poster
         const customStickerInput = document.getElementById('customStickerInput');
         if (customStickerInput) {
           customStickerInput.addEventListener('input', () => {
@@ -1747,7 +1854,6 @@
           });
         }
 
-        // Remix Button -> Changes Both Dialogue & Movie Poster
         const newReplyBtn = document.getElementById('newReplyBtn');
         if (newReplyBtn) {
           newReplyBtn.addEventListener('click', (e) => {
@@ -1759,7 +1865,6 @@
           }, true);
         }
 
-        // Save PNG Button (#stickerBtn)
         const stickerBtn = document.getElementById('stickerBtn');
         if (stickerBtn) {
           stickerBtn.addEventListener('click', (e) => {
@@ -1775,7 +1880,6 @@
           }, true);
         }
 
-        // Share Poster (With Friend's Photo!) Directly to WhatsApp (#shareStickerWaBtn)
         const shareWaBtn = document.getElementById('shareStickerWaBtn');
         if (shareWaBtn) {
           shareWaBtn.addEventListener('click', async () => {
@@ -1812,7 +1916,6 @@
           });
         }
 
-        // Viral Mode Buttons
         const botBtn = document.getElementById('botModeBtn');
         const barterBtn = document.getElementById('barterModeBtn');
         const filmyBtn = document.getElementById('filmyModeBtn');
@@ -1832,7 +1935,6 @@
           });
         });
 
-        // WhatsApp Text, SMS & Copy Overrides
         const waBtn = document.getElementById('whatsappBtn');
         const smsBtn = document.getElementById('smsBtn');
         const cpBtn = document.getElementById('copyBtn');
@@ -1898,6 +2000,87 @@
             openSmartContactModal();
           });
         }
+
+        // -----------------------------------------------------------------------
+        // 7. WIRE UP 45-60 MIN NOTIFICATION BUTTON + INSTANT TEST BUTTON
+        // -----------------------------------------------------------------------
+        const studioNotifBtn = document.getElementById('notifBtn');
+        const testNotifBtn = document.getElementById('testNotifNowBtn');
+        const notifSub = document.getElementById('notifStatusSub');
+
+        function syncStudioNotifUI() {
+          if (!studioNotifBtn) return;
+          const isOn = localStorage.getItem('pingzy_alerts_enabled') === 'true' && ('Notification' in window) && Notification.permission === 'granted';
+          if (isOn) {
+            studioNotifBtn.innerHTML = '🔔 ON ⚡';
+            studioNotifBtn.style.borderColor = '#10b981';
+            studioNotifBtn.style.color = '#6ee7b7';
+            if (notifSub) notifSub.innerText = 'Active: Smart reminder every 45–60 mins ⚡';
+          } else {
+            studioNotifBtn.innerHTML = '🔕 OFF';
+            studioNotifBtn.style.borderColor = '';
+            studioNotifBtn.style.color = '';
+            if (notifSub) notifSub.innerText = 'Reminds you about pending friends every ~50 mins';
+          }
+        }
+
+        // Replace #notifBtn node so script.js's old 24hr handler cannot block it
+        if (studioNotifBtn && studioNotifBtn.parentNode) {
+          const cleanNotifBtn = studioNotifBtn.cloneNode(true);
+          studioNotifBtn.parentNode.replaceChild(cleanNotifBtn, studioNotifBtn);
+
+          cleanNotifBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (!('Notification' in window)) {
+              alert('Is browser mein notifications supported nahi hain.');
+              return;
+            }
+            const currentlyOn = localStorage.getItem('pingzy_alerts_enabled') === 'true';
+            if (currentlyOn) {
+              localStorage.setItem('pingzy_alerts_enabled', 'false');
+              syncStudioNotifUI();
+              return;
+            }
+            const perm = await Notification.requestPermission();
+            if (perm === 'granted') {
+              localStorage.setItem('pingzy_alerts_enabled', 'true');
+              syncStudioNotifUI();
+              // Fire 1st confirmation notification immediately with pending friend's name!
+              await firePingzySmartNotification(true);
+            } else {
+              alert('Phone/Browser settings se Notification permission Allow karein!');
+            }
+          });
+        }
+
+        // Instant Test Alert Button (#testNotifNowBtn)
+        if (testNotifBtn) {
+          testNotifBtn.addEventListener('click', async () => {
+            if (!('Notification' in window)) {
+              alert('Notifications not supported.');
+              return;
+            }
+            const perm = await Notification.requestPermission();
+            if (perm === 'granted') {
+              localStorage.setItem('pingzy_alerts_enabled', 'true');
+              syncStudioNotifUI();
+              await firePingzySmartNotification(true);
+            } else {
+              alert('Please allow Notification permission first!');
+            }
+          });
+        }
+
+        // Sync UI & start 45-60 minute background ticker
+        syncStudioNotifUI();
+        setTimeout(() => checkAndRunScheduledNotification(), 3500);
+        setInterval(() => checkAndRunScheduledNotification(), 60 * 1000);
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            checkAndRunScheduledNotification();
+          }
+        });
       });
     </script>
 </body>
