@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css?v=20">
     <style>
         /* Fit all 5 Ping Tone buttons cleanly without clipping */
         #mainVibeGrid {
@@ -36,6 +36,27 @@
             padding-bottom: 28px !important;
             max-height: 92vh !important;
             overflow-y: auto !important;
+        }
+
+        /* VIP Royal Gold App Color Theme Override */
+        body.vip-gold-theme {
+            --primary: #f59e0b !important;
+            --primary-light: #fde047 !important;
+        }
+        body.vip-gold-theme .hero-vault-card {
+            background: linear-gradient(135deg, #271a02 0%, #0c0902 60%, #1f1401 100%) !important;
+            border: 1.5px solid rgba(250, 204, 21, 0.55) !important;
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.22) !important;
+        }
+        body.vip-gold-theme .fab-add-btn,
+        body.vip-gold-theme .generate-button {
+            background: linear-gradient(135deg, #f59e0b, #b45309) !important;
+            color: #050507 !important;
+            font-weight: 900 !important;
+        }
+        body.vip-gold-theme .app-logo-badge {
+            background: linear-gradient(135deg, #facc15, #d97706) !important;
+            color: #050507 !important;
         }
 
         /* Masti Zone Cards & Grid */
@@ -71,7 +92,7 @@
             margin-bottom: 12px;
         }
 
-        /* Tapri Grid inside Masti Tab */
+        /* Tapri Grid & Custom Item Creator */
         .tapri-menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -81,7 +102,7 @@
             background: rgba(245, 158, 11, 0.1);
             border: 1px solid rgba(245, 158, 11, 0.35);
             color: #fde68a;
-            padding: 10px 12px;
+            padding: 10px 10px;
             border-radius: 14px;
             font-size: 12px;
             font-weight: 800;
@@ -90,14 +111,36 @@
             align-items: center;
             justify-content: space-between;
             transition: 0.15s;
+            position: relative;
         }
         .tapri-item-btn:active {
             transform: scale(0.96);
             background: #f59e0b;
             color: #050507;
         }
+        .custom-tapri-del {
+            background: rgba(239, 68, 68, 0.25);
+            color: #fca5a5;
+            border: none;
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: 900;
+            margin-left: 6px;
+            cursor: pointer;
+        }
+        .custom-tapri-creator {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.12);
+        }
+        .custom-tapri-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+        }
 
-        /* 3D Coin Flip Box (Dynamic Multi-Spin!) */
+        /* 3D Coin Flip Box */
         .coin-stage {
             perspective: 800px;
             margin: 12px auto;
@@ -214,6 +257,11 @@
             background: linear-gradient(135deg, #8b5cf6, #6d28d9);
             color: #fff;
             border-color: #c4b5fd;
+        }
+        .isticker-btn.vip-locked {
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px dashed #fbbf24;
+            color: #fde047;
         }
         .prop-btn {
             white-space: nowrap;
@@ -468,7 +516,7 @@
                             <span class="vault-label" id="vaultMainLabel">TOTAL TO COLLECT</span>
                             <div class="vault-big-amount" id="totalOwed">&#8377;0</div>
                         </div>
-                        <button type="button" id="storyWrappedBtn" class="vault-chip" title="Download 9:16 Summary Card">
+                        <button type="button" id="storyWrappedBtn" class="vault-chip" title="Preview & Share Khata Summary Card">
                             &#128202; Story Card
                         </button>
                     </div>
@@ -562,7 +610,7 @@
                     <div style="font-size:11px; font-family:'JetBrains Mono',monospace; color:#fbbf24; font-weight:800;">&#127918; AETHERBYTE FUN ZONE</div>
                     <h2 style="font-size:20px; font-weight:900; color:#fff; margin:4px 0;">Dosti Masti &amp; Tapri Zone &#128293;</h2>
                     <p style="font-size:11.5px; color:#d1d5db; margin:0;">
-                        Hisaab se hatke! Sikka uchhalo, Top Udhaarbaaz dekho, aur VIP Rewards jeeto!
+                        Hisaab se hatke! Sikka uchhalo, Custom Tapri items banao, aur VIP Themes unlock karo!
                     </p>
                 </div>
 
@@ -591,28 +639,28 @@
                     </button>
                 </div>
 
-                <!-- 2. REFER FRIENDS & UNLOCK VIP REWARDS -->
+                <!-- 2. REFER FRIENDS & UNLOCK EXCLUSIVE VIP POSTER + VIP COLOR THEME -->
                 <div class="masti-card" style="border-color:rgba(16,185,129,0.4);">
                     <div class="masti-card-title">
-                        <span style="color:#6ee7b7;">&#127873; Refer Dosto &amp; Unlock VIP</span>
-                        <span id="referCountBadge" style="font-family:'JetBrains Mono',monospace; font-size:11px; background:rgba(16,185,129,0.2); color:#6ee7b7; padding:3px 8px; border-radius:99px;">0 / 3 Shared</span>
+                        <span style="color:#6ee7b7;">&#127873; Refer &amp; Unlock VIP Themes</span>
+                        <span id="referCountBadge" style="font-family:'JetBrains Mono',monospace; font-size:11px; background:rgba(16,185,129,0.2); color:#6ee7b7; padding:3px 8px; border-radius:99px;">0 / 3 Points</span>
                     </div>
                     <p class="masti-card-desc">
-                        Pingzy ko apne 3 dosto ya WhatsApp group mein share karo aur free mein VIP Features unlock karo:
+                        Pingzy ko WhatsApp par dosto ke sath share karo (ya jab dost tumhare link se return gift bheje) toh ye <b>Exclusive VIP Items</b> unlock ho jayenge:
                     </p>
                     <div class="refer-progress-track">
                         <div id="referProgressFill" class="refer-progress-fill"></div>
                     </div>
                     <div id="rewardTier1" class="reward-tier-row">
-                        <span>1&#65039;&#8419; <b>1 Share:</b> Shark Tank &amp; Wasseypur Dialogues</span>
+                        <span>1&#65039;&#8419; <b>1 Point:</b> "Vasooli King 👑" Header Crown</span>
                         <span class="tier-status" style="color:#9ca3af; font-weight:700;">&#128274; Locked</span>
                     </div>
                     <div id="rewardTier2" class="reward-tier-row">
-                        <span>2&#65039;&#8419; <b>2 Shares:</b> "Vasooli King 👑" Header Badge</span>
+                        <span>2&#65039;&#8419; <b>2 Points:</b> KGF Royal Gold VIP Movie Poster &#127916;</span>
                         <span class="tier-status" style="color:#9ca3af; font-weight:700;">&#128274; Locked</span>
                     </div>
                     <div id="rewardTier3" class="reward-tier-row">
-                        <span>3&#65039;&#8419; <b>3 Shares:</b> Royal Gold VIP App Theme &#10024;</span>
+                        <span>3&#65039;&#8419; <b>3 Points:</b> 24K Royal Gold App Color Theme &#127912;</span>
                         <span class="tier-status" style="color:#9ca3af; font-weight:700;">&#128274; Locked</span>
                     </div>
                     <button type="button" onclick="referFriendOnWhatsApp()" class="generate-button" style="width:100%; padding:11px; margin-top:8px; background:linear-gradient(135deg, #10b981, #059669); font-weight:900;">
@@ -620,7 +668,33 @@
                     </button>
                 </div>
 
-                <!-- 3. VIJAY MALLYA DEFAULTER LEADERBOARD (HALL OF SHAME) -->
+                <!-- 3. 1-TAP TAPRI QUICK MENU + UNLIMITED CUSTOM BUTTON CREATOR -->
+                <div class="masti-card">
+                    <div class="masti-card-title">
+                        <span style="color:#c4b5fd;">&#9749; 1-Tap Tapri + Custom Menu</span>
+                        <span style="font-size:10.5px; color:#a78bfa;">Instant Fill</span>
+                    </div>
+                    <p class="masti-card-desc">
+                        <b>Ye kya hai?</b> Roz ke items (Chai, Maggi, Samosa) par 1-Tap karo &mdash; <b>Amount aur Naam apne aap form mein bhar jayega!</b> Niche se tum apne khud ke regular items bhi jod sakte ho:
+                    </p>
+
+                    <!-- Dynamic Grid (6 Defaults + User's Unlimited Custom Buttons) -->
+                    <div id="tapriDynamicGrid" class="tapri-menu-grid"></div>
+
+                    <!-- Add New Custom Quick Button Form -->
+                    <div class="custom-tapri-creator">
+                        <div style="font-size:11px; color:#fde047; font-weight:800;">&#10133; Apna Custom Regular Item Banayein:</div>
+                        <div class="custom-tapri-row">
+                            <input id="customTapriName" type="text" placeholder="Item (e.g. Egg Roll 🌯, Biryani)" style="flex:1.4; margin:0; padding:8px 10px; font-size:12px; border-radius:10px;">
+                            <input id="customTapriAmt" type="number" min="1" placeholder="₹ Rate" style="flex:0.8; margin:0; padding:8px 10px; font-size:12px; border-radius:10px;">
+                            <button type="button" onclick="addCustomTapriItem()" class="upi-save-btn" style="padding:8px 12px; font-size:12px; border-radius:10px; white-space:nowrap;">
+                                + Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. VIJAY MALLYA DEFAULTER LEADERBOARD -->
                 <div class="masti-card" style="border-color:rgba(239,68,68,0.4);">
                     <div class="masti-card-title">
                         <span style="color:#fca5a5;">&#127942; Group Defaulter Leaderboard</span>
@@ -634,47 +708,10 @@
                         &#128680; View Full Leaderboard &amp; Share Poster
                     </button>
                 </div>
-
-                <!-- 4. 1-TAP TAPRI QUICK UDHAR MENU (WITH CLEAR EXPLANATION!) -->
-                <div class="masti-card">
-                    <div class="masti-card-title">
-                        <span style="color:#c4b5fd;">&#9749; 1-Tap Tapri Quick Udhaar</span>
-                        <span style="font-size:10.5px; color:#a78bfa;">Instant Fill</span>
-                    </div>
-                    <p class="masti-card-desc">
-                        <b>Ye kya hai?</b> Agar dost ne abhi canteen/tapri par Chai, Maggi ya Momos udhaar khaye hain, toh niche kisi bhi item par tap karo &mdash; <b>Amount aur Naam apne aap form mein bhar jayega!</b>
-                    </p>
-                    <div class="tapri-menu-grid">
-                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(15, 'Tapri Chai ☕')">
-                            <span>&#9749; Tapri Chai</span>
-                            <strong>+&#8377;15</strong>
-                        </button>
-                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(30, 'Hostel Maggi 🍜')">
-                            <span>&#127836; Maggi</span>
-                            <strong>+&#8377;30</strong>
-                        </button>
-                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(50, 'Hot Momos 🥟')">
-                            <span>&#129375; Momos</span>
-                            <strong>+&#8377;50</strong>
-                        </button>
-                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(25, 'Samosa Chai 🥟')">
-                            <span>&#129360; Samosa</span>
-                            <strong>+&#8377;25</strong>
-                        </button>
-                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(20, 'Auto Split 🛺')">
-                            <span>&#128762; Auto Fare</span>
-                            <strong>+&#8377;20</strong>
-                        </button>
-                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(80, 'Cold Coffee 🧋')">
-                            <span>&#129483; Coffee</span>
-                            <strong>+&#8377;80</strong>
-                        </button>
-                    </div>
-                </div>
             </div>
 
             <!-- ===============================================================
-                 VIEW 3: STUDIO HUB (SETTINGS, THEMES, UPI, BACKUP)
+                 VIEW 3: STUDIO HUB (SETTINGS, THEMES + LOCKED VIP GOLD THEME)
             ================================================================ -->
             <div id="studioView" class="app-view">
                 <div class="studio-section">
@@ -696,6 +733,11 @@
                         <button type="button" class="theme-card" data-theme="ocean">
                             <span class="swatch swatch-ocean"></span>
                             <strong>Midnight Ocean</strong>
+                        </button>
+                        <!-- 5th EXCLUSIVE VIP ROYAL GOLD THEME (Unlocks via Refer!) -->
+                        <button type="button" class="theme-card" id="vipGoldThemeCard" onclick="selectVipGoldAppTheme()" style="grid-column: span 2; border: 1px dashed rgba(250, 204, 21, 0.6); background: rgba(245, 158, 11, 0.08);">
+                            <span class="swatch" style="background: linear-gradient(135deg, #fef08a, #f59e0b, #b45309);"></span>
+                            <strong id="vipGoldThemeLabel" style="color: #fde047;">&#128274; 24K Royal Gold VIP (Refer 3 Friends to Unlock)</strong>
                         </button>
                     </div>
                 </div>
@@ -783,13 +825,11 @@
                 </button>
             </div>
 
-            <!-- NEW DEDICATED DOSTI MASTI TAB -->
             <button type="button" class="nav-item" id="navMastiBtn">
                 <span class="nav-icon">&#127918;</span>
                 <span class="nav-label">Masti</span>
             </button>
 
-            <!-- Keep hidden #navPaidBtn for script.js compatibility (Triggered via Khata -> Settled subtab) -->
             <button type="button" id="navPaidBtn" style="display:none;"></button>
 
             <button type="button" class="nav-item" id="navStudioBtn">
@@ -798,6 +838,33 @@
             </button>
         </nav>
 
+    </div>
+
+    <!-- =====================================================================
+         NEW MODAL: STORY CARD (SUM-UP) PREVIEW MODAL (No Instant Auto-Download!)
+    ====================================================================== -->
+    <div id="storyPreviewModal" class="contact-book-modal">
+        <div class="contact-book-card" style="text-align:center;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <h3 style="margin:0; font-size:16px; color:#fde047;">&#128202; Khata Summary Story Card</h3>
+                <button type="button" onclick="closeStoryPreviewModal()" style="background:none; border:none; color:#9ca3af; font-size:22px; cursor:pointer;">&times;</button>
+            </div>
+            <p style="font-size:11.5px; color:#9ca3af; margin:0 0 10px 0;">
+                Preview your 9:16 Khata Summary Card before sharing or downloading:
+            </p>
+            <img id="storyPreviewImg" alt="Story Summary Preview" style="width:100%; max-height:330px; object-fit:contain; border-radius:14px; border:1px solid rgba(245,158,11,0.4); margin-bottom:12px; background:#050507;" />
+            <div style="display:flex; gap:8px;">
+                <button type="button" onclick="shareStorySummaryCard()" class="generate-button" style="flex:1.2; padding:11px; background:linear-gradient(135deg, #10b981, #059669); font-weight:800;">
+                    &#128248; Share Story
+                </button>
+                <button type="button" onclick="downloadStorySummaryCard()" class="studio-action-btn" style="flex:1; padding:11px;">
+                    &#11015;&#65039; Download PNG
+                </button>
+            </div>
+            <button type="button" onclick="closeStoryPreviewModal()" style="width:100%; margin-top:8px; background:none; border:1px solid rgba(255,255,255,0.15); color:#9ca3af; padding:8px; border-radius:10px; font-size:12px; cursor:pointer;">
+                Band Karein (Close)
+            </button>
+        </div>
     </div>
 
     <!-- 1. ADD ENTRY BOTTOM SHEET MODAL -->
@@ -911,7 +978,7 @@
         </div>
     </div>
 
-    <!-- MAGIC VASOOLI LINK RECEIVER PORTAL -->
+    <!-- MAGIC VASOOLI LINK RECEIVER PORTAL (+ 2-WAY VIP UNLOCK GIFT BACK!) -->
     <div id="magicVasooliModal" class="contact-book-modal">
         <div class="contact-book-card siren-portal-card" style="text-align:center;">
             <div style="background:#dc2626; color:#fff; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:900; padding:5px 10px; border-radius:99px; display:inline-block; margin-bottom:8px;">
@@ -928,6 +995,9 @@
             <a id="mvPayNowBtn" href="#" class="generate-button" style="display:block; text-decoration:none; width:100%; padding:12px; background:linear-gradient(135deg, #10b981, #059669); color:#fff; font-weight:900; margin-bottom:8px;">
                 &#128184; 1-Tap Pay via Any UPI App
             </a>
+            <button type="button" onclick="sendVipUnlockBackToFriend()" style="width:100%; background:rgba(245,158,11,0.18); border:1px solid #f59e0b; color:#fde047; padding:9px; border-radius:12px; font-size:11.5px; font-weight:800; cursor:pointer; margin-bottom:6px;">
+                &#127873; Send Free VIP Unlock Gift Back to Friend
+            </button>
             <button type="button" onclick="closeMagicVasooliModal()" style="width:100%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#d1d5db; padding:9px; border-radius:12px; font-size:11.5px; font-weight:700; cursor:pointer;">
                 &#9889; Open My Own Free Pingzy App
             </button>
@@ -1106,9 +1176,10 @@
                     <button type="button" class="prop-btn" data-prop="thug">&#128374;&#65039; Thug Life Shades</button>
                 </div>
 
-                <!-- 3. 10 UNIQUE MOVIE ARTWORK TEMPLATES -->
+                <!-- 3. 11 UNIQUE MOVIE ARTWORK TEMPLATES (+ LOCKED KGF ROYAL GOLD VIP!) -->
                 <div style="font-size:10.5px; color:#c4b5fd; margin-top:2px; font-weight:700;">&#127916; Pick Authentic Movie Artwork Theme:</div>
                 <div class="interactive-sticker-controls" id="interactiveThemeBar">
+                    <button type="button" class="isticker-btn vip-locked" data-stheme="royalvip" id="vipPosterThemeBtn">&#128274; KGF ROYAL GOLD (VIP)</button>
                     <button type="button" class="isticker-btn active" data-stheme="stree">&#128123; STREE (Haveli Wall)</button>
                     <button type="button" class="isticker-btn" data-stheme="herapheri">&#128184; LAXMI CHIT FUND CHEQUE</button>
                     <button type="button" class="isticker-btn" data-stheme="sholay">&#128014; SHOLAY (Bullet Holes)</button>
@@ -1212,22 +1283,267 @@
     </div>
 
     <!-- CORE SCRIPT -->
-    <script src="script.js?v=19" charset="utf-8"></script>
+    <script src="script.js?v=20" charset="utf-8"></script>
 
     <!-- =========================================================================
-         AETHERBYTE MASTER ENGINE V7.0:
-         1. Dedicated "🎮 Masti" Tab (Separates Fun from Clean Khata!)
-         2. Fixed Multi-Spin 3D Coin Toss (+1440 deg per click + 18 Tapri Outcomes!)
-         3. Refer & Win VIP Rewards System + App Download Link in WhatsApp Pings
-         4. 10 Custom Movie Artworks + Friend Photo Props + 45-60m Smart Alerts
+         AETHERBYTE MASTER ENGINE V8.0:
+         1. Default + Unlimited Custom Tapri Quick Buttons (Add / Delete)
+         2. Locked VIP Poster Theme (KGF Gold) & Locked VIP App Color Theme
+         3. Story Card Preview Modal (Asks Before Downloading / Sharing!)
+         4. Multi-Spin 3D Coin Toss + 2-Way Friend Referral Unlock
     ========================================================================== -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js?v=12');
+        navigator.serviceWorker.register('./sw.js?v=13');
       }
 
       // -------------------------------------------------------------------------
-      // 1. MULTI-SPIN 3D CHAI COIN TOSS (Spins Every Single Time + 18 Outcomes!)
+      // 1. DEFAULT + UNLIMITED CUSTOM TAPRI QUICK ITEMS
+      // -------------------------------------------------------------------------
+      const DEFAULT_TAPRI_ITEMS = [
+        { name: '☕ Tapri Chai', amt: 15, reason: 'Tapri Chai ☕' },
+        { name: '🍜 Maggi', amt: 30, reason: 'Hostel Maggi 🍜' },
+        { name: '🥟 Hot Momos', amt: 50, reason: 'Hot Momos 🥟' },
+        { name: '🥟 Samosa', amt: 25, reason: 'Samosa Chai 🥟' },
+        { name: '🛺 Auto Fare', amt: 20, reason: 'Auto Split 🛺' },
+        { name: '🧋 Cold Coffee', amt: 80, reason: 'Cold Coffee 🧋' }
+      ];
+
+      function getCustomTapriItems() {
+        try {
+          return JSON.parse(localStorage.getItem('pingzy_custom_tapri_items') || '[]');
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function renderTapriGrid() {
+        const grid = document.getElementById('tapriDynamicGrid');
+        if (!grid) return;
+
+        const customs = getCustomTapriItems();
+
+        const defaultHtml = DEFAULT_TAPRI_ITEMS.map((item) => `
+          <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(${item.amt}, '${item.reason.replace(/'/g, "\\'")}')">
+            <span>${item.name}</span>
+            <strong>+&#8377;${item.amt}</strong>
+          </button>
+        `).join('');
+
+        const customHtml = customs.map((item, idx) => `
+          <div class="tapri-item-btn" style="border-color:rgba(16,185,129,0.45); background:rgba(16,185,129,0.1);" onclick="quickTapriAdd(${item.amt}, '${item.name.replace(/'/g, "\\'")}')">
+            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">&#9889; ${item.name}</span>
+            <div style="display:flex; align-items:center;">
+              <strong style="color:#6ee7b7;">+&#8377;${item.amt}</strong>
+              <button type="button" class="custom-tapri-del" onclick="event.stopPropagation(); deleteCustomTapriItem(${idx});" title="Delete Custom Button">&times;</button>
+            </div>
+          </div>
+        `).join('');
+
+        grid.innerHTML = defaultHtml + customHtml;
+      }
+
+      window.addCustomTapriItem = function() {
+        const nameIn = document.getElementById('customTapriName');
+        const amtIn = document.getElementById('customTapriAmt');
+        const name = nameIn ? nameIn.value.trim() : '';
+        const amt = amtIn ? Number(amtIn.value) : 0;
+
+        if (!name || amt <= 0) {
+          alert('Bhai item ka naam (e.g. Roll) aur ₹ Rate dono daalo!');
+          return;
+        }
+        const list = getCustomTapriItems();
+        list.push({ name, amt });
+        localStorage.setItem('pingzy_custom_tapri_items', JSON.stringify(list));
+
+        if (nameIn) nameIn.value = '';
+        if (amtIn) amtIn.value = '';
+        renderTapriGrid();
+      };
+
+      window.deleteCustomTapriItem = function(idx) {
+        const list = getCustomTapriItems();
+        list.splice(idx, 1);
+        localStorage.setItem('pingzy_custom_tapri_items', JSON.stringify(list));
+        renderTapriGrid();
+      };
+
+      window.quickTapriAdd = function(amt, reasonText) {
+        const addBtn = document.getElementById('addMoneyBtn');
+        if (addBtn) addBtn.click();
+        setTimeout(() => {
+          const amtInput = document.getElementById('amount');
+          const reasonInput = document.getElementById('reason');
+          const nameInput = document.getElementById('personName');
+          if (amtInput) {
+            amtInput.value = amt;
+            amtInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          if (reasonInput) {
+            reasonInput.value = reasonText;
+            reasonInput.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          if (nameInput) nameInput.focus();
+        }, 60);
+      };
+
+      // -------------------------------------------------------------------------
+      // 2. STORY CARD (SUM-UP) PREVIEW MODAL (No Unwanted Instant Download!)
+      // -------------------------------------------------------------------------
+      function generateStorySummaryCanvas() {
+        const totalCollect = (document.getElementById('totalOwed') && document.getElementById('totalOwed').innerText) || '₹0';
+        const totalIOwe = (document.getElementById('totalIOwe') && document.getElementById('totalIOwe').innerText) || '₹0';
+        const totalSettled = (document.getElementById('totalRecovered') && document.getElementById('totalRecovered').innerText) || '₹0';
+        const totalPeople = (document.getElementById('totalPeople') && document.getElementById('totalPeople').innerText) || '0';
+        const ranks = getAggregatedDefaulters();
+        const topDefaulter = ranks.length > 0 ? `${ranks[0].name} (₹${ranks[0].total})` : 'None (All Clean ✨)';
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 720;
+        canvas.height = 1080;
+        const ctx = canvas.getContext('2d');
+
+        // Pitch-Black & Royal Gold/Violet Story Gradient
+        const grad = ctx.createLinearGradient(0, 0, 720, 1080);
+        grad.addColorStop(0, '#120924');
+        grad.addColorStop(0.5, '#07070c');
+        grad.addColorStop(1, '#1f1204');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 720, 1080);
+
+        // Outer Neon Frame
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(28, 28, 664, 1024);
+
+        // Header Badge
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '900 24px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('⚡ PINGZY KHATA WRAPPED REPORT ⚡', 360, 95);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 48px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText('MY DOSTI LEDGER', 360, 155);
+
+        // Big Total To Collect Box
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.14)';
+        drawRoundRect(ctx, 65, 200, 590, 210, 24);
+        ctx.fill();
+        ctx.strokeStyle = '#10b981';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = '#6ee7b7';
+        ctx.font = '800 22px "JetBrains Mono", monospace';
+        ctx.fillText('📥 TOTAL TO COLLECT (MUJHE LENE HAIN)', 360, 255);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 84px "JetBrains Mono", monospace';
+        ctx.fillText(totalCollect, 360, 355);
+
+        // 2 Sub-Boxes: I Owe & Settled
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.14)';
+        drawRoundRect(ctx, 65, 440, 280, 160, 20);
+        ctx.fill();
+        ctx.strokeStyle = '#f87171';
+        ctx.stroke();
+        ctx.fillStyle = '#fca5a5';
+        ctx.font = '800 18px "JetBrains Mono", monospace';
+        ctx.fillText('📤 I OWE (DENE HAIN)', 205, 485);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 44px "JetBrains Mono", monospace';
+        ctx.fillText(totalIOwe, 205, 555);
+
+        ctx.fillStyle = 'rgba(139, 92, 246, 0.16)';
+        drawRoundRect(ctx, 375, 440, 280, 160, 20);
+        ctx.fill();
+        ctx.strokeStyle = '#a78bfa';
+        ctx.stroke();
+        ctx.fillStyle = '#c4b5fd';
+        ctx.font = '800 18px "JetBrains Mono", monospace';
+        ctx.fillText('🎉 SETTLED (CHUKTA)', 515, 485);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 44px "JetBrains Mono", monospace';
+        ctx.fillText(totalSettled, 515, 555);
+
+        // Top Defaulter Spotlight Box
+        ctx.fillStyle = 'rgba(245, 158, 11, 0.14)';
+        drawRoundRect(ctx, 65, 635, 590, 175, 22);
+        ctx.fill();
+        ctx.strokeStyle = '#fbbf24';
+        ctx.stroke();
+
+        ctx.fillStyle = '#fde047';
+        ctx.font = '900 21px "JetBrains Mono", monospace';
+        ctx.fillText('👻 TOP CHHOTA VIJAY MALLYA (DEFAULTER #1)', 360, 685);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 40px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(topDefaulter.toUpperCase(), 360, 755);
+
+        // Active Friends Pill
+        ctx.fillStyle = '#9ca3af';
+        ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(`👥 Active Friends in Khata: ${totalPeople}`, 360, 875);
+
+        // Footer Studio Branding
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '900 22px "JetBrains Mono", monospace';
+        ctx.fillText('✦ AETHERBYTE STUDIOS ⚡ • @aetherbyte.studios ✦', 360, 985);
+
+        window._latestStorySummaryCanvas = canvas;
+        return canvas;
+      }
+
+      window.openStoryPreviewModal = function() {
+        const modal = document.getElementById('storyPreviewModal');
+        const img = document.getElementById('storyPreviewImg');
+        if (!modal || !img) return;
+        const canvas = generateStorySummaryCanvas();
+        img.src = canvas.toDataURL('image/png');
+        modal.style.display = 'flex';
+      };
+
+      window.closeStoryPreviewModal = function() {
+        const modal = document.getElementById('storyPreviewModal');
+        if (modal) modal.style.display = 'none';
+      };
+
+      window.downloadStorySummaryCard = function() {
+        const canvas = window._latestStorySummaryCanvas || generateStorySummaryCanvas();
+        const link = document.createElement('a');
+        link.download = `Pingzy-Khata-Story-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      };
+
+      window.shareStorySummaryCard = function() {
+        const canvas = window._latestStorySummaryCanvas || generateStorySummaryCanvas();
+        if (navigator.canShare) {
+          canvas.toBlob(async (blob) => {
+            if (!blob) return;
+            const file = new File([blob], 'pingzy-story-wrapped.png', { type: 'image/png' });
+            if (navigator.canShare({ files: [file] })) {
+              try {
+                await navigator.share({
+                  files: [file],
+                  title: 'My Pingzy Khata Wrapped',
+                  text: `📊 Dekh lo mera Pingzy Khata Summary! 😂⚡\n📲 Free App: ${getAppDownloadUrl()}`
+                });
+                return;
+              } catch (e) {}
+            }
+            downloadStorySummaryCard();
+          });
+        } else {
+          downloadStorySummaryCard();
+        }
+      };
+
+      // -------------------------------------------------------------------------
+      // 3. MULTI-SPIN 3D CHAI COIN TOSS (18+ Outcomes)
       // -------------------------------------------------------------------------
       let coinSpinAngle = 0;
       let coinTossCount = 0;
@@ -1245,11 +1561,7 @@
         { side: 'HEADS 🔥', text: '🔥 <b>KALEEN BHAIYA HUKUM:</b> Izzat se samne wala dost aaj ka poora kharcha uthayega!' },
         { side: 'TAILS 👻', text: '👻 <b>STREE TOSS:</b> O Stree Kal Aana — par aaj ki Chai samne wale dost ke khate mein likho!' },
         { side: 'HEADS 🍫', text: '🍫 <b>MEETHA HO JAYE:</b> Chai ke baad ₹10 wali Choco-Bar ya Kurkure samne wala dilayega!' },
-        { side: 'TAILS 🎯', text: '🎯 <b>LUCKY ESCAPE!</b> Is baar dono bach gaye — teesre dost ko pakad ke lao bill dene ke liye!' },
-        { side: 'HEADS 🕶️', text: '🕶️ <b>DON KA FAISLA:</b> 11 mulkon ki police bol rahi hai ki aaj party samne wala dega!' },
-        { side: 'TAILS 🏏', text: '🏏 <b>SUPER OVER TOSS:</b> Ek baar aur sikka uchhalo — jo ab aayega woh final!' },
-        { side: 'HEADS 🍕', text: '🍕 <b>VIP SPONSOR:</b> Aaj choti chai nahi, seedha Burger ya Roll ki treat hogi!' },
-        { side: 'TAILS 💸', text: '💸 <b>KHATA DIRECT:</b> Aaj paise main de deta hu, par tere Pingzy Khate mein double likhunga!' }
+        { side: 'TAILS 🎯', text: '🎯 <b>LUCKY ESCAPE!</b> Is baar dono bach gaye — teesre dost ko pakad ke lao bill dene ke liye!' }
       ];
 
       window.flipChaiCoin = function() {
@@ -1258,7 +1570,6 @@
         const badge = document.getElementById('coinFlipCountBadge');
         if (!coin || !res) return;
 
-        // Add 1440 degrees (4 full 3D flips) EVERY time so CSS always animates!
         coinSpinAngle += 1440 + (Math.random() < 0.5 ? 180 : 0);
         coinTossCount += 1;
 
@@ -1266,7 +1577,6 @@
         res.innerHTML = '🪙 Sikka hawa mein ghoom raha hai... ⚡';
         if (badge) badge.innerText = `Toss #${coinTossCount} • Spinning...`;
 
-        // Coin metallic Clink sound
         try {
           const ctx = new (window.AudioContext || window.webkitAudioContext)();
           const osc = ctx.createOscillator();
@@ -1296,77 +1606,99 @@
       };
 
       // -------------------------------------------------------------------------
-      // 2. REFER & UNLOCK VIP REWARDS SYSTEM
+      // 4. REFER & UNLOCK VIP POSTER THEME + VIP GOLD APP COLOR THEME
       // -------------------------------------------------------------------------
       function getAppDownloadUrl() {
         return window.location.origin + window.location.pathname;
       }
 
+      function getReferPoints() {
+        return Number(localStorage.getItem('pingzy_refer_count') || 0);
+      }
+
       function updateReferRewardsUI() {
-        const count = Number(localStorage.getItem('pingzy_refer_count') || 0);
+        const count = getReferPoints();
         const badge = document.getElementById('referCountBadge');
         const fill = document.getElementById('referProgressFill');
         const crown = document.getElementById('vipCrownBadge');
+        const vipPosterBtn = document.getElementById('vipPosterThemeBtn');
+        const vipColorLabel = document.getElementById('vipGoldThemeLabel');
 
-        if (badge) badge.innerText = `${Math.min(count, 3)} / 3 Shared`;
+        if (badge) badge.innerText = `${Math.min(count, 3)} / 3 Points`;
         if (fill) fill.style.width = `${Math.min((count / 3) * 100, 100)}%`;
 
         const t1 = document.getElementById('rewardTier1');
         const t2 = document.getElementById('rewardTier2');
         const t3 = document.getElementById('rewardTier3');
 
-        if (count >= 1 && t1) {
-          t1.classList.add('unlocked');
-          t1.querySelector('.tier-status').innerHTML = '✅ Unlocked';
-          t1.querySelector('.tier-status').style.color = '#4ade80';
-        }
-        if (count >= 2 && t2) {
-          t2.classList.add('unlocked');
-          t2.querySelector('.tier-status').innerHTML = '✅ Unlocked';
-          t2.querySelector('.tier-status').style.color = '#4ade80';
+        if (count >= 1) {
+          if (t1) {
+            t1.classList.add('unlocked');
+            t1.querySelector('.tier-status').innerHTML = '✅ Unlocked';
+            t1.querySelector('.tier-status').style.color = '#4ade80';
+          }
           if (crown) crown.style.display = 'inline';
         }
-        if (count >= 3 && t3) {
-          t3.classList.add('unlocked');
-          t3.querySelector('.tier-status').innerHTML = '✅ Unlocked';
-          t3.querySelector('.tier-status').style.color = '#4ade80';
+        if (count >= 2) {
+          if (t2) {
+            t2.classList.add('unlocked');
+            t2.querySelector('.tier-status').innerHTML = '✅ Unlocked';
+            t2.querySelector('.tier-status').style.color = '#4ade80';
+          }
+          if (vipPosterBtn) {
+            vipPosterBtn.classList.remove('vip-locked');
+            vipPosterBtn.innerHTML = '&#128081; KGF ROYAL GOLD (VIP)';
+          }
+        }
+        if (count >= 3) {
+          if (t3) {
+            t3.classList.add('unlocked');
+            t3.querySelector('.tier-status').innerHTML = '✅ Unlocked';
+            t3.querySelector('.tier-status').style.color = '#4ade80';
+          }
+          if (vipColorLabel) {
+            vipColorLabel.innerHTML = '&#128081; 24K Royal Gold VIP (Unlocked! Tap to Apply ✨)';
+          }
+        }
+
+        if (localStorage.getItem('pingzy_active_vip_gold') === 'true' && count >= 3) {
+          document.body.classList.add('vip-gold-theme');
         }
       }
 
       window.referFriendOnWhatsApp = function() {
-        const count = Number(localStorage.getItem('pingzy_refer_count') || 0) + 1;
+        const count = getReferPoints() + 1;
         localStorage.setItem('pingzy_refer_count', String(count));
         updateReferRewardsUI();
 
-        const appUrl = getAppDownloadUrl();
-        const referMsg = `🔥 *Bhai ye naya Pingzy App dekh!* \n\nIsme dosto ka Udhaar Khata, Party Bill Split, aur dost ki photo wale *Stree / Hera Pheri / Sholay Vasooli Posters* bante hain! 😂⚡\n\n📲 *Try Free Here:* ${appUrl}\n(Engineered by AetherByte Studios ⚡)`;
+        const appUrl = getAppDownloadUrl() + '?ref=friend';
+        const referMsg = `🔥 *Bhai ye naya Pingzy App dekh!* \n\nIsme dosto ka Udhaar Khata, Party Bill Split, aur dost ki photo wale *Stree / Hera Pheri / Sholay Vasooli Posters* bante hain! 😂⚡\n\n📲 *Open & Send Me Free VIP Unlock:* ${appUrl}\n(Engineered by AetherByte Studios ⚡)`;
         window.open(`https://wa.me/?text=${encodeURIComponent(referMsg)}`, '_blank');
       };
 
-      // -------------------------------------------------------------------------
-      // 3. 1-TAP TAPRI QUICK ADD (Inside Masti Tab)
-      // -------------------------------------------------------------------------
-      window.quickTapriAdd = function(amt, reasonText) {
-        const addBtn = document.getElementById('addMoneyBtn');
-        if (addBtn) addBtn.click();
-        setTimeout(() => {
-          const amtInput = document.getElementById('amount');
-          const reasonInput = document.getElementById('reason');
-          const nameInput = document.getElementById('personName');
-          if (amtInput) {
-            amtInput.value = amt;
-            amtInput.dispatchEvent(new Event('input', { bubbles: true }));
-          }
-          if (reasonInput) {
-            reasonInput.value = reasonText;
-            reasonInput.dispatchEvent(new Event('input', { bubbles: true }));
-          }
-          if (nameInput) nameInput.focus();
-        }, 60);
+      // When Friend opens shared link and clicks "Send Free VIP Unlock Gift Back to Friend"
+      window.sendVipUnlockBackToFriend = function() {
+        const unlockUrl = getAppDownloadUrl() + '?vip_unlock=1';
+        const msg = `🎁 *Bhai maine tera Pingzy link khol liya!* \n\nYe le tera *24K Royal Gold VIP Unlock Link* — ispe click karte hi tere saare VIP Themes unlock ho jayenge: 👇\n${unlockUrl}`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      };
+
+      // Studio VIP Gold App Theme Handler
+      window.selectVipGoldAppTheme = function() {
+        if (getReferPoints() < 3) {
+          const goMasti = confirm('🔒 "24K Royal Gold VIP Theme" abhi Locked hai!\n\nIse unlock karne ke liye "🎮 Masti" tab mein jaakar 3 dosto ko Pingzy share karein (Abhi aapke ' + getReferPoints() + '/3 Points hain).\n\nKya abhi Masti tab kholein?');
+          if (goMasti) switchMainAppView('mastiView', 'navMastiBtn');
+          return;
+        }
+        document.body.classList.add('vip-gold-theme');
+        localStorage.setItem('pingzy_active_vip_gold', 'true');
+        document.querySelectorAll('.theme-card').forEach((c) => c.classList.remove('active'));
+        const card = document.getElementById('vipGoldThemeCard');
+        if (card) card.classList.add('active');
       };
 
       // -------------------------------------------------------------------------
-      // 4. LOUD POLICE SIREN + BOLTI HUI VOICE VASOOLI
+      // 5. LOUD POLICE SIREN + BOLTI HUI VOICE VASOOLI
       // -------------------------------------------------------------------------
       window.playLoudVoiceVasooli = function() {
         const nameEl = document.getElementById('reminderRecipient');
@@ -1413,7 +1745,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 5. GROUP HALL OF SHAME (VIJAY MALLYA LEADERBOARD)
+      // 6. GROUP HALL OF SHAME (VIJAY MALLYA LEADERBOARD)
       // -------------------------------------------------------------------------
       function getAggregatedDefaulters() {
         const totalsMap = new Map();
@@ -1577,7 +1909,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 6. MAGIC VASOOLI LINK GENERATOR & RECEIVER PORTAL
+      // 7. MAGIC VASOOLI LINK & INCOMING VIP UNLOCK DETECTOR
       // -------------------------------------------------------------------------
       function buildMagicVasooliLink(name, amt, upi) {
         const baseUrl = getAppDownloadUrl();
@@ -1600,6 +1932,32 @@
 
       function checkIncomingMagicVasooliLink() {
         const params = new URLSearchParams(window.location.search);
+
+        // 1. If Friend sent back the "?vip_unlock=1" link -> Instant Full VIP Unlock!
+        if (params.get('vip_unlock') === '1') {
+          localStorage.setItem('pingzy_refer_count', '3');
+          updateReferRewardsUI();
+          alert('🎉 Mubarak Ho! Aapke dost ne link khol liya — Aapka "👑 KGF Royal Gold VIP Poster" aur "24K Gold App Theme" Unlock ho gaya hai!');
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }
+          return;
+        }
+
+        // 2. If Friend opened a "?ref=friend" referral link
+        if (params.get('ref') === 'friend') {
+          const modal = document.getElementById('magicVasooliModal');
+          const nameEl = document.getElementById('mvFriendName');
+          const amtEl = document.getElementById('mvAmountBox');
+          const payBtn = document.getElementById('mvPayNowBtn');
+          if (nameEl) nameEl.innerText = '🎁 WELCOME TO PINGZY!';
+          if (amtEl) amtEl.innerText = 'FREE VIP INVITE';
+          if (payBtn) payBtn.style.display = 'none';
+          if (modal) modal.style.display = 'flex';
+          return;
+        }
+
+        // 3. If Friend opened a Vasooli Link
         if (params.get('vasooli') === '1') {
           const dost = params.get('dost') || 'Dost';
           const amt = params.get('amt') || '500';
@@ -1613,6 +1971,7 @@
           if (nameEl) nameEl.innerText = `🚨 HEY ${dost.toUpperCase()}!`;
           if (amtEl) amtEl.innerText = `₹${amt}`;
           if (payBtn) {
+            payBtn.style.display = 'block';
             if (upi) {
               payBtn.href = `upi://pay?pa=${encodeURIComponent(upi)}&pn=PingzyFriend&am=${encodeURIComponent(amt)}&cu=INR`;
               payBtn.innerText = `💸 1-Tap Pay ₹${amt} on UPI (${upi})`;
@@ -1629,7 +1988,7 @@
       }
 
       // -------------------------------------------------------------------------
-      // 7. INDIVIDUAL FRIEND BOXES FOR GROUP SPLIT
+      // 8. INDIVIDUAL FRIEND BOXES FOR GROUP SPLIT
       // -------------------------------------------------------------------------
       let splitFriendsArray = ['Me (Main)', 'Rohan', 'Aman'];
 
@@ -1696,7 +2055,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 8. BILINGUAL GUIDE & VIEW NAVIGATION (KHATA vs SPLIT vs MASTI vs STUDIO)
+      // 9. BILINGUAL GUIDE & VIEW NAVIGATION
       // -------------------------------------------------------------------------
       function isEnglishMode() {
         const qBtn = document.getElementById('quickLangBtn');
@@ -1736,7 +2095,7 @@
             <div style="color:#d1d5db; font-size:11.5px;">
               1&#65039;&#8419; <b>&#128210; Ledger (Khata):</b> Track money to collect, money you owe &amp; settled history.<br>
               2&#65039;&#8419; <b>&#127829; Split:</b> Divide group party/trip bills equally box-by-box.<br>
-              3&#65039;&#8419; <b>&#127918; Masti Zone:</b> Flip the 3D Chai Coin, view Defaulter Leaderboard &amp; unlock VIP rewards!
+              3&#65039;&#8419; <b>&#127918; Masti Zone:</b> Flip the 3D Chai Coin, create Custom Quick items &amp; unlock VIP Gold themes!
             </div>
           `;
         } else {
@@ -1748,7 +2107,7 @@
             <div style="color:#d1d5db; font-size:11.5px;">
               1&#65039;&#8419; <b>&#128210; Khata (Hisaab):</b> Dost se paise lene hain, dene hain ya settle ho gaye &mdash; sab yahan saaf dikhega.<br>
               2&#65039;&#8419; <b>&#127829; Split (Party Bill):</b> Group ka bill dosto mein barabar baantne ke liye.<br>
-              3&#65039;&#8419; <b>&#127918; Masti Tab:</b> Chai Coin Toss, Vijay Mallya Leaderboard, Tapri 1-Tap Menu aur VIP Rewards!
+              3&#65039;&#8419; <b>&#127918; Masti Tab:</b> Chai Coin Toss, Custom Quick Menu aur Refer se VIP Gold Theme unlock karein!
             </div>
           `;
         }
@@ -1851,7 +2210,7 @@
       }
 
       // -------------------------------------------------------------------------
-      // 9. 120+ VIRAL & RELATABLE DIALOGUE ARSENAL (+ APP DOWNLOAD LINK!)
+      // 10. 120+ VIRAL & RELATABLE DIALOGUE ARSENAL (+ APP DOWNLOAD LINK!)
       // -------------------------------------------------------------------------
       const MEGA_PING_BANK = {
         cult_bollywood: [
@@ -1932,7 +2291,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 10. AUTHENTIC MOVIE ARTWORK CANVAS ENGINE + PROPS + PHOTO FILTERS!
+      // 11. AUTHENTIC MOVIE ARTWORK CANVAS ENGINE (+ KGF ROYAL GOLD VIP POSTER!)
       // -------------------------------------------------------------------------
       const STICKER_STAMPS = [
         "11 MULKON MEIN WANTED 🕶️",
@@ -2156,7 +2515,80 @@
         canvas.height = 500;
         const ctx = canvas.getContext('2d');
 
-        if (activeStickerTheme === 'stree') {
+        // NEW VIP THEME: KGF ROYAL GOLD SULTAN EDITION (Unlocked at 2 Refer Points!)
+        if (activeStickerTheme === 'royalvip') {
+          const grad = ctx.createLinearGradient(0, 0, 800, 500);
+          grad.addColorStop(0, '#1c1302');
+          grad.addColorStop(0.5, '#090601');
+          grad.addColorStop(1, '#291b03');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Golden Sunburst Rays
+          ctx.strokeStyle = 'rgba(250, 204, 21, 0.1)';
+          ctx.lineWidth = 3;
+          for (let i = 0; i < 18; i++) {
+            const ang = (i * Math.PI * 2) / 18;
+            ctx.beginPath();
+            ctx.moveTo(530, 240);
+            ctx.lineTo(530 + Math.cos(ang) * 400, 240 + Math.sin(ang) * 400);
+            ctx.stroke();
+          }
+
+          // Double 24K Gold Border
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 5;
+          ctx.strokeRect(18, 58, 764, 382);
+          ctx.strokeStyle = '#b45309';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(28, 68, 744, 362);
+
+          // Royal Gold Header
+          const topGrad = ctx.createLinearGradient(0, 0, 800, 0);
+          topGrad.addColorStop(0, '#b45309');
+          topGrad.addColorStop(0.5, '#fde047');
+          topGrad.addColorStop(1, '#b45309');
+          ctx.fillStyle = topGrad;
+          ctx.fillRect(0, 0, 800, 50);
+
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 20px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('👑 KOLAR GOLD FIELDS (KGF) • VIP ROYAL SULTAN NOTICE 👑', 400, 32);
+
+          drawPortraitWithProps(ctx, 44, 84, 225, 320, 14, '#facc15', '👑 VIP SULTAN');
+
+          const rx = 530;
+          ctx.fillStyle = '#fde047';
+          ctx.font = '900 21px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('“VIOLENCE... VIOLENCE... VIOLENCE...”', rx, 118);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 44px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`ROCKY vs ${name.toUpperCase()}`, rx, 172);
+
+          ctx.fillStyle = 'rgba(245, 158, 11, 0.22)';
+          drawRoundRect(ctx, 315, 192, 430, 98, 16);
+          ctx.fill();
+          ctx.strokeStyle = '#fde047';
+          ctx.lineWidth = 3.5;
+          ctx.stroke();
+
+          ctx.fillStyle = '#fde047';
+          ctx.font = '900 58px "JetBrains Mono", monospace';
+          ctx.fillText(`GOLD: ${amt}`, rx, 260);
+
+          const quote = customText || 'I don’t like Udhaar, I avoid... But mere paise likes me, I can’t avoid!';
+          ctx.fillStyle = '#fef9c3';
+          ctx.font = '800 18.5px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${quote.slice(0, 48)}"`, rx, 342);
+
+          ctx.fillStyle = '#050507';
+          ctx.fillRect(0, 448, 800, 52);
+          ctx.fillStyle = '#facc15';
+          ctx.font = '800 16px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `👑 KGF TREASURY UPI: ${upi} • @aetherbyte.studios` : '👑 VIP ROYAL EDITION • @aetherbyte.studios', 400, 480);
+        } else if (activeStickerTheme === 'stree') {
           const grad = ctx.createLinearGradient(0, 0, 0, 500);
           grad.addColorStop(0, '#1a040c');
           grad.addColorStop(0.6, '#2b0712');
@@ -2550,7 +2982,7 @@
           ctx.textAlign = 'center';
           ctx.fillStyle = '#facc15';
           ctx.font = '900 20px "Plus Jakarta Sans", sans-serif';
-          ctx.fillText('⬅️ यही है वो दोस्त जो पैसे दबा कर बैठा है!', rx, 115);
+          ctx.fillText('⬅️️ यही है वो दोस्त जो पैसे दबा कर बैठा है!', rx, 115);
 
           ctx.fillStyle = '#ffffff';
           ctx.font = '900 44px "Plus Jakarta Sans", sans-serif';
@@ -2639,7 +3071,7 @@
           ctx.fillStyle = '#050507';
           ctx.font = '900 20px "JetBrains Mono", monospace';
           ctx.textAlign = 'center';
-          ctx.fillText('⚠️ DOSTI CRIME SCENE • DO NOT CROSS WITHOUT GPAY ⚠️', 400, 33);
+          ctx.fillText('⚠️ DOSTI CRIME SCENE • DO NOT CROSS WITHOUT GPAY ⚠️️', 400, 33);
           ctx.fillText(upi ? `🚨 CBI RECOVERY UPI: ${upi} • @aetherbyte.studios` : '🚨 CBI UDHAAR CELL • @aetherbyte.studios', 400, 480);
 
           drawPortraitWithProps(ctx, 42, 78, 225, 320, 14, '#facc15', 'WANTED #420');
@@ -2769,7 +3201,6 @@
         renderInteractiveSticker();
       };
 
-      //Every WhatsApp Message Includes Magic Link + App Download Footer!
       window.generateExpandedMessage = function(category) {
         if (category) currentVibeCategory = category;
         const pool = MEGA_PING_BANK[currentVibeCategory] || MEGA_PING_BANK.cult_bollywood;
@@ -2794,7 +3225,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 11. SMART 45-60 MINUTE UDHAAR NOTIFICATION ENGINE
+      // 12. SMART 45-60 MINUTE UDHAAR NOTIFICATION ENGINE
       // -------------------------------------------------------------------------
       const MEGA_NOTIFICATIONS = [
         { title: '🕶️ Don Alert: Udhaar Pending!', body: '11 mulkon ki police nahi, tera Pingzy Khata bol raha hai: {friend} se {amount} vasool kar!' },
@@ -2906,7 +3337,7 @@
       }
 
       // -------------------------------------------------------------------------
-      // 12. CONTACTS HELPER & INITIALIZATION
+      // 13. CONTACTS HELPER & INITIALIZATION
       // -------------------------------------------------------------------------
       function fillContactIntoForm(name, phone) {
         const nameInput = document.getElementById('personName');
@@ -2999,7 +3430,6 @@
         closeSmartContactModal();
       };
 
-      // Switch Between Khata, Masti & Studio Views Cleanly
       function switchMainAppView(targetViewId, activeNavId) {
         ['ledgerView', 'mastiView', 'studioView'].forEach((id) => {
           const el = document.getElementById(id);
@@ -3012,14 +3442,38 @@
         if (targetViewId === 'mastiView') {
           renderInlineShamePreview();
           updateReferRewardsUI();
+          renderTapriGrid();
         }
       }
 
       window.addEventListener('DOMContentLoaded', () => {
         renderSplitFriendBoxes();
+        renderTapriGrid();
         forceCleanNavLabels();
         checkIncomingMagicVasooliLink();
         updateReferRewardsUI();
+
+        // Intercept #storyWrappedBtn so it opens Preview Modal instead of instant download!
+        const storyBtn = document.getElementById('storyWrappedBtn');
+        if (storyBtn && storyBtn.parentNode) {
+          const cleanStoryBtn = storyBtn.cloneNode(true);
+          storyBtn.parentNode.replaceChild(cleanStoryBtn, storyBtn);
+          cleanStoryBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            openStoryPreviewModal();
+          });
+        }
+
+        // Standard Studio Theme Cards (Remove VIP Gold override when normal theme clicked)
+        document.querySelectorAll('.theme-selector-grid .theme-card[data-theme]').forEach((card) => {
+          card.addEventListener('click', () => {
+            document.body.classList.remove('vip-gold-theme');
+            localStorage.setItem('pingzy_active_vip_gold', 'false');
+            const vipCard = document.getElementById('vipGoldThemeCard');
+            if (vipCard) vipCard.classList.remove('active');
+          });
+        });
 
         const photoInput = document.getElementById('posterFriendPhotoInput');
         if (photoInput) {
@@ -3132,11 +3586,22 @@
           });
         }
 
+        // Movie Poster Theme Buttons (With Lock Check for 'royalvip')
         document.querySelectorAll('#interactiveThemeBar .isticker-btn').forEach((btn) => {
           btn.addEventListener('click', () => {
+            const chosenTheme = btn.getAttribute('data-stheme') || 'stree';
+            if (chosenTheme === 'royalvip' && getReferPoints() < 2) {
+              const goUnlock = confirm('🔒 "👑 KGF Royal Gold VIP Poster" abhi Locked hai!\n\nIse unlock karne ke liye "🎮 Masti" tab mein jaakar 2 dosto ko Pingzy share karein.\n\nKya abhi Masti tab kholein?');
+              if (goUnlock) {
+                const closeRem = document.getElementById('closeReminderBtn');
+                if (closeRem) closeRem.click();
+                switchMainAppView('mastiView', 'navMastiBtn');
+              }
+              return;
+            }
             document.querySelectorAll('#interactiveThemeBar .isticker-btn').forEach((b) => b.classList.remove('active'));
             btn.classList.add('active');
-            activeStickerTheme = btn.getAttribute('data-stheme') || 'stree';
+            activeStickerTheme = chosenTheme;
             const customInput = document.getElementById('customStickerInput');
             if (customInput) customInput.value = '';
             renderInteractiveSticker();
@@ -3312,7 +3777,7 @@
           });
         }
 
-        // 13. WIRE UP 45-60 MIN NOTIFICATION BUTTON + INSTANT TEST BUTTON
+        // 14. WIRE UP 45-60 MIN NOTIFICATION BUTTON + INSTANT TEST BUTTON
         const studioNotifBtn = document.getElementById('notifBtn');
         const testNotifBtn = document.getElementById('testNotifNowBtn');
         const notifSub = document.getElementById('notifStatusSub');
