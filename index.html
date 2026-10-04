@@ -5,12 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#050507" id="metaThemeColor">
-    <title>Pingzy &#9889; &mdash; Smart Khata, Bill Split &amp; Movie Meme Pings</title>
+    <title>Pingzy &#9889; &mdash; Smart Khata, Bill Split &amp; Dosti Masti</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="style.css?v=19">
     <style>
         /* Fit all 5 Ping Tone buttons cleanly without clipping */
         #mainVibeGrid {
@@ -38,42 +38,122 @@
             overflow-y: auto !important;
         }
 
-        /* 1-Tap Tapri Bar & Coin Toss Strip */
-        .tapri-quick-bar {
+        /* Masti Zone Cards & Grid */
+        .masti-hero-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.18), rgba(139, 92, 246, 0.18));
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        .masti-card {
+            background: rgba(18, 18, 28, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+        .masti-card-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
             display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding: 4px 2px 10px 2px;
-            margin-bottom: 6px;
-            scrollbar-width: none;
+            align-items: center;
+            justify-content: space-between;
         }
-        .tapri-quick-bar::-webkit-scrollbar {
-            display: none;
-        }
-        .tapri-chip {
-            white-space: nowrap;
-            background: rgba(245, 158, 11, 0.12);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            color: #fde68a;
-            padding: 7px 12px;
-            border-radius: 99px;
+        .masti-card-desc {
             font-size: 11.5px;
+            color: #9ca3af;
+            line-height: 1.45;
+            margin-bottom: 12px;
+        }
+
+        /* Tapri Grid inside Masti Tab */
+        .tapri-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .tapri-item-btn {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fde68a;
+            padding: 10px 12px;
+            border-radius: 14px;
+            font-size: 12px;
             font-weight: 800;
             cursor: pointer;
-            transition: 0.15s;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: space-between;
+            transition: 0.15s;
         }
-        .tapri-chip:active {
-            transform: scale(0.94);
+        .tapri-item-btn:active {
+            transform: scale(0.96);
             background: #f59e0b;
             color: #050507;
         }
-        .tapri-chip.toss-special {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.28), rgba(236, 72, 153, 0.25));
-            border-color: #c084fc;
-            color: #f3e8ff;
+
+        /* 3D Coin Flip Box (Dynamic Multi-Spin!) */
+        .coin-stage {
+            perspective: 800px;
+            margin: 12px auto;
+            width: 116px;
+            height: 116px;
+        }
+        .coin-circle {
+            width: 116px;
+            height: 116px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fef08a, #f59e0b, #b45309);
+            border: 4px solid #fde047;
+            box-shadow: 0 10px 28px rgba(245, 158, 11, 0.45);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 900;
+            color: #451a03;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Refer & Win Progress Bar */
+        .refer-progress-track {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .refer-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #f59e0b);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+        .reward-tier-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            font-size: 11.5px;
+        }
+        .reward-tier-row.unlocked {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.1);
         }
 
         /* Voice Vasooli Siren Button */
@@ -93,10 +173,6 @@
             justify-content: center;
             gap: 8px;
             box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
-            transition: 0.15s;
-        }
-        .voice-roast-btn:active {
-            transform: scale(0.97);
         }
 
         /* Interactive Movie Poster Studio Styling */
@@ -111,15 +187,16 @@
         #stickerPreviewImg.pop-anim {
             transform: scale(0.95) rotate(-1.5deg);
         }
-        .interactive-sticker-controls {
+        .interactive-sticker-controls, .prop-controls-bar, .dialogue-pack-bar {
             display: flex;
             gap: 6px;
             overflow-x: auto;
             padding: 5px 2px 7px 2px;
-            margin-top: 4px;
             scrollbar-width: none;
         }
-        .interactive-sticker-controls::-webkit-scrollbar {
+        .interactive-sticker-controls::-webkit-scrollbar,
+        .prop-controls-bar::-webkit-scrollbar,
+        .dialogue-pack-bar::-webkit-scrollbar {
             display: none;
         }
         .isticker-btn {
@@ -132,25 +209,11 @@
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.15s;
         }
-        .isticker-btn.active, .isticker-btn:active {
+        .isticker-btn.active {
             background: linear-gradient(135deg, #8b5cf6, #6d28d9);
             color: #fff;
             border-color: #c4b5fd;
-            transform: scale(0.96);
-        }
-
-        /* Interactive Props Bar */
-        .prop-controls-bar {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding: 4px 2px 8px 2px;
-            scrollbar-width: none;
-        }
-        .prop-controls-bar::-webkit-scrollbar {
-            display: none;
         }
         .prop-btn {
             white-space: nowrap;
@@ -162,7 +225,6 @@
             font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.15s;
         }
         .prop-btn.active {
             background: linear-gradient(135deg, #f59e0b, #d97706);
@@ -170,8 +232,6 @@
             border-color: #fef08a;
             font-weight: 800;
         }
-
-        /* Friend Photo Upload Bar */
         .photo-upload-bar {
             display: flex;
             gap: 6px;
@@ -215,7 +275,6 @@
             cursor: pointer;
             display: none;
         }
-
         .stamp-cycler-bar {
             display: flex;
             gap: 6px;
@@ -232,17 +291,6 @@
             font-weight: 700;
             cursor: pointer;
             text-align: center;
-        }
-        .dialogue-pack-bar {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 6px;
-            margin-bottom: 8px;
-            scrollbar-width: none;
-        }
-        .dialogue-pack-bar::-webkit-scrollbar {
-            display: none;
         }
         .pack-chip {
             white-space: nowrap;
@@ -316,10 +364,9 @@
             font-weight: 800;
             cursor: pointer;
             margin-bottom: 12px;
-            transition: 0.15s;
         }
 
-        /* Custom Modals (Quick Contacts, Coin Toss, Hall of Shame, Magic Vasooli Portal) */
+        /* Custom Modals */
         .contact-book-modal {
             display: none;
             position: fixed;
@@ -354,31 +401,6 @@
             margin-bottom: 8px;
             cursor: pointer;
         }
-
-        /* 3D Coin Flip Animation */
-        .coin-circle {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            margin: 14px auto;
-            background: radial-gradient(circle at 30% 30%, #fef08a, #f59e0b, #b45309);
-            border: 4px solid #fde047;
-            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.45);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 20px;
-            font-weight: 900;
-            color: #451a03;
-            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            cursor: pointer;
-        }
-        .coin-circle.flipping {
-            transform: rotateY(1080deg) scale(1.12);
-        }
-
-        /* Flashing Siren Border for Magic Vasooli Link Receiver */
         @keyframes sirenPulse {
             0%, 100% { border-color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.6); }
             50% { border-color: #3b82f6; box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
@@ -398,8 +420,9 @@
     <div id="splashScreen" class="splash-screen">
         <div class="splash-content" style="text-align: center;">
             <img src="./aetherbyte-logo.png" alt="AetherByte Studios" 
-                 onerror="this.style.display='none'" 
-                 style="width: 88px; height: 88px; border-radius: 22px; margin-bottom: 14px; box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4); border: 2px solid rgba(245, 158, 11, 0.6);">
+                 onerror="this.style.display='none'; document.getElementById('fallbackSplashLogo').style.display='flex';" 
+                 style="width: 88px; height: 88px; border-radius: 22px; margin: 0 auto 14px auto; display: block; box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4); border: 2px solid rgba(245, 158, 11, 0.6);">
+            <div id="fallbackSplashLogo" class="splash-logo" style="display: none; margin: 0 auto 12px auto;">P&#9889;</div>
             <h1 class="splash-brand" style="font-size: 32px; margin-bottom: 4px;">Pingzy &#9889;</h1>
             <p class="splash-tagline" style="color: #fbbf24; font-weight: 800; letter-spacing: 1.5px; font-size: 11.5px;">
                 BY AETHERBYTE STUDIOS
@@ -416,7 +439,7 @@
             <div class="brand-row">
                 <div class="app-logo-badge">P&#9889;</div>
                 <div>
-                    <div class="brand">Pingzy</div>
+                    <div class="brand">Pingzy <span id="vipCrownBadge" style="display:none; font-size:13px;" title="VIP Vasooli King">👑</span></div>
                     <div class="tagline" id="appTagline">100% Private Vault &bull; Zero Bank Access &#128274;</div>
                 </div>
             </div>
@@ -430,7 +453,9 @@
         <!-- MAIN SCROLLABLE VIEWPORT -->
         <main class="app-viewport">
 
-            <!-- VIEW 1: HOME & SETTLED LEDGER -->
+            <!-- ===============================================================
+                 VIEW 1: CLEAN KHATA (HISAAB ONLY - ZERO CLUTTER!)
+            ================================================================ -->
             <div id="ledgerView" class="app-view active">
 
                 <!-- BILINGUAL 3-STEP QUICK GUIDE -->
@@ -443,14 +468,9 @@
                             <span class="vault-label" id="vaultMainLabel">TOTAL TO COLLECT</span>
                             <div class="vault-big-amount" id="totalOwed">&#8377;0</div>
                         </div>
-                        <div style="display:flex; flex-direction:column; gap:6px; align-items:flex-end;">
-                            <button type="button" onclick="openHallOfShameModal()" class="vault-chip" style="background:rgba(245,158,11,0.18); border-color:rgba(245,158,11,0.5); color:#fde68a;" title="View Vijay Mallya Defaulter Leaderboard">
-                                &#127942; Defaulters
-                            </button>
-                            <button type="button" id="storyWrappedBtn" class="vault-chip" title="Download 9:16 Insta Story Wrapped">
-                                &#128202; Wrapped
-                            </button>
-                        </div>
+                        <button type="button" id="storyWrappedBtn" class="vault-chip" title="Download 9:16 Summary Card">
+                            &#128202; Story Card
+                        </button>
                     </div>
                     <div class="vault-stats-row">
                         <div class="vault-stat">
@@ -470,35 +490,16 @@
                     </div>
                 </section>
 
-                <!-- NEW: 1-TAP TAPRI QUICK BAR + CHAI COIN TOSS (Daily Habit Engine!) -->
-                <div class="tapri-quick-bar">
-                    <button type="button" class="tapri-chip toss-special" onclick="openChaiTossModal()">
-                        &#129689; Chai Coin Toss
-                    </button>
-                    <button type="button" class="tapri-chip" onclick="quickTapriAdd(15, 'Tapri Chai ☕')">
-                        &#9749; Chai +&#8377;15
-                    </button>
-                    <button type="button" class="tapri-chip" onclick="quickTapriAdd(30, 'Hostel Maggi 🍜')">
-                        &#127836; Maggi +&#8377;30
-                    </button>
-                    <button type="button" class="tapri-chip" onclick="quickTapriAdd(50, 'Hot Momos 🥟')">
-                        &#129375; Momos +&#8377;50
-                    </button>
-                    <button type="button" class="tapri-chip" onclick="quickTapriAdd(20, 'Auto Split 🛺')">
-                        &#128762; Auto +&#8377;20
-                    </button>
-                    <button type="button" class="tapri-chip" onclick="quickTapriAdd(100, 'Cold Coffee 🧋')">
-                        &#129483; Coffee +&#8377;100
-                    </button>
-                </div>
-
-                <!-- SUB-TABS: TO COLLECT vs I OWE -->
-                <div class="sub-tabs-row" id="ledgerSubTabs">
+                <!-- 3 CLEAN SUB-TABS INSIDE KHATA: TO COLLECT | I OWE | SETTLED -->
+                <div class="sub-tabs-row" id="ledgerSubTabs" style="grid-template-columns: repeat(3, 1fr);">
                     <button type="button" class="sub-tab active" data-subtab="pending" id="subTabCollectBtn">
-                        &#128229; To Collect <span id="pendingCount" class="mini-count">0</span>
+                        &#128229; Lena Hai <span id="pendingCount" class="mini-count">0</span>
                     </button>
                     <button type="button" class="sub-tab" data-subtab="iowe" id="subTabIOweBtn">
-                        &#128228; I Owe <span id="iOweCount" class="mini-count">0</span>
+                        &#128228; Dena Hai <span id="iOweCount" class="mini-count">0</span>
+                    </button>
+                    <button type="button" class="sub-tab" id="subTabSettledBtn">
+                        &#127881; Settled
                     </button>
                 </div>
 
@@ -553,7 +554,128 @@
 
             </div>
 
-            <!-- VIEW 2: STUDIO HUB -->
+            <!-- ===============================================================
+                 VIEW 2: DOST MASTI ZONE (SEPARATE FUN, GAMES & REWARDS HUB!)
+            ================================================================ -->
+            <div id="mastiView" class="app-view">
+                <div class="masti-hero-banner">
+                    <div style="font-size:11px; font-family:'JetBrains Mono',monospace; color:#fbbf24; font-weight:800;">&#127918; AETHERBYTE FUN ZONE</div>
+                    <h2 style="font-size:20px; font-weight:900; color:#fff; margin:4px 0;">Dosti Masti &amp; Tapri Zone &#128293;</h2>
+                    <p style="font-size:11.5px; color:#d1d5db; margin:0;">
+                        Hisaab se hatke! Sikka uchhalo, Top Udhaarbaaz dekho, aur VIP Rewards jeeto!
+                    </p>
+                </div>
+
+                <!-- 1. FIXED MULTI-SPIN CHAI COIN TOSS (18+ FUN OUTCOMES!) -->
+                <div class="masti-card" style="text-align:center; border-color:rgba(245,158,11,0.4);">
+                    <div class="masti-card-title" style="justify-content:center; gap:6px; color:#fde047;">
+                        &#129689; Tapri Chai &amp; Party Coin Toss
+                    </div>
+                    <p class="masti-card-desc">
+                        Tapri pe khade ho ki aaj Chai/Momos ka bill kaun dega? Sikka uchhalo &mdash; har baar naya मजेदार faisla aayega!
+                    </p>
+                    <div class="coin-stage">
+                        <div id="coin3DBox" class="coin-circle" onclick="flipChaiCoin()">
+                            <span>&#129689;</span>
+                            <span style="font-size:13px; margin-top:2px;">TAP TOSS</span>
+                        </div>
+                    </div>
+                    <div id="coinFlipCountBadge" style="font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#fbbf24; margin-bottom:4px;">
+                        Toss #0 &bull; Ready to Spin
+                    </div>
+                    <div id="coinResultText" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:10px 12px; font-size:13px; font-weight:800; color:#6ee7b7; min-height:44px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;">
+                        Sikke par touch karo ya niche button dabao! &#9889;
+                    </div>
+                    <button type="button" onclick="flipChaiCoin()" class="generate-button" style="width:100%; padding:11px;">
+                        &#127922; Uchhalo Sikka (Flip Coin Now!)
+                    </button>
+                </div>
+
+                <!-- 2. REFER FRIENDS & UNLOCK VIP REWARDS -->
+                <div class="masti-card" style="border-color:rgba(16,185,129,0.4);">
+                    <div class="masti-card-title">
+                        <span style="color:#6ee7b7;">&#127873; Refer Dosto &amp; Unlock VIP</span>
+                        <span id="referCountBadge" style="font-family:'JetBrains Mono',monospace; font-size:11px; background:rgba(16,185,129,0.2); color:#6ee7b7; padding:3px 8px; border-radius:99px;">0 / 3 Shared</span>
+                    </div>
+                    <p class="masti-card-desc">
+                        Pingzy ko apne 3 dosto ya WhatsApp group mein share karo aur free mein VIP Features unlock karo:
+                    </p>
+                    <div class="refer-progress-track">
+                        <div id="referProgressFill" class="refer-progress-fill"></div>
+                    </div>
+                    <div id="rewardTier1" class="reward-tier-row">
+                        <span>1&#65039;&#8419; <b>1 Share:</b> Shark Tank &amp; Wasseypur Dialogues</span>
+                        <span class="tier-status" style="color:#9ca3af; font-weight:700;">&#128274; Locked</span>
+                    </div>
+                    <div id="rewardTier2" class="reward-tier-row">
+                        <span>2&#65039;&#8419; <b>2 Shares:</b> "Vasooli King 👑" Header Badge</span>
+                        <span class="tier-status" style="color:#9ca3af; font-weight:700;">&#128274; Locked</span>
+                    </div>
+                    <div id="rewardTier3" class="reward-tier-row">
+                        <span>3&#65039;&#8419; <b>3 Shares:</b> Royal Gold VIP App Theme &#10024;</span>
+                        <span class="tier-status" style="color:#9ca3af; font-weight:700;">&#128274; Locked</span>
+                    </div>
+                    <button type="button" onclick="referFriendOnWhatsApp()" class="generate-button" style="width:100%; padding:11px; margin-top:8px; background:linear-gradient(135deg, #10b981, #059669); font-weight:900;">
+                        &#128172; Share Pingzy on WhatsApp (+1 Point)
+                    </button>
+                </div>
+
+                <!-- 3. VIJAY MALLYA DEFAULTER LEADERBOARD (HALL OF SHAME) -->
+                <div class="masti-card" style="border-color:rgba(239,68,68,0.4);">
+                    <div class="masti-card-title">
+                        <span style="color:#fca5a5;">&#127942; Group Defaulter Leaderboard</span>
+                        <span style="font-size:11px; color:#f87171;">Hall of Shame</span>
+                    </div>
+                    <p class="masti-card-desc">
+                        Dekho tumhare khate mein kaun sabse bada <b>"Chhota Vijay Mallya"</b> hai aur uska Poster WhatsApp group mein bhejo!
+                    </p>
+                    <div id="inlineShamePreview" style="margin-bottom:10px;"></div>
+                    <button type="button" onclick="openHallOfShameModal()" class="generate-button" style="width:100%; padding:11px; background:linear-gradient(135deg, #ef4444, #b91c1c);">
+                        &#128680; View Full Leaderboard &amp; Share Poster
+                    </button>
+                </div>
+
+                <!-- 4. 1-TAP TAPRI QUICK UDHAR MENU (WITH CLEAR EXPLANATION!) -->
+                <div class="masti-card">
+                    <div class="masti-card-title">
+                        <span style="color:#c4b5fd;">&#9749; 1-Tap Tapri Quick Udhaar</span>
+                        <span style="font-size:10.5px; color:#a78bfa;">Instant Fill</span>
+                    </div>
+                    <p class="masti-card-desc">
+                        <b>Ye kya hai?</b> Agar dost ne abhi canteen/tapri par Chai, Maggi ya Momos udhaar khaye hain, toh niche kisi bhi item par tap karo &mdash; <b>Amount aur Naam apne aap form mein bhar jayega!</b>
+                    </p>
+                    <div class="tapri-menu-grid">
+                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(15, 'Tapri Chai ☕')">
+                            <span>&#9749; Tapri Chai</span>
+                            <strong>+&#8377;15</strong>
+                        </button>
+                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(30, 'Hostel Maggi 🍜')">
+                            <span>&#127836; Maggi</span>
+                            <strong>+&#8377;30</strong>
+                        </button>
+                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(50, 'Hot Momos 🥟')">
+                            <span>&#129375; Momos</span>
+                            <strong>+&#8377;50</strong>
+                        </button>
+                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(25, 'Samosa Chai 🥟')">
+                            <span>&#129360; Samosa</span>
+                            <strong>+&#8377;25</strong>
+                        </button>
+                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(20, 'Auto Split 🛺')">
+                            <span>&#128762; Auto Fare</span>
+                            <strong>+&#8377;20</strong>
+                        </button>
+                        <button type="button" class="tapri-item-btn" onclick="quickTapriAdd(80, 'Cold Coffee 🧋')">
+                            <span>&#129483; Coffee</span>
+                            <strong>+&#8377;80</strong>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===============================================================
+                 VIEW 3: STUDIO HUB (SETTINGS, THEMES, UPI, BACKUP)
+            ================================================================ -->
             <div id="studioView" class="app-view">
                 <div class="studio-section">
                     <h3 class="studio-heading">&#127912; AETHERBYTE Studio Themes</h3>
@@ -643,7 +765,7 @@
 
         </main>
 
-        <!-- NATIVE BOTTOM NAVIGATION DOCK -->
+        <!-- NATIVE BOTTOM NAVIGATION DOCK: KHATA | SPLIT | + | MASTI | STUDIO -->
         <nav class="bottom-nav-dock">
             <button type="button" class="nav-item active" id="navPendingBtn">
                 <span class="nav-icon">&#128210;</span>
@@ -656,15 +778,19 @@
             </button>
 
             <div class="fab-wrapper">
-                <button type="button" id="addMoneyBtn" class="fab-add-btn" title="Add Entry">
+                <button type="button" id="addMoneyBtn" class="fab-add-btn" title="Add Udhaar Entry">
                     &#65291;
                 </button>
             </div>
 
-            <button type="button" class="nav-item" id="navPaidBtn">
-                <span class="nav-icon">&#127881;</span>
-                <span class="nav-label">Settled</span>
+            <!-- NEW DEDICATED DOSTI MASTI TAB -->
+            <button type="button" class="nav-item" id="navMastiBtn">
+                <span class="nav-icon">&#127918;</span>
+                <span class="nav-label">Masti</span>
             </button>
+
+            <!-- Keep hidden #navPaidBtn for script.js compatibility (Triggered via Khata -> Settled subtab) -->
+            <button type="button" id="navPaidBtn" style="display:none;"></button>
 
             <button type="button" class="nav-item" id="navStudioBtn">
                 <span class="nav-icon">&#9881;&#65039;</span>
@@ -768,29 +894,7 @@
         </div>
     </div>
 
-    <!-- NEW MODAL A: CHAI COIN TOSS (3D TAPRI TOSS) -->
-    <div id="chaiTossModal" class="contact-book-modal">
-        <div class="contact-book-card" style="text-align:center;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <h3 style="margin:0; font-size:16px; color:#fde047;">&#129689; Tapri Chai Coin Toss</h3>
-                <button type="button" onclick="closeChaiTossModal()" style="background:none; border:none; color:#9ca3af; font-size:20px; cursor:pointer;">&times;</button>
-            </div>
-            <p style="font-size:11.5px; color:#9ca3af; margin:0 0 10px 0;">
-                Confused who pays for Chai/Momos today? Flip the official AetherByte Coin!
-            </p>
-            <div id="coin3DBox" class="coin-circle" onclick="flipChaiCoin()">
-                TAP TO<br>TOSS
-            </div>
-            <div id="coinResultText" style="font-size:14px; font-weight:800; color:#6ee7b7; min-height:22px; margin-bottom:12px;">
-                Touch the coin to flip! &#9889;
-            </div>
-            <button type="button" onclick="flipChaiCoin()" class="generate-button" style="width:100%; padding:11px;">
-                &#127922; Flip Coin Again
-            </button>
-        </div>
-    </div>
-
-    <!-- NEW MODAL B: GROUP HALL OF SHAME (VIJAY MALLYA DEFAULTER LEADERBOARD) -->
+    <!-- GROUP HALL OF SHAME MODAL -->
     <div id="hallOfShameModal" class="contact-book-modal">
         <div class="contact-book-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -807,7 +911,7 @@
         </div>
     </div>
 
-    <!-- NEW MODAL C: MAGIC VASOOLI LINK RECEIVER PORTAL (Opens when friend clicks shared link!) -->
+    <!-- MAGIC VASOOLI LINK RECEIVER PORTAL -->
     <div id="magicVasooliModal" class="contact-book-modal">
         <div class="contact-book-card siren-portal-card" style="text-align:center;">
             <div style="background:#dc2626; color:#fff; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:900; padding:5px 10px; border-radius:99px; display:inline-block; margin-bottom:8px;">
@@ -825,7 +929,7 @@
                 &#128184; 1-Tap Pay via Any UPI App
             </a>
             <button type="button" onclick="closeMagicVasooliModal()" style="width:100%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#d1d5db; padding:9px; border-radius:12px; font-size:11.5px; font-weight:700; cursor:pointer;">
-                &#9889; Open My Own Free Pingzy Khata
+                &#9889; Open My Own Free Pingzy App
             </button>
         </div>
     </div>
@@ -907,7 +1011,7 @@
             <div class="recipient-phone" id="reminderPhoneDisplay"></div>
             <div class="amount-display" id="reminderAmount">&#8377;0</div>
 
-            <!-- NEW: LOUD SIREN + BOLTI HUI VOICE VASOOLI BUTTON -->
+            <!-- LOUD SIREN + BOLTI HUI VOICE VASOOLI BUTTON -->
             <button type="button" class="voice-roast-btn" onclick="playLoudVoiceVasooli()">
                 &#128266; Play Loud Siren &amp; Voice Vasooli &#128680;
             </button>
@@ -945,7 +1049,7 @@
 
             <div class="message-box">
                 <div class="message-label" id="messageBoxLabel" style="display:flex; justify-content:space-between; align-items:center;">
-                    <span>&#128172; Message + Magic Vasooli Link Ready</span>
+                    <span>&#128172; Message + App Download Link Ready</span>
                     <span style="color:#f59e0b; font-size:10px;">&#9889; 120+ Lines</span>
                 </div>
                 <p id="generatedMessage"></p>
@@ -1108,23 +1212,139 @@
     </div>
 
     <!-- CORE SCRIPT -->
-    <script src="script.js?v=18" charset="utf-8"></script>
+    <script src="script.js?v=19" charset="utf-8"></script>
 
     <!-- =========================================================================
-         AETHERBYTE MASTER VIRAL ENGINE V6.0 (ALL-IN-ONE):
-         1. ☕ 1-Tap Tapri Bar + 🪙 3D Chai Coin Toss
-         2. 🏆 Hall of Shame (Vijay Mallya Leaderboard + Shareable Poster)
-         3. 🔊 Police Siren + Bolti Hui Voice Vasooli (Web Audio + Speech API)
-         4. 🔗 Magic Vasooli Link (Viral Receiver Portal)
-         5. 🎬 10 Custom Movie Artworks + Friend Photo Props + 45-60m Alerts
+         AETHERBYTE MASTER ENGINE V7.0:
+         1. Dedicated "🎮 Masti" Tab (Separates Fun from Clean Khata!)
+         2. Fixed Multi-Spin 3D Coin Toss (+1440 deg per click + 18 Tapri Outcomes!)
+         3. Refer & Win VIP Rewards System + App Download Link in WhatsApp Pings
+         4. 10 Custom Movie Artworks + Friend Photo Props + 45-60m Smart Alerts
     ========================================================================== -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js?v=11');
+        navigator.serviceWorker.register('./sw.js?v=12');
       }
 
       // -------------------------------------------------------------------------
-      // FEATURE A: 1-TAP TAPRI QUICK ADD & 3D CHAI COIN TOSS
+      // 1. MULTI-SPIN 3D CHAI COIN TOSS (Spins Every Single Time + 18 Outcomes!)
+      // -------------------------------------------------------------------------
+      let coinSpinAngle = 0;
+      let coinTossCount = 0;
+      let lastCoinOutcomeIdx = -1;
+
+      const TAPRI_COIN_OUTCOMES = [
+        { side: 'HEADS 👑', text: '👑 <b>HEADS AAYA!</b> Samne wala dost aaj garma-garam Chai + Samosa pilayega!' },
+        { side: 'TAILS ☕', text: '☕ <b>TAILS AAYA!</b> Bach gaya tu! Aaj ka bill 50-50 barabar split hoga!' },
+        { side: 'HEADS 🥟', text: '🥟 <b>MOMOS TREAT!</b> Jisne sikka uchhala, usko samne wala dost 1 plate Momos khilayega!' },
+        { side: 'TAILS 🍜', text: '🍜 <b>MAGGI PENALTY!</b> Haarne wala dost aaj raat 2 baje wali Hostel Maggi banayega!' },
+        { side: 'HEADS 🎬', text: '🎬 <b>BABU BHAIYA FAISLA:</b> Dono ₹10-₹10 nikalo aur Tapri pe Cutting Chai piyo!' },
+        { side: 'TAILS 😈', text: '😈 <b>SAVAGE RULE:</b> Jiske khate mein sabse zyada udhaar pending hai, aaj wahi poora bill dega!' },
+        { side: 'HEADS 🧋', text: '🧋 <b>ROYAL TREAT!</b> Samne wala dost aaj Cold Coffee sponsor karega!' },
+        { side: 'TAILS 🛵', text: '🛵 <b>TAPRI DARE:</b> Samne wala dost Chai bhi pilayega aur tapri tak apni gaadi pe le jayega!' },
+        { side: 'HEADS 🔥', text: '🔥 <b>KALEEN BHAIYA HUKUM:</b> Izzat se samne wala dost aaj ka poora kharcha uthayega!' },
+        { side: 'TAILS 👻', text: '👻 <b>STREE TOSS:</b> O Stree Kal Aana — par aaj ki Chai samne wale dost ke khate mein likho!' },
+        { side: 'HEADS 🍫', text: '🍫 <b>MEETHA HO JAYE:</b> Chai ke baad ₹10 wali Choco-Bar ya Kurkure samne wala dilayega!' },
+        { side: 'TAILS 🎯', text: '🎯 <b>LUCKY ESCAPE!</b> Is baar dono bach gaye — teesre dost ko pakad ke lao bill dene ke liye!' },
+        { side: 'HEADS 🕶️', text: '🕶️ <b>DON KA FAISLA:</b> 11 mulkon ki police bol rahi hai ki aaj party samne wala dega!' },
+        { side: 'TAILS 🏏', text: '🏏 <b>SUPER OVER TOSS:</b> Ek baar aur sikka uchhalo — jo ab aayega woh final!' },
+        { side: 'HEADS 🍕', text: '🍕 <b>VIP SPONSOR:</b> Aaj choti chai nahi, seedha Burger ya Roll ki treat hogi!' },
+        { side: 'TAILS 💸', text: '💸 <b>KHATA DIRECT:</b> Aaj paise main de deta hu, par tere Pingzy Khate mein double likhunga!' }
+      ];
+
+      window.flipChaiCoin = function() {
+        const coin = document.getElementById('coin3DBox');
+        const res = document.getElementById('coinResultText');
+        const badge = document.getElementById('coinFlipCountBadge');
+        if (!coin || !res) return;
+
+        // Add 1440 degrees (4 full 3D flips) EVERY time so CSS always animates!
+        coinSpinAngle += 1440 + (Math.random() < 0.5 ? 180 : 0);
+        coinTossCount += 1;
+
+        coin.style.transform = `rotateY(${coinSpinAngle}deg) scale(1.1)`;
+        res.innerHTML = '🪙 Sikka hawa mein ghoom raha hai... ⚡';
+        if (badge) badge.innerText = `Toss #${coinTossCount} • Spinning...`;
+
+        // Coin metallic Clink sound
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1350, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(2600, ctx.currentTime + 0.16);
+          gain.gain.setValueAtTime(0.22, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.35);
+        } catch (e) {}
+
+        setTimeout(() => {
+          coin.style.transform = `rotateY(${coinSpinAngle}deg) scale(1)`;
+          let idx = Math.floor(Math.random() * TAPRI_COIN_OUTCOMES.length);
+          if (idx === lastCoinOutcomeIdx) idx = (idx + 1) % TAPRI_COIN_OUTCOMES.length;
+          lastCoinOutcomeIdx = idx;
+
+          const outcome = TAPRI_COIN_OUTCOMES[idx];
+          coin.innerHTML = `<span style="font-size:18px;">${outcome.side.split(' ')[1]}</span><span style="font-size:13px; margin-top:2px;">${outcome.side.split(' ')[0]}</span>`;
+          res.innerHTML = outcome.text;
+          if (badge) badge.innerText = `Toss #${coinTossCount} Result: ${outcome.side}`;
+        }, 720);
+      };
+
+      // -------------------------------------------------------------------------
+      // 2. REFER & UNLOCK VIP REWARDS SYSTEM
+      // -------------------------------------------------------------------------
+      function getAppDownloadUrl() {
+        return window.location.origin + window.location.pathname;
+      }
+
+      function updateReferRewardsUI() {
+        const count = Number(localStorage.getItem('pingzy_refer_count') || 0);
+        const badge = document.getElementById('referCountBadge');
+        const fill = document.getElementById('referProgressFill');
+        const crown = document.getElementById('vipCrownBadge');
+
+        if (badge) badge.innerText = `${Math.min(count, 3)} / 3 Shared`;
+        if (fill) fill.style.width = `${Math.min((count / 3) * 100, 100)}%`;
+
+        const t1 = document.getElementById('rewardTier1');
+        const t2 = document.getElementById('rewardTier2');
+        const t3 = document.getElementById('rewardTier3');
+
+        if (count >= 1 && t1) {
+          t1.classList.add('unlocked');
+          t1.querySelector('.tier-status').innerHTML = '✅ Unlocked';
+          t1.querySelector('.tier-status').style.color = '#4ade80';
+        }
+        if (count >= 2 && t2) {
+          t2.classList.add('unlocked');
+          t2.querySelector('.tier-status').innerHTML = '✅ Unlocked';
+          t2.querySelector('.tier-status').style.color = '#4ade80';
+          if (crown) crown.style.display = 'inline';
+        }
+        if (count >= 3 && t3) {
+          t3.classList.add('unlocked');
+          t3.querySelector('.tier-status').innerHTML = '✅ Unlocked';
+          t3.querySelector('.tier-status').style.color = '#4ade80';
+        }
+      }
+
+      window.referFriendOnWhatsApp = function() {
+        const count = Number(localStorage.getItem('pingzy_refer_count') || 0) + 1;
+        localStorage.setItem('pingzy_refer_count', String(count));
+        updateReferRewardsUI();
+
+        const appUrl = getAppDownloadUrl();
+        const referMsg = `🔥 *Bhai ye naya Pingzy App dekh!* \n\nIsme dosto ka Udhaar Khata, Party Bill Split, aur dost ki photo wale *Stree / Hera Pheri / Sholay Vasooli Posters* bante hain! 😂⚡\n\n📲 *Try Free Here:* ${appUrl}\n(Engineered by AetherByte Studios ⚡)`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(referMsg)}`, '_blank');
+      };
+
+      // -------------------------------------------------------------------------
+      // 3. 1-TAP TAPRI QUICK ADD (Inside Masti Tab)
       // -------------------------------------------------------------------------
       window.quickTapriAdd = function(amt, reasonText) {
         const addBtn = document.getElementById('addMoneyBtn');
@@ -1145,52 +1365,8 @@
         }, 60);
       };
 
-      window.openChaiTossModal = function() {
-        const m = document.getElementById('chaiTossModal');
-        if (m) m.style.display = 'flex';
-      };
-      window.closeChaiTossModal = function() {
-        const m = document.getElementById('chaiTossModal');
-        if (m) m.style.display = 'none';
-      };
-
-      window.flipChaiCoin = function() {
-        const coin = document.getElementById('coin3DBox');
-        const res = document.getElementById('coinResultText');
-        if (!coin || !res) return;
-
-        coin.classList.remove('flipping');
-        void coin.offsetWidth;
-        coin.classList.add('flipping');
-        res.innerText = 'Sikka hawa mein hai... 🪙⚡';
-
-        // Play subtle coin ding via Web Audio
-        try {
-          const ctx = new (window.AudioContext || window.webkitAudioContext)();
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(1200, ctx.currentTime);
-          osc.frequency.exponentialRampToValueAtTime(2400, ctx.currentTime + 0.18);
-          gain.gain.setValueAtTime(0.2, ctx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start();
-          osc.stop(ctx.currentTime + 0.35);
-        } catch (e) {}
-
-        setTimeout(() => {
-          const isHeads = Math.random() < 0.5;
-          coin.innerHTML = isHeads ? '👑<br>HEADS' : '☕<br>TAILS';
-          res.innerHTML = isHeads
-            ? '🎉 <b>HEADS AAYA!</b> Samne wala dost aaj Chai pilayega!'
-            : '🔥 <b>TAILS AAYA!</b> Bhai aaj bill split hoga!';
-        }, 600);
-      };
-
       // -------------------------------------------------------------------------
-      // FEATURE B: LOUD POLICE SIREN + BOLTI HUI VOICE VASOOLI
+      // 4. LOUD POLICE SIREN + BOLTI HUI VOICE VASOOLI
       // -------------------------------------------------------------------------
       window.playLoudVoiceVasooli = function() {
         const nameEl = document.getElementById('reminderRecipient');
@@ -1198,7 +1374,6 @@
         const name = (nameEl && nameEl.innerText.trim()) ? nameEl.innerText.trim() : 'Dost';
         const amt = (amtEl && amtEl.innerText.trim()) ? amtEl.innerText.trim() : '500 rupaye';
 
-        // 1. Play 1.2s Police Siren using Web Audio API
         try {
           const AudioCtx = window.AudioContext || window.webkitAudioContext;
           const ctx = new AudioCtx();
@@ -1218,7 +1393,6 @@
           osc.stop(now + 1.15);
         } catch (e) {}
 
-        // 2. Speak Loud Hindi/Hinglish Vasooli Announcement
         if ('speechSynthesis' in window) {
           setTimeout(() => {
             window.speechSynthesis.cancel();
@@ -1239,7 +1413,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // FEATURE C: GROUP HALL OF SHAME (VIJAY MALLYA LEADERBOARD)
+      // 5. GROUP HALL OF SHAME (VIJAY MALLYA LEADERBOARD)
       // -------------------------------------------------------------------------
       function getAggregatedDefaulters() {
         const totalsMap = new Map();
@@ -1263,6 +1437,26 @@
         return Array.from(totalsMap.entries())
           .map(([name, total]) => ({ name, total }))
           .sort((a, b) => b.total - a.total);
+      }
+
+      function renderInlineShamePreview() {
+        const box = document.getElementById('inlineShamePreview');
+        if (!box) return;
+        const ranks = getAggregatedDefaulters();
+        if (ranks.length === 0) {
+          box.innerHTML = `<div style="background:rgba(255,255,255,0.03); border-radius:10px; padding:10px; text-align:center; font-size:11.5px; color:#9ca3af;">🎉 Abhi koi defaulter nahi hai! Khate mein udhaar add karo.</div>`;
+        } else {
+          const top = ranks[0];
+          box.innerHTML = `
+            <div style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); border-radius:12px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:10px; color:#fca5a5; font-weight:800;">👻 CURRENT VIJAY MALLYA #1</div>
+                <div style="font-size:14px; font-weight:900; color:#fff;">${top.name}</div>
+              </div>
+              <div style="font-family:'JetBrains Mono',monospace; font-size:16px; font-weight:900; color:#4ade80;">&#8377;${top.total}</div>
+            </div>
+          `;
+        }
       }
 
       window.openHallOfShameModal = function() {
@@ -1364,7 +1558,7 @@
                 await navigator.share({
                   files: [file],
                   title: 'Group Udhaar Hall of Shame',
-                  text: '🏆 Dekh lo group ke Top Udhaar Defaulters! Jaldi GPay karo bhai 😂⚡'
+                  text: `🏆 Dekh lo group ke Top Udhaar Defaulters! Jaldi GPay karo bhai 😂⚡\n📲 Free App: ${getAppDownloadUrl()}`
                 });
                 return;
               } catch (e) {}
@@ -1383,10 +1577,10 @@
       };
 
       // -------------------------------------------------------------------------
-      // FEATURE D: MAGIC VASOOLI LINK GENERATOR & RECEIVER PORTAL
+      // 6. MAGIC VASOOLI LINK GENERATOR & RECEIVER PORTAL
       // -------------------------------------------------------------------------
       function buildMagicVasooliLink(name, amt, upi) {
-        const baseUrl = window.location.origin + window.location.pathname;
+        const baseUrl = getAppDownloadUrl();
         const cleanAmt = String(amt).replace(/[^\d]/g, '') || '500';
         const params = new URLSearchParams();
         params.set('vasooli', '1');
@@ -1435,7 +1629,7 @@
       }
 
       // -------------------------------------------------------------------------
-      // 1. INDIVIDUAL FRIEND BOXES FOR GROUP SPLIT
+      // 7. INDIVIDUAL FRIEND BOXES FOR GROUP SPLIT
       // -------------------------------------------------------------------------
       let splitFriendsArray = ['Me (Main)', 'Rohan', 'Aman'];
 
@@ -1502,7 +1696,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 2. BILINGUAL GUIDE & FORCE "SPLIT" LABEL ON BOTTOM NAV
+      // 8. BILINGUAL GUIDE & VIEW NAVIGATION (KHATA vs SPLIT vs MASTI vs STUDIO)
       // -------------------------------------------------------------------------
       function isEnglishMode() {
         const qBtn = document.getElementById('quickLangBtn');
@@ -1536,25 +1730,25 @@
         if (en) {
           g.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <strong style="color:#c4b5fd; font-size:12.5px;">&#128161; How Pingzy Works (4 Viral Features)</strong>
+              <strong style="color:#c4b5fd; font-size:12.5px;">&#128161; 4 Easy Sections of Pingzy</strong>
               <button type="button" onclick="closeQuickGuide()" style="background:none; border:none; color:#9ca3af; font-size:16px; cursor:pointer; padding:0 4px;">&times;</button>
             </div>
             <div style="color:#d1d5db; font-size:11.5px;">
-              1&#65039;&#8419; <b>&#9749; 1-Tap Tapri &amp; Coin Toss:</b> Quickly add Chai/Momos or flip the 3D Coin to see who pays!<br>
-              2&#65039;&#8419; <b>&#127916; Movie Posters + Voice Siren:</b> Put friend's photo behind Jail Bars or play Loud Voice Vasooli!<br>
-              3&#65039;&#8419; <b>&#127942; Defaulter Leaderboard:</b> Rank top defaulters &amp; send Magic Vasooli Links on WhatsApp!
+              1&#65039;&#8419; <b>&#128210; Ledger (Khata):</b> Track money to collect, money you owe &amp; settled history.<br>
+              2&#65039;&#8419; <b>&#127829; Split:</b> Divide group party/trip bills equally box-by-box.<br>
+              3&#65039;&#8419; <b>&#127918; Masti Zone:</b> Flip the 3D Chai Coin, view Defaulter Leaderboard &amp; unlock VIP rewards!
             </div>
           `;
         } else {
           g.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-              <strong style="color:#c4b5fd; font-size:12.5px;">&#128161; Pingzy Kis Kaam Aata Hai? (Easy Guide)</strong>
+              <strong style="color:#c4b5fd; font-size:12.5px;">&#128161; Pingzy Kaise Chalayein? (3 Main Sections)</strong>
               <button type="button" onclick="closeQuickGuide()" style="background:none; border:none; color:#9ca3af; font-size:16px; cursor:pointer; padding:0 4px;">&times;</button>
             </div>
             <div style="color:#d1d5db; font-size:11.5px;">
-              1&#65039;&#8419; <b>&#9749; 1-Tap Tapri &amp; Chai Toss:</b> 1-Tap mein Chai/Momos jodein ya Sikka uchhal kar dekhein aaj kaun pilayega!<br>
-              2&#65039;&#8419; <b>&#127916; Movie Poster &amp; Voice Siren:</b> Stree/Sholay poster mein dost ki photo lagayein ya Loud Voice Siren bajayein!<br>
-              3&#65039;&#8419; <b>&#127942; Defaulter Leaderboard:</b> Group ke udhaarbaaz dosto ki ranking WhatsApp par share karein!
+              1&#65039;&#8419; <b>&#128210; Khata (Hisaab):</b> Dost se paise lene hain, dene hain ya settle ho gaye &mdash; sab yahan saaf dikhega.<br>
+              2&#65039;&#8419; <b>&#127829; Split (Party Bill):</b> Group ka bill dosto mein barabar baantne ke liye.<br>
+              3&#65039;&#8419; <b>&#127918; Masti Tab:</b> Chai Coin Toss, Vijay Mallya Leaderboard, Tapri 1-Tap Menu aur VIP Rewards!
             </div>
           `;
         }
@@ -1598,10 +1792,15 @@
           const emptyDesc = document.getElementById('emptyDesc');
           const firstBtn = document.getElementById('firstReminderBtn');
           const demoBtn = document.getElementById('loadDemoBtn');
-          const subTabs = document.getElementById('ledgerSubTabs');
+          const subCollect = document.getElementById('subTabCollectBtn');
+          const subIOwe = document.getElementById('subTabIOweBtn');
+          const subSettled = document.getElementById('subTabSettledBtn');
+
+          if (subCollect) subCollect.classList.toggle('active', currentActiveMode === 'pending');
+          if (subIOwe) subIOwe.classList.toggle('active', currentActiveMode === 'iowe');
+          if (subSettled) subSettled.classList.toggle('active', currentActiveMode === 'settled');
 
           if (currentActiveMode === 'pending') {
-            if (subTabs) subTabs.style.display = 'flex';
             if (vaultLabel) vaultLabel.innerHTML = en ? '&#128229; TOTAL TO COLLECT' : '&#128229; MUJHE LENE HAIN (TO COLLECT)';
             if (subStatLabel1) subStatLabel1.innerHTML = en ? 'I Owe &#128228;' : 'Mujhe Dene (I Owe) &#128228;';
             if (currentViewTitle) currentViewTitle.innerHTML = en ? '&#128229; TO COLLECT (PENDING)' : '&#128229; Mujhe Lene Hain (Vasooli List)';
@@ -1621,7 +1820,6 @@
               demoBtn.innerHTML = en ? '&#10024; Load 1-Click Demo' : '&#10024; Demo Dekhein (Sample)';
             }
           } else if (currentActiveMode === 'iowe') {
-            if (subTabs) subTabs.style.display = 'flex';
             if (vaultLabel) vaultLabel.innerHTML = en ? '&#128228; TOTAL I OWE' : '&#128228; MUJHE DENE HAIN (I OWE)';
             if (subStatLabel1) subStatLabel1.innerHTML = en ? 'To Collect &#128229;' : 'Mujhe Lene (Collect) &#128229;';
             if (currentViewTitle) currentViewTitle.innerHTML = en ? '&#128228; I OWE (TO PAY BACK)' : '&#128228; Mujhe Dene Hain (Mere Upar Udhaar)';
@@ -1638,7 +1836,6 @@
             }
             if (demoBtn) demoBtn.style.display = 'none';
           } else if (currentActiveMode === 'settled') {
-            if (subTabs) subTabs.style.display = 'none';
             if (currentViewTitle) currentViewTitle.innerHTML = en ? '&#127881; SETTLED HISTORY' : '&#127881; Chukta Hisaab (Settled History)';
             if (emptyIcon) emptyIcon.innerHTML = '&#127881;';
             if (emptyTitle) emptyTitle.innerText = en ? 'No settled records yet' : 'Abhi tak koi hisaab settle nahi hua';
@@ -1654,7 +1851,7 @@
       }
 
       // -------------------------------------------------------------------------
-      // 3. 120+ VIRAL & RELATABLE DIALOGUE ARSENAL (+ MAGIC VASOOLI LINK!)
+      // 9. 120+ VIRAL & RELATABLE DIALOGUE ARSENAL (+ APP DOWNLOAD LINK!)
       // -------------------------------------------------------------------------
       const MEGA_PING_BANK = {
         cult_bollywood: [
@@ -1735,7 +1932,7 @@
       };
 
       // -------------------------------------------------------------------------
-      // 4. AUTHENTIC MOVIE ARTWORK CANVAS ENGINE + PROPS + PHOTO FILTERS!
+      // 10. AUTHENTIC MOVIE ARTWORK CANVAS ENGINE + PROPS + PHOTO FILTERS!
       // -------------------------------------------------------------------------
       const STICKER_STAMPS = [
         "11 MULKON MEIN WANTED 🕶️",
@@ -1816,68 +2013,45 @@
         ctx.strokeStyle = 'rgba(255,255,255,0.12)';
         ctx.lineWidth = 1;
         for (let ly = y + 30; ly < y + h - 30; ly += 32) {
-          ctx.beginPath();
-          ctx.moveTo(x + 10, ly);
-          ctx.lineTo(x + w - 10, ly);
-          ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x + 10, ly); ctx.lineTo(x + w - 10, ly); ctx.stroke();
         }
 
         if (window._friendPosterPhotoImg) {
           const img = window._friendPosterPhotoImg;
           ctx.save();
-          if (activePhotoFilter === 1) {
-            ctx.filter = 'grayscale(100%) contrast(135%)';
-          } else if (activePhotoFilter === 2) {
-            ctx.filter = 'sepia(85%) contrast(120%) brightness(95%)';
-          }
+          if (activePhotoFilter === 1) ctx.filter = 'grayscale(100%) contrast(135%)';
+          else if (activePhotoFilter === 2) ctx.filter = 'sepia(85%) contrast(120%) brightness(95%)';
           const imgRatio = img.width / img.height;
           const boxRatio = w / h;
           let sx = 0, sy = 0, sw = img.width, sh = img.height;
-          if (imgRatio > boxRatio) {
-            sw = img.height * boxRatio;
-            sx = (img.width - sw) / 2;
-          } else {
-            sh = img.width / boxRatio;
-            sy = (img.height - sh) / 2;
-          }
+          if (imgRatio > boxRatio) { sw = img.height * boxRatio; sx = (img.width - sw) / 2; }
+          else { sh = img.width / boxRatio; sy = (img.height - sh) / 2; }
           ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
           ctx.restore();
         } else {
-          const cx = x + w / 2;
-          const cy = y + h / 2 - 12;
+          const cx = x + w / 2, cy = y + h / 2 - 12;
           ctx.fillStyle = '#374151';
-          ctx.beginPath();
-          ctx.arc(cx, cy - 22, 44, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(cx, cy + 88, 78, Math.PI, 0, false);
-          ctx.fill();
-
+          ctx.beginPath(); ctx.arc(cx, cy - 22, 44, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(cx, cy + 88, 78, Math.PI, 0, false); ctx.fill();
           ctx.fillStyle = 'rgba(255,255,255,0.7)';
           ctx.font = '800 12px "JetBrains Mono", monospace';
           ctx.textAlign = 'center';
           ctx.fillText('📸 ADD DOST PHOTO', cx, y + h - 46);
         }
 
-        const cx = x + w / 2;
-        const cy = y + h / 2;
+        const cx = x + w / 2, cy = y + h / 2;
 
         if (activePropType === 'jail') {
           ctx.strokeStyle = '#9ca3af';
           ctx.lineWidth = 7;
           for (let bx = x + 24; bx < x + w; bx += 36) {
-            ctx.beginPath();
-            ctx.moveTo(bx, y);
-            ctx.lineTo(bx, y + h);
-            ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(bx, y); ctx.lineTo(bx, y + h); ctx.stroke();
           }
           ctx.lineWidth = 8;
           ctx.strokeStyle = '#4b5563';
           ctx.beginPath();
-          ctx.moveTo(x, y + 60);
-          ctx.lineTo(x + w, y + 60);
-          ctx.moveTo(x, y + h - 75);
-          ctx.lineTo(x + w, y + h - 75);
+          ctx.moveTo(x, y + 60); ctx.lineTo(x + w, y + 60);
+          ctx.moveTo(x, y + h - 75); ctx.lineTo(x + w, y + h - 75);
           ctx.stroke();
 
           ctx.fillStyle = '#111827';
@@ -1896,22 +2070,14 @@
         } else if (activePropType === 'target') {
           ctx.strokeStyle = '#ef4444';
           ctx.lineWidth = 4;
+          ctx.beginPath(); ctx.arc(cx, cy - 15, 68, 0, Math.PI * 2); ctx.stroke();
+          ctx.beginPath(); ctx.arc(cx, cy - 15, 36, 0, Math.PI * 2); ctx.stroke();
           ctx.beginPath();
-          ctx.arc(cx, cy - 15, 68, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.arc(cx, cy - 15, 36, 0, Math.PI * 2);
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.moveTo(cx - 85, cy - 15);
-          ctx.lineTo(cx + 85, cy - 15);
-          ctx.moveTo(cx, cy - 100);
-          ctx.lineTo(cx, cy + 70);
+          ctx.moveTo(cx - 85, cy - 15); ctx.lineTo(cx + 85, cy - 15);
+          ctx.moveTo(cx, cy - 100); ctx.lineTo(cx, cy + 70);
           ctx.stroke();
           ctx.fillStyle = '#ef4444';
-          ctx.beginPath();
-          ctx.arc(cx, cy - 15, 6, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.beginPath(); ctx.arc(cx, cy - 15, 6, 0, Math.PI * 2); ctx.fill();
 
           ctx.fillStyle = '#dc2626';
           drawRoundRect(ctx, x + 18, y + 12, w - 36, 28, 6);
@@ -1927,17 +2093,11 @@
           ctx.strokeStyle = '#b45309';
           ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.moveTo(-58, 18);
-          ctx.lineTo(-68, -28);
-          ctx.lineTo(-28, -4);
-          ctx.lineTo(0, -38);
-          ctx.lineTo(28, -4);
-          ctx.lineTo(68, -28);
-          ctx.lineTo(58, 18);
+          ctx.moveTo(-58, 18); ctx.lineTo(-68, -28); ctx.lineTo(-28, -4);
+          ctx.lineTo(0, -38); ctx.lineTo(28, -4); ctx.lineTo(68, -28); ctx.lineTo(58, 18);
           ctx.closePath();
           ctx.fill();
           ctx.stroke();
-
           ctx.fillStyle = '#dc2626';
           ctx.font = '900 11px "JetBrains Mono", monospace';
           ctx.textAlign = 'center';
@@ -2554,7 +2714,7 @@
           ctx.fillRect(18, 432, 764, 50);
           ctx.fillStyle = '#fef08a';
           ctx.font = '800 16px "JetBrains Mono", monospace';
-          ctx.fillText(upi ? `🏛️️ PAY CHALLAN ON UPI: ${upi} • @aetherbyte.studios` : '🏛️ HIGH COURT OF DOSTI • @aetherbyte.studios', 400, 463);
+          ctx.fillText(upi ? `🏛 PAY CHALLAN ON UPI: ${upi} • @aetherbyte.studios` : '🏛️ HIGH COURT OF DOSTI • @aetherbyte.studios', 400, 463);
         }
 
         ctx.save();
@@ -2609,6 +2769,7 @@
         renderInteractiveSticker();
       };
 
+      //Every WhatsApp Message Includes Magic Link + App Download Footer!
       window.generateExpandedMessage = function(category) {
         if (category) currentVibeCategory = category;
         const pool = MEGA_PING_BANK[currentVibeCategory] || MEGA_PING_BANK.cult_bollywood;
@@ -2620,18 +2781,20 @@
         lastMsgText = template;
 
         const magicLink = buildMagicVasooliLink(name, amt, upi);
+        const appUrl = getAppDownloadUrl();
         let finalMsg = template.replace(/\{name\}/g, name).replace(/\{amt\}/g, amt);
         if (upi) {
           finalMsg += `\n\n⚡ Instant UPI: ${upi}`;
         }
-        finalMsg += `\n🔗 Live Vasooli Notice: ${magicLink}`;
+        finalMsg += `\n🔗 1-Tap Pay Notice: ${magicLink}`;
+        finalMsg += `\n📲 Sent via Pingzy App (Free Download): ${appUrl}`;
 
         const msgEl = document.getElementById('generatedMessage');
         if (msgEl) msgEl.innerText = finalMsg;
       };
 
       // -------------------------------------------------------------------------
-      // 5. SMART 45-60 MINUTE UDHAAR NOTIFICATION ENGINE
+      // 11. SMART 45-60 MINUTE UDHAAR NOTIFICATION ENGINE
       // -------------------------------------------------------------------------
       const MEGA_NOTIFICATIONS = [
         { title: '🕶️ Don Alert: Udhaar Pending!', body: '11 mulkon ki police nahi, tera Pingzy Khata bol raha hai: {friend} se {amount} vasool kar!' },
@@ -2743,7 +2906,7 @@
       }
 
       // -------------------------------------------------------------------------
-      // 6. CONTACTS HELPER & INITIALIZATION
+      // 12. CONTACTS HELPER & INITIALIZATION
       // -------------------------------------------------------------------------
       function fillContactIntoForm(name, phone) {
         const nameInput = document.getElementById('personName');
@@ -2836,10 +2999,27 @@
         closeSmartContactModal();
       };
 
+      // Switch Between Khata, Masti & Studio Views Cleanly
+      function switchMainAppView(targetViewId, activeNavId) {
+        ['ledgerView', 'mastiView', 'studioView'].forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) el.classList.toggle('active', id === targetViewId);
+        });
+        ['navPendingBtn', 'navMastiBtn', 'navStudioBtn'].forEach((id) => {
+          const btn = document.getElementById(id);
+          if (btn) btn.classList.toggle('active', id === activeNavId);
+        });
+        if (targetViewId === 'mastiView') {
+          renderInlineShamePreview();
+          updateReferRewardsUI();
+        }
+      }
+
       window.addEventListener('DOMContentLoaded', () => {
         renderSplitFriendBoxes();
         forceCleanNavLabels();
         checkIncomingMagicVasooliLink();
+        updateReferRewardsUI();
 
         const photoInput = document.getElementById('posterFriendPhotoInput');
         if (photoInput) {
@@ -2879,15 +3059,40 @@
 
         const subCollect = document.getElementById('subTabCollectBtn');
         const subIOwe = document.getElementById('subTabIOweBtn');
+        const subSettled = document.getElementById('subTabSettledBtn');
         const navPending = document.getElementById('navPendingBtn');
         const navPaid = document.getElementById('navPaidBtn');
+        const navMasti = document.getElementById('navMastiBtn');
+        const navStudio = document.getElementById('navStudioBtn');
         const quickLangBtn = document.getElementById('quickLangBtn');
         const langToggleBtn = document.getElementById('langToggleBtn');
 
         if (subCollect) subCollect.addEventListener('click', () => applyClearTabUI('pending'));
         if (subIOwe) subIOwe.addEventListener('click', () => applyClearTabUI('iowe'));
-        if (navPending) navPending.addEventListener('click', () => applyClearTabUI('pending'));
-        if (navPaid) navPaid.addEventListener('click', () => applyClearTabUI('settled'));
+        if (subSettled) {
+          subSettled.addEventListener('click', () => {
+            if (navPaid) navPaid.click();
+            applyClearTabUI('settled');
+          });
+        }
+
+        if (navPending) {
+          navPending.addEventListener('click', () => {
+            switchMainAppView('ledgerView', 'navPendingBtn');
+            applyClearTabUI('pending');
+          });
+        }
+        if (navMasti) {
+          navMasti.addEventListener('click', () => {
+            switchMainAppView('mastiView', 'navMastiBtn');
+          });
+        }
+        if (navStudio) {
+          navStudio.addEventListener('click', () => {
+            switchMainAppView('studioView', 'navStudioBtn');
+          });
+        }
+
         if (quickLangBtn) quickLangBtn.addEventListener('click', () => applyClearTabUI(currentActiveMode));
         if (langToggleBtn) langToggleBtn.addEventListener('click', () => applyClearTabUI(currentActiveMode));
 
@@ -2993,7 +3198,7 @@
             renderInteractiveSticker();
             const canvas = window._latestPingzyPosterCanvas;
             const msgEl = document.getElementById('generatedMessage');
-            const caption = msgEl ? msgEl.innerText.trim() : 'Bhai mera udhaar GPay kar de! ⚡';
+            const caption = msgEl ? msgEl.innerText.trim() : `Bhai mera udhaar GPay kar de! ⚡\n📲 Free App: ${getAppDownloadUrl()}`;
 
             if (canvas && navigator.canShare) {
               canvas.toBlob(async (blob) => {
@@ -3107,7 +3312,7 @@
           });
         }
 
-        // 7. WIRE UP 45-60 MIN NOTIFICATION BUTTON + INSTANT TEST BUTTON
+        // 13. WIRE UP 45-60 MIN NOTIFICATION BUTTON + INSTANT TEST BUTTON
         const studioNotifBtn = document.getElementById('notifBtn');
         const testNotifBtn = document.getElementById('testNotifNowBtn');
         const notifSub = document.getElementById('notifStatusSub');
