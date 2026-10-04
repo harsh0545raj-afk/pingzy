@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=14">
     <style>
-        /* Ensure all 5 Ping Tone buttons fit cleanly and never get cut off */
+        /* Ensure all 5 Ping Tone buttons fit cleanly */
         #mainVibeGrid {
             display: grid !important;
             grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
@@ -35,7 +35,92 @@
             max-height: 92vh !important;
             overflow-y: auto !important;
         }
-        /* In-App Quick Contacts Book Modal */
+
+        /* Interactive Sticker Studio Styling */
+        #stickerPreviewImg {
+            width: 100%;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+        }
+        #stickerPreviewImg.pop-anim {
+            transform: scale(0.95) rotate(-1.5deg);
+        }
+        .interactive-sticker-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+        .isticker-btn {
+            background: rgba(139, 92, 246, 0.14);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #ddd6fe;
+            padding: 6px 10px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .isticker-btn.active, .isticker-btn:active {
+            background: #8b5cf6;
+            color: #fff;
+            border-color: #a78bfa;
+            transform: scale(0.96);
+        }
+        .stamp-cycler-bar {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .stamp-action-pill {
+            flex: 1;
+            background: rgba(245, 158, 11, 0.14);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            color: #fde68a;
+            padding: 7px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+        .stamp-action-pill:active {
+            transform: scale(0.96);
+        }
+        .dialogue-pack-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            scrollbar-width: none;
+        }
+        .dialogue-pack-bar::-webkit-scrollbar {
+            display: none;
+        }
+        .pack-chip {
+            white-space: nowrap;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.38);
+            color: #a7f3d0;
+            padding: 5px 11px;
+            border-radius: 99px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .pack-chip:active {
+            background: #10b981;
+            color: #050507;
+        }
+
+        /* Quick Contacts Book Modal */
         .contact-book-modal {
             display: none;
             position: fixed;
@@ -66,9 +151,6 @@
             border-radius: 12px;
             margin-bottom: 8px;
             cursor: pointer;
-        }
-        .saved-contact-item:active {
-            background: rgba(139, 92, 246, 0.25);
         }
     </style>
 </head>
@@ -112,7 +194,7 @@
             <!-- VIEW 1: HOME & SETTLED LEDGER -->
             <div id="ledgerView" class="app-view active">
 
-                <!-- BILINGUAL 3-STEP QUICK GUIDE (Auto-translates between English & Hinglish) -->
+                <!-- BILINGUAL 3-STEP QUICK GUIDE -->
                 <div id="pingzyQuickGuide" style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 16px; padding: 12px 14px; margin-bottom: 14px; font-size: 12px; line-height: 1.5; color: #e5e7eb;"></div>
 
                 <!-- CRED-STYLE OLED HERO WALLET CARD -->
@@ -191,7 +273,7 @@
                     </div>
                 </div>
 
-                <!-- MAIN SCREEN STUDIO FOOTER (Only Studio Highlighted) -->
+                <!-- MAIN SCREEN STUDIO FOOTER -->
                 <div style="text-align:center; padding: 24px 10px 40px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: #9ca3af; letter-spacing: 0.6px;">
                     <span style="color: #f59e0b; font-weight: 700;">&#10022; AETHERBYTE STUDIOS &#9889; &#10022;</span><br>
                     <div style="margin-top:6px;">
@@ -203,7 +285,7 @@
 
             </div>
 
-            <!-- VIEW 2: STUDIO HUB (SETTINGS, THEMES, UPI, BACKUP) -->
+            <!-- VIEW 2: STUDIO HUB -->
             <div id="studioView" class="app-view">
                 <div class="studio-section">
                     <h3 class="studio-heading">&#127912; AETHERBYTE Studio Themes</h3>
@@ -258,16 +340,15 @@
                         <button type="button" id="langToggleBtn" class="pref-toggle-btn">&#127470;&#127475; Hinglish</button>
                     </div>
                     <div class="pref-row" style="margin-top: 10px;">
-                        <span>Smart Udhaar Reminder Alerts (20+ Fun Alerts)</span>
+                        <span>Filmy &amp; Savage Reminder Notifications</span>
                         <button type="button" id="notifBtn" class="pref-toggle-btn">&#128277; OFF</button>
                     </div>
                 </div>
 
-                <!-- OFFICIAL STUDIO & HARSH RAJ CREDITS CARD -->
                 <div class="studio-section" style="border: 1px solid rgba(245, 158, 11, 0.35); background: rgba(245, 158, 11, 0.05);">
                     <h3 class="studio-heading" style="color: #fbbf24;">&#9889; About AetherByte Studios</h3>
                     <p class="studio-sub" style="margin-bottom: 10px;">
-                        <b>Pingzy v1.0</b> &mdash; Smart Khata, Group Bill Splitter &amp; Savage WhatsApp Meme Reminder.<br>
+                        <b>Pingzy v1.0</b> &mdash; Smart Khata, Group Bill Splitter &amp; Interactive Meme Reminder.<br>
                         <span style="color: #fde68a; font-weight: 700;">&#10022; Engineered by Harsh Raj &#10022;</span>
                     </p>
                     <div style="font-size: 12px; color: #d1d5db; line-height: 1.7;">
@@ -327,7 +408,6 @@
                 <button id="closeAddBtn" class="close-button">&times;</button>
             </div>
 
-            <!-- DIRECTION SWITCH: TO COLLECT vs I OWE -->
             <div class="type-switch-bar">
                 <button type="button" class="type-switch-btn active" id="typeCollectBtn">&#128229; To Collect (Lena Hai)</button>
                 <button type="button" class="type-switch-btn" id="typeIOweBtn">&#128228; I Owe (Mujhe Dena Hai)</button>
@@ -342,7 +422,6 @@
             <input id="personName" type="text" autocomplete="name" placeholder="e.g. Rohan">
             <div id="personError" class="field-error">Please enter a name</div>
 
-            <!-- RECENT FRIENDS 1-TAP BAR -->
             <div id="recentFriendsBar" class="quick-chips-row" style="margin-top:6px;"></div>
 
             <label>Phone Number <span class="optional">(for direct SMS / WhatsApp)</span></label>
@@ -352,7 +431,6 @@
             <input id="amount" type="number" min="1" placeholder="500">
             <div id="amountError" class="field-error">Enter a valid amount (&#8377;1+)</div>
 
-            <!-- 1-TAP QUICK AMOUNT CHIPS -->
             <div class="quick-chips-row" style="margin-top:6px;">
                 <button type="button" class="amt-chip" data-addamt="50">+&#8377;50</button>
                 <button type="button" class="amt-chip" data-addamt="100">+&#8377;100</button>
@@ -449,7 +527,6 @@
                 </button>
             </div>
 
-            <!-- BILL ROULETTE RESULT BOX -->
             <div id="rouletteResultBox" class="roulette-result-box" style="display:none;">
                 <div class="roulette-title">&#127919; BILL ROULETTE WINNER</div>
                 <div id="rouletteWinnerName" class="roulette-winner">AMAN</div>
@@ -471,11 +548,11 @@
         </div>
     </div>
 
-    <!-- 3. REMINDER, VIRAL ARSENAL, EXCUSE BUSTER & QR BOTTOM SHEET -->
+    <!-- 3. REMINDER, VIRAL ARSENAL, EXCUSE BUSTER & INTERACTIVE STICKER STUDIO -->
     <div class="modal-overlay" id="reminderModal">
         <div class="modal bottom-sheet reminder-modal">
             <div class="sheet-handle"></div>
-            <div class="reminder-top">&#9889; Pingzy Smart Dispatcher</div>
+            <div class="reminder-top">&#9889; Pingzy Viral Meme Dispatcher</div>
             <div class="recipient" id="reminderRecipient">Someone</div>
             <div class="recipient-phone" id="reminderPhoneDisplay"></div>
             <div class="amount-display" id="reminderAmount">&#8377;0</div>
@@ -491,22 +568,37 @@
                 </button>
             </div>
 
-            <!-- SPECIAL VIRAL MODES BAR: AI BOT, BARTER TREAT, FILMY, DOSTI TAX -->
+            <!-- SPECIAL VIRAL MODES BAR -->
             <div class="special-modes-bar">
-                <button type="button" class="mode-pill" id="botModeBtn">&#129302; Blame AI Bot</button>
-                <button type="button" class="mode-pill" id="barterModeBtn">&#127829; Convert to Treat</button>
-                <button type="button" class="mode-pill" id="filmyModeBtn">&#127916; Filmy Meme</button>
-                <button type="button" class="mode-pill" id="dostiTaxBtn">&#128200; +Samosa Tax</button>
+                <button type="button" class="mode-pill" id="botModeBtn">&#129302; AI Vasooli Bot</button>
+                <button type="button" class="mode-pill" id="barterModeBtn">&#127829; Momos/Treat Deal</button>
+                <button type="button" class="mode-pill" id="filmyModeBtn">&#127916; Bollywood Cult</button>
+                <button type="button" class="mode-pill" id="dostiTaxBtn">&#128200; +Samosa Fine</button>
+            </div>
+
+            <!-- NEW: POPULAR DIALOGUE PACKS (1-Tap Relatable Themes!) -->
+            <div style="font-size:11px; color:#a78bfa; margin: 6px 0 4px 0; font-weight:700;">
+                &#127917; Pick Dialogue Pack (Tap any pack for instant relatable lines!):
+            </div>
+            <div class="dialogue-pack-bar">
+                <button type="button" class="pack-chip" onclick="generateExpandedMessage('cult_bollywood')">&#128374;&#65039; Don / Deewaar / Hera Pheri</button>
+                <button type="button" class="pack-chip" onclick="generateExpandedMessage('web_series')">&#128123; Stree / Panchayat / Mirzapur</button>
+                <button type="button" class="pack-chip" onclick="generateExpandedMessage('cricket_gaming')">&#127951; Cricket &amp; Squad Style</button>
+                <button type="button" class="pack-chip" onclick="generateExpandedMessage('hostel_life')">&#127836; Hostel / College Kadki</button>
+                <button type="button" class="pack-chip" onclick="generateExpandedMessage('savage')">&#128520; Brutal Roast</button>
             </div>
 
             <div class="message-box">
-                <div class="message-label" id="messageBoxLabel">Generated Ping Message (Tap Remix for 100+ new lines!)</div>
+                <div class="message-label" id="messageBoxLabel" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>&#128172; Message Ready (Tap Remix for new dialogue)</span>
+                    <span id="msgCounterBadge" style="color:#f59e0b; font-size:10px;">&#9889; Viral Mode</span>
+                </div>
                 <p id="generatedMessage"></p>
             </div>
 
-            <!-- EXCUSE BUSTER (BAHANA RESPONDER) -->
+            <!-- EXCUSE BUSTER -->
             <div class="excuse-buster-box">
-                <div class="excuse-title">&#128737;&#65039; Excuse Buster (Tap what excuse they gave!):</div>
+                <div class="excuse-title">&#128737;&#65039; Excuse Buster (Dost ne kya bahana maara? Tap karein!):</div>
                 <div class="excuse-chips-row">
                     <button type="button" class="excuse-chip" data-excuse="server">&#128246; Server Down</button>
                     <button type="button" class="excuse-chip" data-excuse="salary">&#128181; Salary Aane De</button>
@@ -522,38 +614,62 @@
                 <div id="qrUpiText" class="qr-upi-id"></div>
             </div>
 
+            <!-- INTERACTIVE MEME STICKER STUDIO -->
             <div class="sticker-preview-box">
-                <div class="sticker-preview-label">
-                    &#10024; Visual Ping Card (Tap card to cycle 40+ new headlines!)
+                <div class="sticker-preview-label" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>&#127912; Interactive Meme Poster (Tap Card to Flip!)</span>
+                    <span style="color:#fbbf24; font-size:10px;">&#128070; Touch Poster</span>
                 </div>
 
-                <img id="stickerPreviewImg" alt="Ping Card Preview" title="Tap to remix text!" />
+                <img id="stickerPreviewImg" alt="Interactive Meme Poster" title="Tap to remix stamp & punchline!" />
 
-                <div class="sticker-style-bar">
-                    <button type="button" class="style-chip active" data-style="classic">&#128293; Classic</button>
-                    <button type="button" class="style-chip" data-style="tilted">&#9889; Pop</button>
-                    <button type="button" class="style-chip" data-style="wanted">&#128680; Urgent</button>
+                <!-- 6 INTERACTIVE POSTER TEMPLATES -->
+                <div class="interactive-sticker-controls" id="interactiveThemeBar">
+                    <button type="button" class="isticker-btn active" data-stheme="wanted">&#128680; CBI Wanted</button>
+                    <button type="button" class="isticker-btn" data-stheme="news">&#128250; Breaking News</button>
+                    <button type="button" class="isticker-btn" data-stheme="filmy">&#127916; Filmy Meme</button>
+                    <button type="button" class="isticker-btn" data-stheme="cibil">&#128201; CIBIL Score</button>
+                    <button type="button" class="isticker-btn" data-stheme="challan">&#9878;&#65039; Court Challan</button>
+                    <button type="button" class="isticker-btn" data-stheme="cyber">&#9889; VIP Neon</button>
+                </div>
+
+                <!-- INTERACTIVE STAMP & PUNCHLINE CYCLERS -->
+                <div class="stamp-cycler-bar">
+                    <button type="button" class="stamp-action-pill" onclick="cycleStickerStamp()">
+                        &#127991;&#65039; Change Thappa (Stamp)
+                    </button>
+                    <button type="button" class="stamp-action-pill" onclick="cycleMegaStickerHeadline()" style="background:rgba(16,185,129,0.14); border-color:rgba(16,185,129,0.45); color:#a7f3d0;">
+                        &#127922; Random Punchline
+                    </button>
+                </div>
+
+                <!-- Keep hidden original style bar for script.js compatibility -->
+                <div class="sticker-style-bar" style="display:none;">
+                    <button type="button" class="style-chip active" data-style="classic">Classic</button>
+                    <button type="button" class="style-chip" data-style="tilted">Pop</button>
+                    <button type="button" class="style-chip" data-style="wanted">Urgent</button>
                 </div>
 
                 <input
                     id="customStickerInput"
                     class="custom-sticker-input"
                     type="text"
-                    maxlength="28"
-                    placeholder="Or type custom card headline..."
+                    maxlength="32"
+                    placeholder="Type custom poster punchline..."
                 >
             </div>
 
             <div class="reminder-actions">
                 <div class="primary-send-row">
-                    <button id="whatsappBtn" class="whatsapp-button">&#128172; WhatsApp</button>
-                    <button id="smsBtn" class="sms-button">&#128233; SMS Text</button>
+                    <button id="whatsappBtn" class="whatsapp-button">&#128172; WhatsApp Text</button>
+                    <button id="shareStickerWaBtn" type="button" class="sms-button" style="background: linear-gradient(135deg, #f59e0b, #d97706); color:#050507; font-weight:800;">&#128248; Share Poster</button>
                 </div>
                 <div class="secondary-send-row">
-                    <button id="showQrBtn" type="button" class="new-reply-button">&#128242; Show QR</button>
+                    <button id="showQrBtn" type="button" class="new-reply-button">&#128242; QR</button>
                     <button id="newReplyBtn" type="button" class="copy-button">&#128260; Remix</button>
                     <button id="copyBtn" type="button" class="copy-button">&#128203; Copy</button>
-                    <button id="stickerBtn" type="button" class="sticker-button">&#11015;&#65039; PNG</button>
+                    <button id="stickerBtn" type="button" class="sticker-button">&#11015;&#65039; Save PNG</button>
+                    <button id="smsBtn" type="button" class="copy-button">&#128233; SMS</button>
                 </div>
                 <button id="closeReminderBtn" class="done-button">Close Sheet</button>
             </div>
@@ -609,33 +725,26 @@
     </div>
 
     <!-- CORE SCRIPT -->
-    <script src="script.js?v=12" charset="utf-8"></script>
+    <script src="script.js?v=14" charset="utf-8"></script>
 
     <!-- =========================================================================
-         AETHERBYTE MEGA EXPANSION ENGINE:
-         1. 100+ Ping Messages across all tones & modes
-         2. 40+ Visual Sticker Headlines on Card Tap / Remix
-         3. 22+ Smart Notifications
-         4. Instant Bilingual Guide & Tab Translation (EN <-> HI)
+         AETHERBYTE INTERACTIVE MEME POSTER & CULT DIALOGUE ENGINE V2.0
     ========================================================================== -->
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js?v=6');
+        navigator.serviceWorker.register('./sw.js?v=7');
       }
 
       // -------------------------------------------------------------------------
-      // PART 1: INSTANT LANGUAGE DETECTION & GUIDE TRANSLATION (EN <-> HI)
+      // 1. BILINGUAL GUIDE & TAB CLARITY (EN <-> HI)
       // -------------------------------------------------------------------------
       function isEnglishMode() {
         const qBtn = document.getElementById('quickLangBtn');
-        const lBtn = document.getElementById('langToggleBtn');
-        // In script.js, when English is active, quickLangBtn shows "🌐 EN"
         if (qBtn) {
           const txt = qBtn.innerText.toUpperCase();
           if (txt.includes('EN')) return true;
           if (txt.includes('HI')) return false;
         }
-        if (lBtn && lBtn.innerText.toLowerCase().includes('english')) return true;
         return false;
       }
 
@@ -654,7 +763,7 @@
             </div>
             <div style="color:#d1d5db; font-size:11.5px;">
               1&#65039;&#8419; <b>&#128210; Khata (To Collect / I Owe):</b> Track money friends owe you (<i>To Collect</i>) or money you owe them (<i>I Owe</i>).<br>
-              2&#65039;&#8419; <b>&#128172; WhatsApp Meme Ping:</b> Send funny/savage meme posters &amp; UPI QR links to collect dues without awkwardness.<br>
+              2&#65039;&#8419; <b>&#127916; Interactive Meme Ping:</b> Send Bollywood/Web-Series dialogues &amp; custom Wanted/News Posters on WhatsApp.<br>
               3&#65039;&#8419; <b>&#127829; Bill Split (Group):</b> Tap <b>Bill Split</b> below to divide party/trip bills equally or spin the Bill Roulette!
             </div>
           `;
@@ -666,7 +775,7 @@
             </div>
             <div style="color:#d1d5db; font-size:11.5px;">
               1&#65039;&#8419; <b>&#128210; Khata (Lena / Dena):</b> Dost se paise lene hain (<i>To Collect</i>) ya dene hain (<i>I Owe</i>), yahan likhein.<br>
-              2&#65039;&#8419; <b>&#128172; WhatsApp Meme Ping:</b> Bina sharam dost se paise mangne ke liye Funny Meme Card &amp; UPI QR bhejein.<br>
+              2&#65039;&#8419; <b>&#127916; Filmy Meme Poster:</b> Bina sharam paise mangne ke liye Funny Dialogues aur Wanted/Breaking News Poster WhatsApp karein.<br>
               3&#65039;&#8419; <b>&#127829; Bill Split (Group):</b> Party ya trip ka total bill dosto mein barabar baantne ke liye niche <b>Bill Split</b> dabayein.
             </div>
           `;
@@ -767,184 +876,492 @@
       }
 
       // -------------------------------------------------------------------------
-      // PART 2: 100+ MEGA PING MESSAGE ENGINE & 40+ STICKER HEADLINES
+      // 2. 120+ VIRAL & RELATABLE DIALOGUE ARSENAL
       // -------------------------------------------------------------------------
       const MEGA_PING_BANK = {
+        cult_bollywood: [
+          "🕶️ Deewaar Style: 'Aaj khush toh bohot hoge tum {name}... mere {amt} daba ke jo baithe ho! Bhai ab toh GPay kar de!' 🎬😂",
+          "🕶️ Deewaar Iconic: 'Mere paas gaadi nahi hai, bangla nahi hai... aur bank balance bhi nahi hai kyunki {name} ke paas mere {amt} pade hain!' 🎬💸",
+          "🕶️ Don Dialogue: 'Don ko pakadna mushkil hi nahi, namumkin hai... par {name} se {amt} nikalwana usse bhi zyada namumkin lag raha hai!' 😂🎬",
+          "🕶️ Deewaar Classic: 'Main aaj bhi feke hue paise nahi uthata {name}... par apne udhaar diye hue {amt} zaroor vasool karta hu! UPI kar de!' 🔥",
+          "🎬 Hera Pheri Babu Bhaiya: 'Utha le re baba, utha le... mere {amt} ko {name} ke account se utha ke mere GPay mein daal de!' 😂",
+          "🎬 Kachra Seth Special: '150 rupiya nahi... poore {amt} dega {name}! Jaldi Paytm/GPay ghuma!' 💸",
+          "🎬 Phir Hera Pheri Raju: '25 din mein paisa double nahi chahiye {name}, bas mere asli {amt} bina katauti ke wapas bhej de!' 😂",
+          "🎬 Welcome Uday Shetty: 'Control Uday, Control... main control hi kar raha hu {name}, warna {amt} ke liye abhi tere ghar ke neeche khada hota!' 🔥",
+          "🎬 Majnu Bhai Painting: 'Bhai {name}, mere {amt} bhej de warna Majnu Bhai ki ghode-gadhe wali painting tere naam pe auction kar dunga!' 😂",
+          "🎬 Gangs of Wasseypur: 'Baap ka, dada ka, bhai ka... sabka Chai-Momos ka hisaab barabar karega tera ye dost! {amt} UPI kar {name}!' 🔥",
+          "🎬 3 Idiots Virus: 'Life is a race {name}... aur is race mein mere {amt} lautaane mein tu sabse piche chal raha hai! Jaldi bhej!' 😂",
+          "🎬 Sholay Gabbar: 'Kitne paise bache the re Kalia? Sardar, {name} pe poore {amt}! Toh abhi tak GPay kyun nahi aaya?!' 🔥"
+        ],
+        web_series: [
+          "👻 Stree 2 Mode: 'O Stree Kal Aana... par {name} bhai tu mere {amt} AAJ aur ABHI GPay pe laana!' 😂⚡",
+          "👻 Munjya Alert: 'Bhai {name}, agar aaj raat tak {amt} UPI nahi aaye toh Munjya ki tarah tere sapne mein aake bolunga — Mere paise de!' 😂",
+          "🐺 Bhediya Mode: 'Poonam ki raat ko Bhediya banta hai, aur month-end pe main Vasooli Bhai! {name}, mere {amt} bhej de!' 🔥",
+          "☕ Panchayat Binod: 'Dekh raha hai Binod? Kaise {name} WhatsApp pe online aake bhi mere {amt} ka message seen nahi kar raha!' 😂",
+          "🎃 Panchayat Pradhan Ji: 'Phulera gaon mein lauki bat gayi {name}, par tere account se mere {amt} abhi tak nahi nikle! UPI kar bhai!' 😂",
+          "🔥 Mirzapur Kaleen Bhaiya: 'Abki baar jab {name} mile toh unse kahiyega... izzat se {amt} GPay kar dein, chacha vidhayak nahi hain!' 🎬",
+          "🔥 Munna Bhaiya Style: 'Hindi film ke hero hain hum {name}, aur apne {amt} liye bina kahin nahi jayenge! Jaldi transfer kar!' ⚡",
+          "🦸‍♂️ Butcher (The Boys) Mode: 'Oi {name}! Don't be a diabolical defaulter mate — wire my {amt} on UPI right now!' 🔥",
+          "🦈 Shark Tank Ashneer: 'Bhai {name}, ye jo tu {amt} daba ke baitha hai na — ye sab Doglapan hai! Abhi ke abhi GPay khol!' 😂",
+          "🎭 Family Man Srikant: 'Bhai {name}, desh kiasli economy tabhi sudhregi jab tu mere {amt} time pe wapas karega!' 😂"
+        ],
+        cricket_gaming: [
+          "🏏 Last Over Thriller: 'Bhai {name}, 1 ball pe 6 run chahiye aur mujhe mere {amt}! Jaldi Yorker ki speed se UPI bhej!' ⚡",
+          "🏏 IPL Auction Update: 'Purse khali ho gaya hai {name} bhai! Mere {amt} wapas bhej taaki agle weekend ki party mein bid laga saku!' 😂",
+          "🏏 Umpire Third Referral: 'UltraEdge mein saaf dikh raha hai ki {name} ke paas mere {amt} pending hain! Decision: OUT (Pay Now)!' ☝️",
+          "🎮 CODM / Squad Alert: 'Bhai {name}, game mein toh bada bolta hai Revive De, Revive De — ab real life mein mere {amt} de ke mera bank account revive kar!' 😂🔫",
+          "🎮 Rush Gameplay: 'Oye {name}! AK117 ki fire-rate se bhi tezz GPay khol aur mere {amt} transfer kar!' ⚡",
+          "🏏 Century Stuck: 'Bhai {name}, 99 pe atka hua hu — bas tere {amt} aate hi mere mahine ka budget settle ho jayega!' 😂"
+        ],
+        hostel_life: [
+          "🍜 Hostel Emergency: 'Bhai {name}, raat ke 1 baje Maggi aur Cold Coffee ka crisis chal raha hai! Mere {amt} abhi UPI kar de yaar!' 😂",
+          "📚 College Attendance Warning: 'Sun {name}, meri attendance 75% se kam hai par tujhpe mera bharosa 100% tha! Mere {amt} bhej warna kal proxy cancel!' 😂",
+          "☕ Tapri Hisaab: 'Bhai {name}, tapri wale bhaiya bhi ab teri shakal pooch rahe hain! Mere {amt} bhej de, izzat ka sawaal hai!' 😂",
+          "💸 Month-End Kadki: 'Oye {name}! Ghar se pocket money aane mein 10 din baki hain aur जेब mein sirf hawa hai. Mere {amt} bhej ke bacha le!' 🙏😂",
+          "🛵 Auto / Metro Split: 'Bhai {name}, us din bol raha tha chhutta nahi hai tu dede — ab UPI mein toh chhutta hi chhutta hai! {amt} bhej!' 😂",
+          "🍕 Semester Party Split: 'Party ke time toh sabse aage khada tha {name}, ab {amt} bhejne ke time underground kyun ho gaya?' 😂"
+        ],
         soft: [
-          "Hey {name}! 🙂 Chota sa reminder — pichle split ke {amt} pending the. Jab free ho toh UPI kar dena bhai! ⚡",
+          "Hey {name}! 🙂 Chota sa friendly reminder — pichle split ke {amt} pending the. Jab free ho toh UPI kar dena bhai! ⚡",
           "Hi {name}! Bas yaad dila raha tha ki {amt} ka hisaab bacha hua hai. Jab convenient ho toh settle kar lena 🙏",
           "Hey {name} bro! Apna {amt} wala split pending dikha raha tha khate mein. Time mile toh GPay/PhonePe kar dena ✨",
-          "Hello {name}! 🙂 No rush, bas yaad ke liye ping kar raha hu — {amt} pending hain. Jab mauka mile bhej dena!",
-          "Hey {name}! Month-end hisaab clear kar raha tha toh dekha tere {amt} bache hain. Free hoke bhej dena bhai 💜",
-          "Hi {name}! Hope all good 🙂 Apna {amt} ka chota sa split bacha tha, jab UPI khole toh निपटा dena!",
-          "Hey {name}! Gentle ping ⚡ {amt} pending hain apni pichli outing ke. Jab aasan lage transfer kar dena!",
-          "Bro {name}! 🙂 Apna khata clean kar raha tha — {amt} pending hain. Jab free ho toh 1-tap UPI kar dena!",
-          "Hey {name}! Quick friendly reminder for {amt} 😊 Whenever you get a second, please UPI it over!",
-          "Hi {name}! Just clearing up old splits on Pingzy — {amt} is pending from your side. Send whenever free! ✨"
+          "Hello {name}! 🙂 Month-end hisaab clear kar raha tha toh dekha tere {amt} bache hain. Free hoke bhej dena bhai 💜"
         ],
         funny: [
           "Bhai {name} 😂 Mere {amt} pe 18% GST aur 2 Samosa ब्याज lagne se pehle UPI kar de yaar!",
           "Breaking News 🚨: NASA ne confirm kiya hai ki {name} ke paas mere {amt} abhi tak pade hue hain. Jaldi bhej bhai! 😂",
-          "Bhai {name}, mere {amt} mutual fund mein daale hain kya jo itna lock-in period chal raha hai? 😂💸 Bhej de ab!",
+          "Bhai {name}, mere {amt} mutual fund SIP mein daal diye hain kya jo 3 saal ka lock-in period chal raha hai? 😂💸",
           "Oye {name} 😂 Mera Astrologer bol raha tha ki jab tak tu mere {amt} wapas nahi karega, teri kundli mein Shani bhaari rahega! 🪐",
-          "Bhai {name}, {amt} bhej de yaar, meri Maggi aur Chai ki liquidity crisis chal rahi hai! 🍜😂",
-          "Hello {name} 😂 Tere paas jo mere {amt} hain, unki yaad mein maine aaj 2 minute ka maun rakha. Ab toh UPI kar de!",
-          "Bhai {name}, agar agle 10 minute mein {amt} UPI nahi aaye, toh main tere ghar ke bahar dharne pe baith jaunga! 😂🪧",
-          "Oye {name}! 😂 Mere {amt} itne din se tere account mein reh rahe hain, ab toh unka rent bhi banta hai!",
-          "Bro {name} 😂 RBI ka naya rule aaya hai: Dosto ke {amt} दबाने par seedha Zomato coupon block ho jata hai! Jaldi GPay kar!",
-          "Bhai {name}, kidney nahi maang raha hu, bas apne {amt} maang raha hu! 😂 Halka sa UPI kar de!",
-          "Alert {name} 😂: Tere paas mere {amt} itne purane ho gaye hain ki ab wo Archaeology department ke under aane wale hain!",
-          "Oye {name}! 😂 Dosti apni jagah, lekin mere {amt} wapas karne ka muhurat kab nikal raha hai pandit ji?"
+          "Bhai {name}, kidney nahi maang raha hu, bas apne {amt} maang raha hu! 😂 Halka sa UPI kar de!"
         ],
         filmy: [
           "Babu Bhaiya style mein bol raha hu {name}: '25 din mein paisa double nahi chahiye, bas mere asli {amt} wapas de de re baba!' 🎬😂",
           "Mirzapur Alert {name} 🔥: 'Kaleen Bhaiya ka aadesh hai — izzat se {amt} GPay kar do, warna agla season tere ghar pe shoot hoga!' 🎬",
-          "Kachra Seth voice: '150 rupiya nahi, poore {amt} dega!' 😂🎬 Bhai {name}, jaldi UPI ghuma de!",
-          "Shark Tank India Update {name} 🦈: 'Tere bahane sun kar main is udhaar se OUT hu! Mere {amt} abhi ke abhi wapas kar!'",
-          "Gangs of Wasseypur {name} 🎬: 'Baap ka, dada ka, bhai ka... sabka hisaab barabar karega tera ye dost! {amt} bhej jaldi!'",
-          "Welcome Movie {name} 🎬: 'Control Uday, Control... main control kar raha hu warna {amt} ke liye abhi tere ghar aa jata!' 😂",
-          "Amitabh Bachchan KBC {name} 🎬: '7 Crore nahi, deviyon aur sajjano, {name} ko bas mere {amt} UPI karne hain! Lock kiya jaye!'",
-          "Pushpa Mode {name} 🔥: 'Pushpa naam sun ke flower samjha kya? Fire hai main! Aur mere {amt} abhi tak pending hain!' 🎬",
-          "3 Idiots {name} 🎬: 'All Izz Well tabhi hoga jab mere {amt} mere account mein dikhenge! Jaldi bhej bhai!'",
-          "Golmaal Vasooli Bhai {name} 🎬: 'Jaldi bol kal subah Panvel nikalna hai... mere {amt} abhi ke abhi GPay kar!' 😂",
-          "Sholay Gabbar {name} 🎬: 'Kitne paise the re Kalia? Sardar, poore {amt}! Toh abhi tak UPI kyun nahi hua?!'"
+          "O Stree Kal Aana... par {name} bhai tu mere {amt} AAJ hi laana! 👻😂",
+          "Deewaar Style {name} 🕶️: 'Aaj khush toh bohot hoge tum... mere {amt} daba ke jo baithe ho! Jaldi UPI kar!'"
         ],
         savage: [
           "Oye {name} 😈 Jab bill split hua tha tab toh bada 'Bro-Bro' kar raha tha, ab {amt} bhejne mein ungli dard ho rahi hai kya?",
           "Bhai {name}, Zomato aur Swiggy pe toh tera UPI 5G speed pe chalta hai, mere {amt} bhejne ke time hi network jaata hai kya? 😈💸",
-          "Listen {name} 🚨 Tera Friendship CIBIL Score gir kar -50 ho gaya hai. {amt} abhi UPI kar aur apni izzat bacha!",
-          "Bhai {name} 😈 Message seen karke ghost karne se {amt} maaf nahi ho jayenge. Seedhe-seedhe GPay kar abhi!",
-          "Oye {name}, gareeb ki haaye aur dost ka udhaar ({amt}) kabhi hazam nahi hota 💀 Abhi scan karke chukta kar!",
-          "Strict Warning {name} ⚡: Bohot ho gaya 'kal bhejta hu'. Abhi 30 second lagte hain GPay kholne mein — {amt} transfer kar!",
+          "Listen {name} 🚨 Tera Friendship CIBIL Score gir kar -420 ho gaya hai. {amt} abhi UPI kar aur apni izzat bacha!",
           "Bhai {name} 😈 Instagram pe story lagane ka data hai tere paas, par mere {amt} UPI karne ka 2KB data nahi bacha?",
-          "Oye {name}! Paise lete waqt toh teri speed Bullet Train jaisi thi, {amt} lautaate waqt बैलगाड़ी kyun ban gaya? 😈",
-          "Final Reminder {name} 🚨: Mere {amt} bhej raha hai ya group mein tera 'Udhaar Defaulter' poster viral karu? 😈",
-          "Bro {name}, bahane mat bana. {amt} abhi turant UPI kar, hisaab saaf rakh! ⚡"
+          "Oye {name}! Paise lete waqt toh teri speed Bullet Train jaisi thi, {amt} lautaate waqt बैलगाड़ी kyun ban gaya? 😈"
         ],
         professional: [
-          "Hi {name}, this is an official settlement reminder for the pending balance of {amt}. Kindly transfer via UPI at your earliest convenience. 💼",
-          "Dear {name}, as per our shared expense ledger, an amount of {amt} is currently overdue. Please clear the dues today. 📋",
-          "Hello {name}, kindly take a moment to settle the pending split of {amt} via Google Pay / PhonePe. Thank you! 💼",
-          "Invoice Notice: {name}, your account shows an outstanding shared expense of {amt}. Prompt UPI settlement is appreciated. ⚡",
-          "Hi {name}, wrapping up this week's accounts — please process the pending {amt} transfer when you get a moment. Best regards! 💼",
-          "Gentle Accounting Reminder for {name}: Pending balance of {amt}. Please complete the UPI transaction today. 📊",
-          "Hello {name}, hope you're doing well. Requesting a quick settlement of {amt} towards our recent split bill. Thanks! 💼"
+          "Hi {name}, this is an official settlement reminder for the pending balance of {amt}. Kindly transfer via UPI today. 💼",
+          "Dear {name}, as per our shared expense ledger, an amount of {amt} is overdue. Prompt UPI settlement is appreciated. 📋"
         ],
         bot: [
-          "🤖 [PINGZY AI BOT v4.2]: Beep Boop! Hello {name}, main Harsh ka Automated Vasooli Bot hu. Aapke upar {amt} pending hain. Har 2 ghante mein auto-ping aane se rokne ke liye abhi UPI karein! ⚡",
-          "🤖 [AUTO-COLLECTION AI]: Namaste {name}! AI scan mein paya gaya hai ki aapne {amt} abhi tak nahi bheje. Kripya turant GPay karke apna naam Defaulter List se hatayein!",
-          "🤖 [CYBER KHATA BOT]: Alert {name}! Mere malik ko bolne mein sharam aa rahi thi, isliye mujhe bheja hai. Chup-chap {amt} UPI kar do warna main spam mode ON kar dunga! 🚨",
-          "🤖 [PINGZY ROBO-AGENT]: Automated Notice #404 for {name} — Outstanding balance: {amt}. Human friendship detected, awaiting UPI confirmation! ⚡",
-          "🤖 [AI VASOOLI ENGINE]: Hi {name}! Main ek emotionless AI bot hu, mujhpe 'Server Down' ya 'Kal Dunga' bahana kaam nahi karta. Please pay {amt} now! 🤖💸"
+          "🤖 [PINGZY AI VASOOLI BOT]: Beep Boop! Hello {name}, main Harsh ka Automated Vasooli Bot hu. Aapke upar {amt} pending hain. Spam mode rokne ke liye abhi UPI karein! ⚡",
+          "🤖 [CYBER KHATA AI]: Alert {name}! Mere malik ko bolne mein sharam aa rahi thi, isliye mujhe bheja hai. Chup-chap {amt} GPay kar do! 🚨"
         ],
         barter: [
-          "🍕 [TREAT BARTER DEAL]: Oye {name}! Agar {amt} cash/UPI nahi de sakta, toh aaj shaam ko utne ke गरमा-गरम Momos aur Cold Coffee khila ke hisaab barabar kar! Deal? 🤝",
-          "🍔 [FOOD SETTLEMENT]: Bhai {name}! {amt} ke badle aaj Burger + Fries + Coke ki party de de, main khate se tera naam abhi काट dunga! बोल मंजूर है? 🍟",
-          "☕ [CHAI-SAMOSA BARTER]: Sun {name}! {amt} UPI karne mein maut aa rahi hai toh Tapri pe chal aur poore group ko Samosa-Chai pila ke udhaar chukta kar! 🥟",
-          "🍗 [BIRYANI EXCHANGE OFFER]: Special Scheme for {name}: {amt} ka udhaar maaf ho sakta hai agar tu aaj shaam Biryani/Roll treat sponsor kar de! Deal lock karein? 🔥",
-          "🍕 [PIZZA BARTER MODE]: Bhai {name}, paise chhod — {amt} ke badle Pizza party kra de, hisaab 100% settled! Kya bolta hai? 🎉"
+          "🍕 [MOMOS BARTER DEAL]: Oye {name}! Agar {amt} UPI nahi kar sakta, toh aaj shaam गरमा-गरम Tandoori Momos aur Cold Coffee khila ke hisaab barabar kar! 🤝",
+          "🍗 [BIRYANI SETTLEMENT]: Bhai {name}! {amt} ke badle aaj shaam Biryani/Roll party sponsor kar de, khate se tera naam abhi काट dunga! 🔥"
         ],
         dostiTax: [
-          "📈 [LATE FEE + SAMOSA TAX]: Bhai {name}! Asli udhaar tha {amt}, par itna late karne ke jurm mein ab '1 Garma-Garam Samosa + Chai Tax' jud gaya hai! Jaldi pay kar warna Biryani Tax lagega! 🥟😂",
-          "📈 [DOSTI INFLATION ALERT]: Oye {name}! Tere {amt} pe ab Dosti RBI ke hisaab se roz 1 Plate Golgappe ka vyaj chadh raha hai. Abhi UPI karke meter rok le! 🚨",
-          "📈 [SURCHARGE NOTICE]: {name} bhai, {amt} pending rakhe hue itne din ho gaye ki ab uspe ₹20 'Dimag Kharab Surcharge' lag chuka hai! Turant settle kar! 💸",
-          "📈 [PENALTY APPLIED]: Alert {name}! {amt} + 1 Cold Drink Penalty active ho chuki hai. Agle 1 ghante mein UPI karoge toh penalty maaf! ⚡"
+          "📈 [SAMOSA FINE APPLIED]: Bhai {name}! Asli udhaar tha {amt}, par late karne ke jurm mein ab '2 Samosa + Chai Tax' jud gaya hai! Jaldi pay kar! 🥟😂",
+          "📈 [DOSTI RBI PENALTY]: Oye {name}! Tere {amt} pe ab roz 1 Plate Golgappe ka vyaj chadh raha hai. Abhi UPI karke meter rok le! 🚨"
         ],
         excuse_server: [
-          "📶 'Server Down' ka bahana mat mar {name}! 😂 Abhi Zomato/Swiggy pe order karega toh 1 second mein payment ho jayegi. Doosre bank se {amt} bhej ya cash nikaal!",
-          "📶 Oye {name}, SBI ka server down ho sakta hai par GPay/PhonePe/Paytm teeno ek sath kabhi down nahi hote! 😂 Chup-chap {amt} bhej!",
-          "📶 Bhai {name}, tera bank server hamesha mere {amt} dene ke time hi kyun chhutti pe jata hai? 😂 QR scan kar, abhi chalega!",
-          "📶 Server down hai toh koi baat nahi {name}, ATM se nikaal ke de de ya kisi dusre dost se mere UPI pe {amt} dalwa de! Bahana Reject ❌"
+          "📶 'Server Down' ka bahana mat mar {name}! 😂 Abhi Zomato pe order karega toh 1 second mein payment hogi. Chup-chap {amt} GPay kar!",
+          "📶 Oye {name}, SBI ka server down ho sakta hai par GPay/PhonePe/Paytm teeno ek sath kabhi down nahi hote! 😂 {amt} bhej!"
         ],
         excuse_salary: [
-          "💵 'Salary aane de'?! Bhai {name}, tujhse Elon Musk ki company nahi maang raha, bas {amt} maang raha hu! 😂 Abhi GPay kar!",
-          "💵 Oye {name}! {amt} dene ke liye konsi 7th Pay Commission ki salary ka wait kar raha hai? 😂 Chillar hai bhai, abhi निपटा!",
-          "💵 Bhai {name}, agar {amt} ke liye tujhe salary ka wait karna pad raha hai, toh ₹50-₹50 ki 2 EMI bana ke abhi pehli kist UPI kar! 😂",
-          "💵 Salary toh har mahine aake chali jati hai {name}, par mere {amt} kab aayenge? Bahana band kar aur GPay khol! 💸"
+          "💵 'Salary aane de'?! Bhai {name}, tujhse Taj Mahal nahi maang raha, bas {amt} maang raha hu! 😂 Abhi GPay kar!",
+          "💵 Bhai {name}, agar {amt} ke liye salary ka wait karna pad raha hai, toh ₹50-₹50 ki EMI bana ke abhi pehli kist UPI kar! 😂"
         ],
         excuse_tomorrow: [
           "📅 'Kal Pakka'?! Bhai {name}, tera 'Kal' 1947 se aaj tak nahi aaya! 😂 Jo karna hai AAJ aur ABHI kar — {amt} UPI bhej!",
-          "📅 Kabir Das ji keh gaye hain {name}: 'Kaal kare so aaj kar, aaj kare so AB!' Toh {amt} abhi GPay kar aur punya kama! 😂🙏",
-          "📅 Oye {name}, 'Kal dunga' bol-bol ke tune poore hafte ki tarikh badal di! Abhi 10 second lagenge, {amt} transfer kar! ⚡",
-          "📅 Bhai {name}, tere 'Kal Pakka' pe ab mujhe 0% bharosa hai 😂 Abhi screenshot bhej {amt} pay karke!"
+          "📅 Oye {name}, 'O Stree Kal Aana' suna tha, tu toh 'O Paisa Kal Aana' ban gaya hai! 😂 Abhi {amt} transfer kar!"
         ],
         excuse_forgot: [
-          "🤔 'Bhool gaya tha'?! Khana khana aur Reels scroll karna toh kabhi nahi bhoolta {name}! 😂 Lo ab yaad dila diya, turant {amt} UPI kar!",
-          "🤔 Isiliye toh Pingzy app banayi hai {name} taaki teri 'Ghajini' wali memory ko {amt} yaad rahe! 😂 Abhi ke abhi GPay kar!",
-          "🤔 Oye {name}, roz subah 4 bheeghe hue Badam khaya kar — aur badam khane se pehle mere {amt} UPI kar de! 😂🧠",
-          "🤔 Bhool gaya tha na? Ab toh message padh liya! Toh bina screen band kiye seedha GPay khol aur {amt} bhej de {name}! ⚡"
+          "🤔 'Bhool gaya tha'?! Reels scroll karna toh kabhi nahi bhoolta {name}! 😂 Lo ab yaad dila diya, turant {amt} UPI kar!",
+          "🤔 Ghajini ke Aamir Khan mat bano {name}! 😂 Chup-chap GPay kholo aur mere {amt} abhi bhej do!"
         ]
       };
 
-      // 40+ Visual Sticker Headlines Pool (Max 28 chars for crisp Canvas rendering)
-      const MEGA_STICKER_HEADLINES = [
-        "UDHAAR WAPAS KAR BHAI ⚡",
-        "150 RUPIYA NIKAAL RE BABA!",
-        "SWIGGY CHALTA, GPAY NAHI? 😂",
-        "SERVER DOWN BAHANA BAND ❌",
-        "DOSTI APNI JAGAH, PAISA APNI",
-        "WANTED: MISSING UDHAAR 🚨",
+      // -------------------------------------------------------------------------
+      // 3. INTERACTIVE STICKER STUDIO ENGINE (6 LIVE TEMPLATES + STAMPS)
+      // -------------------------------------------------------------------------
+      const STICKER_STAMPS = [
+        "SERVER DOWN KING 📶",
+        "SEEN ZONE PRO MAX 👀",
+        "KAL PAKKA LEGEND 🤡",
+        "GHAJINI MEMORY 🧠",
+        "VIP DEFAULTER 🚨",
+        "CHAI-MOMOS SPONSOR 🥟",
+        "25 DIN SCHEME 🎬",
+        "DOSTI CIBIL: -420 📉",
+        "BAHANA EXPERT 🏆",
+        "NO EXCUSES LEFT ⚡"
+      ];
+
+      const STICKER_PUNCHLINES = [
+        "150 RUPIYA NAHI, POORA DE! 🎬",
+        "O STREE KAL AANA, PAISA AAJ LA! 👻",
+        "DEKH RAHA HAI BINOD?! ☕",
+        "AAJ KHUSH TOH BOHOT HOGE TUM 🕶️",
+        "SWIGGY CHALTA HAI, GPAY NAHI? 😂",
+        "DON KO PAKADNA NAMUMKIN HAI 🕶️",
+        "KALEEN BHAIYA KA AADESH HAI 🔥",
+        "CONTROL UDAY, CONTROL... 🎬",
+        "REVIVE DE BHAI, UPI KAR! 🎮",
+        "MAGGI CRISIS CHAL RAHI HAI 🍜",
         "SHARAM KAR LE THODI SI 😂",
-        "CBI NOTICE: PENDING DUES 🔍",
-        "FRIENDSHIP CIBIL: LOW 📉",
-        "GAREEB KI HAAYE LAGEGI 💀",
-        "SCAN KAR AUR MUKTI PA ⚡",
-        "25 DIN HO GAYE RE BABA! 🎬",
-        "KAL PAKKA NAHI, AAJ BHEJ!",
-        "SAMOSA TAX LAG JAYEGA 🥟",
-        "MESSAGE SEEN MAT CHHOD 😈",
-        "KIDNEY NAHI, PAISA MAANGA 😂",
-        "GHAJINI MAT BAN, GPAY KAR!",
-        "CHAI-MOMOS KA HISAAB DE 🍜",
-        "AI BOT VASOOLI ACTIVE 🤖",
-        "MONTH END CRISIS HAI BHAI 💸",
-        "BHAI HAI TOH ABHI BHEJ ❤️️",
-        "UDHAAR DEFAULTER ALERT 🚨",
-        "PAISA BHEJ WARNA MEME JAYEGA",
-        "LOCK-IN PERIOD KHATAM KAR 😂",
-        "CONTROL UDAY, GPAY KAR! 🎬",
-        "KALEEN BHAIYA KA AADESH 🔥",
-        "NO EXCUSES, ONLY UPI ⚡",
-        "TERE UPAR SHANI BHAARI HAI 🪐",
-        "CHUP-CHAP SCAN KAR BHAI 📲",
-        " PARTY TREAT DE YA PAISA! 🍕",
-        "ACCOUNT MEIN SANNATA HAI 😢",
-        "VIP REMINDER: PAY NOW 👑"
+        "CHUP-CHAP QR SCAN KAR 📲"
       ];
 
-      // 22+ Smart Notification Messages Pool
-      const MEGA_NOTIFICATIONS = [
-        { title: '⚡ PINGZY Smart Khata!', body: 'Ab koi dost udhaar daba kar nahi bhaag payega. Check your splits!' },
-        { title: '💸 Udhaar Check Time!', body: 'Bhai, kisi dost ke chai-sutta ya momos ke paise pending toh nahi hain?' },
-        { title: '🔥 Savage Ping Ready!', body: 'Sharam chhod, 1-Tap WhatsApp Meme Ping bhej aur apna paisa vasool kar!' },
-        { title: '🧾 Aaj Ka Hisaab Likha?', body: 'Aaj dosto pe jo kharcha kiya wo add karna bhool toh nahi gaya? Tap + now!' },
-        { title: '🎬 Babu Bhaiya Alert!', body: '25 din mein paisa double nahi hoga, par Pingzy se wapas zaroor mil jayega!' },
-        { title: '🍕 Party Bill Split Karo!', body: 'Dosto ke sath khana khaya? Bill Split tab se 5 second mein barabar baanto!' },
-        { title: '😈 Ghosting Band Karwao!', body: 'Jo dost message seen karke chhod raha hai, use Strict Mode ping bhejo!' },
-        { title: '🛡️ Excuse Buster Active!', body: 'Dost bole "Server Down hai"? Pingzy ka Excuse Buster daba ke jawab do!' },
-        { title: '📲 1-Tap UPI QR Ready!', body: 'Studio tab mein apni UPI ID save rakho taaki dost seedha scan karke pay kare!' },
-        { title: '👑 AetherByte Vault Safe!', body: 'Tera poora khata 100% tere phone mein safe hai. Dekh le kaun kitna maangta hai!' },
-        { title: '🥟 Samosa Tax Laga Dein?', body: 'Jo dost 1 hafte se paise nahi de raha, uspe +Samosa Tax laga ke ping bhej!' },
-        { title: '🎲 Bill Roulette Try Kiya?', body: 'Aaj chai ka bill kaun dega? Group Split mein Roulette ghumao aur dekho!' }
-      ];
-
+      let activeStickerTheme = 'wanted'; // 'wanted' | 'news' | 'filmy' | 'cibil' | 'challan' | 'cyber'
+      let activeStampIdx = 0;
+      let activePunchlineIdx = 0;
       let lastMsgText = '';
-      let lastStickerText = '';
-      let currentVibeCategory = 'soft';
+      let currentVibeCategory = 'cult_bollywood';
 
       function getReminderContext() {
         const nameEl = document.getElementById('reminderRecipient');
         const amtEl = document.getElementById('reminderAmount');
         const upiEl = document.getElementById('userUpiInput');
-        const name = (nameEl && nameEl.innerText.trim()) ? nameEl.innerText.trim() : 'Bhai';
+        const customInput = document.getElementById('customStickerInput');
+        const name = (nameEl && nameEl.innerText.trim()) ? nameEl.innerText.trim() : 'ROHAN';
         const amt = (amtEl && amtEl.innerText.trim()) ? amtEl.innerText.trim() : '₹500';
         const upi = (upiEl && upiEl.value.trim()) ? upiEl.value.trim() : (localStorage.getItem('pingzy_upi_id') || '');
-        return { name, amt, upi };
+        const customText = (customInput && customInput.value.trim()) ? customInput.value.trim() : STICKER_PUNCHLINES[activePunchlineIdx];
+        return { name, amt, upi, customText };
       }
 
-      function generateExpandedMessage(category) {
+      // Draw High-Impact Interactive Meme Poster onto Canvas & Preview Image!
+      function renderInteractiveSticker() {
+        const imgEl = document.getElementById('stickerPreviewImg');
+        if (!imgEl) return;
+
+        const { name, amt, upi, customText } = getReminderContext();
+        const stampText = STICKER_STAMPS[activeStampIdx % STICKER_STAMPS.length];
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 800;
+        canvas.height = 500;
+        const ctx = canvas.getContext('2d');
+
+        // Helper for rounded rect
+        function roundRect(x, y, w, h, r) {
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.arcTo(x + w, y, x + w, y + h, r);
+          ctx.arcTo(x + w, y + h, x, y + h, r);
+          ctx.arcTo(x, y + h, x, y, r);
+          ctx.arcTo(x, y, x + w, y, r);
+          ctx.closePath();
+        }
+
+        // THEME 1: CBI WANTED POSTER
+        if (activeStickerTheme === 'wanted') {
+          const grad = ctx.createLinearGradient(0, 0, 800, 500);
+          grad.addColorStop(0, '#2a0808');
+          grad.addColorStop(0.5, '#140505');
+          grad.addColorStop(1, '#2d0a0a');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Hazard Caution Top & Bottom Bars
+          ctx.fillStyle = '#f59e0b';
+          ctx.fillRect(0, 0, 800, 48);
+          ctx.fillRect(0, 452, 800, 48);
+
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 22px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🚨 CBI UDHAAR CELL • MOST WANTED DEFAULTER 🚨', 400, 32);
+          ctx.fillText('⚡ PINGZY SMART KHATA • AETHERBYTE STUDIOS ⚡', 400, 483);
+
+          // Inner Wanted Frame
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 4;
+          roundRect(32, 68, 736, 364, 18);
+          ctx.stroke();
+
+          ctx.fillStyle = '#fca5a5';
+          ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('MISSING SINCE BILL SPLIT:', 400, 112);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 54px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(name.toUpperCase(), 400, 172);
+
+          // Amount Bounty Box
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.2)';
+          roundRect(180, 195, 440, 96, 16);
+          ctx.fill();
+          ctx.strokeStyle = '#fbbf24';
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          ctx.fillStyle = '#fde68a';
+          ctx.font = '900 62px "JetBrains Mono", monospace';
+          ctx.fillText(amt, 400, 265);
+
+          // Punchline
+          ctx.fillStyle = '#f87171';
+          ctx.font = '800 25px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('"' + customText + '"', 400, 342);
+
+          ctx.fillStyle = '#9ca3af';
+          ctx.font = '700 17px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 SCAN OR PAY UPI: ${upi}` : '📲 BINA BAHANE ABHI GPAY / PHONEPE KAREIN!', 400, 398);
+        }
+
+        // THEME 2: BREAKING NEWS TV BROADCAST
+        else if (activeStickerTheme === 'news') {
+          const grad = ctx.createLinearGradient(0, 0, 800, 500);
+          grad.addColorStop(0, '#090d16');
+          grad.addColorStop(1, '#1e1b4b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          // Red BREAKING NEWS Header Banner
+          ctx.fillStyle = '#dc2626';
+          ctx.fillRect(0, 0, 800, 68);
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 32px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('📺 AAJ KI TAAZA KHABAR • LIVE EXCLUSIVE 🔴', 400, 45);
+
+          // TV Headline Box
+          ctx.fillStyle = 'rgba(255,255,255,0.06)';
+          roundRect(35, 92, 730, 290, 16);
+          ctx.fill();
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          ctx.fillStyle = '#facc15';
+          ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('संसनीखेज खुलासा: दोस्त के खाते में फंसी बड़ी रकम!', 400, 134);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 48px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`${name.toUpperCase()} SE LENE HAIN`, 400, 195);
+
+          ctx.fillStyle = '#4ade80';
+          ctx.font = '900 66px "JetBrains Mono", monospace';
+          ctx.fillText(amt, 400, 275);
+
+          ctx.fillStyle = '#fcd34d';
+          ctx.font = '800 24px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('⚡ ' + customText, 400, 345);
+
+          // Yellow Bottom News Ticker
+          ctx.fillStyle = '#facc15';
+          ctx.fillRect(0, 420, 800, 80);
+          ctx.fillStyle = '#050507';
+          ctx.font = '900 21px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `BREAKING TICKER: PAY NOW ON UPI 👉 ${upi}` : 'BREAKING TICKER: SERVER DOWN KA BAHANA MANA HAI • PAY VIA PINGZY ⚡', 400, 466);
+        }
+
+        // THEME 3: BOLLYWOOD CULT MEME POSTER
+        else if (activeStickerTheme === 'filmy') {
+          const grad = ctx.createLinearGradient(0, 0, 800, 500);
+          grad.addColorStop(0, '#2e1065');
+          grad.addColorStop(0.5, '#4c1d95');
+          grad.addColorStop(1, '#09090b');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          ctx.strokeStyle = '#f59e0b';
+          ctx.lineWidth = 5;
+          roundRect(24, 24, 752, 452, 22);
+          ctx.stroke();
+
+          ctx.fillStyle = '#fbbf24';
+          ctx.font = '900 22px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('🎬 AETHERBYTE TALKIES PRESENTS • BLOCKBUSTER UDHAAR 🍿', 400, 68);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 46px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`STARRING: ${name.toUpperCase()}`, 400, 135);
+
+          ctx.fillStyle = 'rgba(0,0,0,0.45)';
+          roundRect(140, 160, 520, 110, 18);
+          ctx.fill();
+
+          ctx.fillStyle = '#34d399';
+          ctx.font = '900 64px "JetBrains Mono", monospace';
+          ctx.fillText(`BOX OFFICE: ${amt}`, 400, 236);
+
+          ctx.fillStyle = '#fde68a';
+          ctx.font = '900 27px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`"${customText}"`, 400, 335);
+
+          ctx.fillStyle = '#c4b5fd';
+          ctx.font = '700 18px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `🎟️ TICKET COUNTER UPI: ${upi}` : '🎟️ CLIMAX SCENE: ABHI GPAY KARO AUR DOSTI BACHAO!', 400, 425);
+        }
+
+        // THEME 4: DOSTI CIBIL SCORE REPORT
+        else if (activeStickerTheme === 'cibil') {
+          ctx.fillStyle = '#090d16';
+          ctx.fillRect(0, 0, 800, 500);
+
+          ctx.strokeStyle = '#10b981';
+          ctx.lineWidth = 3;
+          roundRect(28, 28, 744, 444, 20);
+          ctx.stroke();
+
+          ctx.fillStyle = '#6ee7b7';
+          ctx.font = '900 22px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('📉 OFFICIAL FRIENDSHIP CIBIL CREDIT REPORT 📊', 400, 72);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '800 36px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`BORROWER: ${name.toUpperCase()}`, 400, 130);
+
+          // Red Danger Score Box
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.16)';
+          roundRect(90, 155, 620, 125, 16);
+          ctx.fill();
+          ctx.strokeStyle = '#ef4444';
+          ctx.stroke();
+
+          ctx.fillStyle = '#f87171';
+          ctx.font = '900 30px "JetBrains Mono", monospace';
+          ctx.fillText(`CIBIL SCORE: -420 / 900 (CRITICAL 🚨)`, 400, 202);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 48px "JetBrains Mono", monospace';
+          ctx.fillText(`OVERDUE: ${amt}`, 400, 258);
+
+          ctx.fillStyle = '#fde68a';
+          ctx.font = '800 24px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(customText, 400, 340);
+
+          ctx.fillStyle = '#9ca3af';
+          ctx.font = '700 17px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `⚡ IMPROVE SCORE INSTANTLY VIA UPI: ${upi}` : '⚡ PAY NOW ON GPAY TO RESTORE FRIENDSHIP SCORE TO 900!', 400, 425);
+        }
+
+        // THEME 5: DOSTI HIGH COURT CHALLAN
+        else if (activeStickerTheme === 'challan') {
+          ctx.fillStyle = '#18181b';
+          ctx.fillRect(0, 0, 800, 500);
+
+          ctx.fillStyle = '#fef3c7';
+          roundRect(30, 30, 740, 440, 12);
+          ctx.fill();
+
+          ctx.strokeStyle = '#92400e';
+          ctx.lineWidth = 4;
+          roundRect(44, 44, 712, 412, 8);
+          ctx.stroke();
+
+          ctx.fillStyle = '#78350f';
+          ctx.font = '900 24px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('⚖️ SUPREME COURT OF BHAICHARA • E-CHALLAN #420 ⚖️', 400, 90);
+
+          ctx.fillStyle = '#111827';
+          ctx.font = '900 38px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`ACCUSED FRIEND: ${name.toUpperCase()}`, 400, 152);
+
+          ctx.fillStyle = '#dc2626';
+          ctx.font = '900 58px "JetBrains Mono", monospace';
+          ctx.fillText(`FINE AMOUNT: ${amt}`, 400, 232);
+
+          ctx.fillStyle = '#1f2937';
+          ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText('OFFENCE: Khana khate waqt aage, paise dete waqt gayab!', 400, 295);
+
+          ctx.fillStyle = '#b45309';
+          ctx.font = '900 25px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(`ORDER: "${customText}"`, 400, 350);
+
+          ctx.fillStyle = '#374151';
+          ctx.font = '800 17px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `🏛️ SETTLE CHALLAN ON UPI: ${upi}` : '🏛️ ISSUED BY PINGZY KHATA • AETHERBYTE STUDIOS', 400, 422);
+        }
+
+        // THEME 6: VIP CYBER NEON RECEIPT
+        else {
+          const grad = ctx.createLinearGradient(0, 0, 800, 500);
+          grad.addColorStop(0, '#050508');
+          grad.addColorStop(1, '#130b29');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 800, 500);
+
+          ctx.strokeStyle = '#8b5cf6';
+          ctx.lineWidth = 3;
+          roundRect(30, 30, 740, 440, 22);
+          ctx.stroke();
+
+          ctx.fillStyle = '#a78bfa';
+          ctx.font = '900 21px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText('⚡ PINGZY VIP SMART SETTLEMENT PASS ⚡', 400, 78);
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = '900 48px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(name.toUpperCase(), 400, 148);
+
+          ctx.fillStyle = '#10b981';
+          ctx.font = '900 68px "JetBrains Mono", monospace';
+          ctx.fillText(amt, 400, 240);
+
+          ctx.fillStyle = '#f59e0b';
+          ctx.font = '800 26px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(customText, 400, 325);
+
+          ctx.fillStyle = '#9ca3af';
+          ctx.font = '700 18px "JetBrains Mono", monospace';
+          ctx.fillText(upi ? `📲 UPI ID: ${upi} • AETHERBYTE STUDIOS` : '📲 100% PRIVATE VAULT • AETHERBYTE STUDIOS', 400, 420);
+        }
+
+        // DRAW TILTED RUBBER STAMP OVERLAY ON TOP RIGHT!
+        ctx.save();
+        ctx.translate(615, 135);
+        ctx.rotate(0.22);
+        ctx.fillStyle = 'rgba(220, 38, 38, 0.92)';
+        roundRect(-135, -26, 270, 52, 10);
+        ctx.fill();
+        ctx.strokeStyle = '#fef08a';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '900 16px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(stampText, 0, 6);
+        ctx.restore();
+
+        // Update Image Preview
+        imgEl.src = canvas.toDataURL('image/png');
+        window._latestPingzyPosterCanvas = canvas;
+      }
+
+      window.cycleStickerStamp = function() {
+        activeStampIdx = (activeStampIdx + 1) % STICKER_STAMPS.length;
+        const imgEl = document.getElementById('stickerPreviewImg');
+        if (imgEl) {
+          imgEl.classList.add('pop-anim');
+          setTimeout(() => imgEl.classList.remove('pop-anim'), 200);
+        }
+        renderInteractiveSticker();
+      };
+
+      window.cycleMegaStickerHeadline = function() {
+        activePunchlineIdx = (activePunchlineIdx + 1) % STICKER_PUNCHLINES.length;
+        const customInput = document.getElementById('customStickerInput');
+        if (customInput) customInput.value = STICKER_PUNCHLINES[activePunchlineIdx];
+        const imgEl = document.getElementById('stickerPreviewImg');
+        if (imgEl) {
+          imgEl.classList.add('pop-anim');
+          setTimeout(() => imgEl.classList.remove('pop-anim'), 200);
+        }
+        renderInteractiveSticker();
+      };
+
+      window.generateExpandedMessage = function(category) {
         if (category) currentVibeCategory = category;
-        const pool = MEGA_PING_BANK[currentVibeCategory] || MEGA_PING_BANK.funny;
+        const pool = MEGA_PING_BANK[currentVibeCategory] || MEGA_PING_BANK.cult_bollywood;
         const { name, amt, upi } = getReminderContext();
 
         let candidates = pool.filter((t) => t !== lastMsgText);
@@ -954,27 +1371,14 @@
 
         let finalMsg = template.replace(/\{name\}/g, name).replace(/\{amt\}/g, amt);
         if (upi) {
-          finalMsg += `\n\n⚡ Instant UPI ID: ${upi}`;
+          finalMsg += `\n\n⚡ Instant UPI: ${upi}`;
         }
         const msgEl = document.getElementById('generatedMessage');
         if (msgEl) msgEl.innerText = finalMsg;
-      }
-
-      function cycleMegaStickerHeadline() {
-        const customInput = document.getElementById('customStickerInput');
-        if (!customInput) return;
-        let candidates = MEGA_STICKER_HEADLINES.filter((h) => h !== lastStickerText);
-        if (candidates.length === 0) candidates = MEGA_STICKER_HEADLINES;
-        const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-        lastStickerText = chosen;
-
-        // Feed into customStickerInput so script.js redraws the Canvas with this headline!
-        customInput.value = chosen;
-        customInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
+      };
 
       // -------------------------------------------------------------------------
-      // PART 3: CONTACTS BOOK FALLBACK & SMART ALERTS ENGINE
+      // 4. CONTACTS HELPER & INITIALIZATION
       // -------------------------------------------------------------------------
       function fillContactIntoForm(name, phone) {
         const nameInput = document.getElementById('personName');
@@ -1067,9 +1471,6 @@
         closeSmartContactModal();
       };
 
-      // -------------------------------------------------------------------------
-      // PART 4: INITIALIZE ALL LISTENERS ON LOAD
-      // -------------------------------------------------------------------------
       window.addEventListener('DOMContentLoaded', () => {
         const subCollect = document.getElementById('subTabCollectBtn');
         const subIOwe = document.getElementById('subTabIOweBtn');
@@ -1085,49 +1486,135 @@
         if (quickLangBtn) quickLangBtn.addEventListener('click', () => applyClearTabUI(currentActiveMode));
         if (langToggleBtn) langToggleBtn.addEventListener('click', () => applyClearTabUI(currentActiveMode));
 
-        // Watch quickLangBtn text changes with MutationObserver so Guide NEVER misses a translation!
         if (quickLangBtn) {
-          const obs = new MutationObserver(() => {
-            renderQuickGuideLanguage();
-          });
+          const obs = new MutationObserver(() => renderQuickGuideLanguage());
           obs.observe(quickLangBtn, { childList: true, characterData: true, subtree: true });
         }
 
         renderQuickGuideLanguage();
         applyClearTabUI('pending');
 
-        // Track selected vibe from Add Modal
-        document.querySelectorAll('#mainVibeGrid .vibe').forEach((btn) => {
-          btn.addEventListener('click', () => {
-            currentVibeCategory = btn.getAttribute('data-vibe') || 'soft';
+        // Watch Reminder Modal Open -> Render Cult Message & Interactive Poster Automatically!
+        const remModal = document.getElementById('reminderModal');
+        if (remModal) {
+          const modalObs = new MutationObserver(() => {
+            if (remModal.classList.contains('active') || remModal.style.display === 'flex' || remModal.style.display === 'block') {
+              setTimeout(() => {
+                generateExpandedMessage(currentVibeCategory);
+                renderInteractiveSticker();
+              }, 50);
+            }
           });
-        });
+          modalObs.observe(remModal, { attributes: true, attributeFilter: ['class', 'style'] });
+        }
 
-        // Hook Remix Button (#newReplyBtn) -> Generates from 100+ Message Pool AND cycles 40+ Sticker Lines!
-        const newReplyBtn = document.getElementById('newReplyBtn');
-        if (newReplyBtn) {
-          newReplyBtn.addEventListener('click', () => {
+        // Also re-render poster whenever any card in debtsList is clicked
+        const debtsList = document.getElementById('debtsList');
+        if (debtsList) {
+          debtsList.addEventListener('click', () => {
             setTimeout(() => {
               generateExpandedMessage(currentVibeCategory);
-              cycleMegaStickerHeadline();
-            }, 20);
+              renderInteractiveSticker();
+            }, 80);
           });
         }
 
-        // Hook Sticker Image Tap & Style Chips -> Cycles 40+ Sticker Headlines
-        const stickerImg = document.getElementById('stickerPreviewImg');
-        if (stickerImg) {
-          stickerImg.addEventListener('click', () => {
-            setTimeout(() => cycleMegaStickerHeadline(), 20);
-          });
-        }
-        document.querySelectorAll('.sticker-style-bar .style-chip').forEach((chip) => {
-          chip.addEventListener('click', () => {
-            setTimeout(() => cycleMegaStickerHeadline(), 25);
+        // Interactive Poster Theme Buttons (Wanted, Breaking News, Filmy, CIBIL, Challan, Cyber)
+        document.querySelectorAll('#interactiveThemeBar .isticker-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('#interactiveThemeBar .isticker-btn').forEach((b) => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeStickerTheme = btn.getAttribute('data-stheme') || 'wanted';
+            renderInteractiveSticker();
           });
         });
 
-        // Hook Special Viral Mode Pills -> Uses Expanded Pools
+        // Tapping on Poster Image directly -> Flips & Randomizes Both Stamp + Punchline!
+        const stickerImg = document.getElementById('stickerPreviewImg');
+        if (stickerImg) {
+          stickerImg.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            activeStampIdx = (activeStampIdx + 1) % STICKER_STAMPS.length;
+            cycleMegaStickerHeadline();
+          }, true);
+        }
+
+        // Custom Input Live Typing on Poster
+        const customStickerInput = document.getElementById('customStickerInput');
+        if (customStickerInput) {
+          customStickerInput.addEventListener('input', () => {
+            setTimeout(() => renderInteractiveSticker(), 15);
+          });
+        }
+
+        // Remix Button -> Changes Both Dialogue & Interactive Poster!
+        const newReplyBtn = document.getElementById('newReplyBtn');
+        if (newReplyBtn) {
+          newReplyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            generateExpandedMessage(currentVibeCategory);
+            activeStampIdx = (activeStampIdx + 1) % STICKER_STAMPS.length;
+            cycleMegaStickerHeadline();
+          }, true);
+        }
+
+        // Download PNG Button (#stickerBtn) -> Downloads our Interactive Poster
+        const stickerBtn = document.getElementById('stickerBtn');
+        if (stickerBtn) {
+          stickerBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            renderInteractiveSticker();
+            if (window._latestPingzyPosterCanvas) {
+              const link = document.createElement('a');
+              link.download = `Pingzy-Meme-Poster-${Date.now()}.png`;
+              link.href = window._latestPingzyPosterCanvas.toDataURL('image/png');
+              link.click();
+            }
+          }, true);
+        }
+
+        // Share Poster Directly to WhatsApp / Native Share (#shareStickerWaBtn)
+        const shareWaBtn = document.getElementById('shareStickerWaBtn');
+        if (shareWaBtn) {
+          shareWaBtn.addEventListener('click', async () => {
+            renderInteractiveSticker();
+            const canvas = window._latestPingzyPosterCanvas;
+            const msgEl = document.getElementById('generatedMessage');
+            const caption = msgEl ? msgEl.innerText.trim() : 'Bhai mera udhaar GPay kar de! ⚡';
+
+            if (canvas && navigator.canShare) {
+              canvas.toBlob(async (blob) => {
+                if (!blob) return;
+                const file = new File([blob], 'pingzy-udhaar-poster.png', { type: 'image/png' });
+                if (navigator.canShare({ files: [file] })) {
+                  try {
+                    await navigator.share({
+                      files: [file],
+                      title: 'Pingzy Udhaar Reminder',
+                      text: caption
+                    });
+                    return;
+                  } catch (err) {}
+                }
+                // Fallback: Download PNG if browser doesn't support direct file share
+                const link = document.createElement('a');
+                link.download = `Pingzy-Poster-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+              }, 'image/png');
+            } else if (canvas) {
+              const link = document.createElement('a');
+              link.download = `Pingzy-Poster-${Date.now()}.png`;
+              link.href = canvas.toDataURL('image/png');
+              link.click();
+            }
+          });
+        }
+
+        // Viral Mode Buttons
         const botBtn = document.getElementById('botModeBtn');
         const barterBtn = document.getElementById('barterModeBtn');
         const filmyBtn = document.getElementById('filmyModeBtn');
@@ -1136,11 +1623,10 @@
 
         if (botBtn) botBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('bot'), 20));
         if (barterBtn) barterBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('barter'), 20));
-        if (filmyBtn) filmyBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('filmy'), 20));
+        if (filmyBtn) filmyBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('cult_bollywood'), 20));
         if (taxBtn) taxBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('dostiTax'), 20));
         if (escalateBtn) escalateBtn.addEventListener('click', () => setTimeout(() => generateExpandedMessage('savage'), 20));
 
-        // Hook Excuse Buster Chips -> Uses 24+ Savage Comebacks
         document.querySelectorAll('.excuse-chip').forEach((chip) => {
           chip.addEventListener('click', () => {
             const ex = chip.getAttribute('data-excuse');
@@ -1148,13 +1634,13 @@
           });
         });
 
-        // Ensure WhatsApp, SMS & Copy Buttons ALWAYS send the exact displayed message from #generatedMessage
+        // WhatsApp Text, SMS & Copy Overrides
         const waBtn = document.getElementById('whatsappBtn');
         const smsBtn = document.getElementById('smsBtn');
         const cpBtn = document.getElementById('copyBtn');
 
         if (cpBtn) {
-          cpBtn.addEventListener('click', (e) => {
+          cpBtn.addEventListener('click', () => {
             const msgEl = document.getElementById('generatedMessage');
             if (msgEl && msgEl.innerText.trim() && navigator.clipboard) {
               navigator.clipboard.writeText(msgEl.innerText.trim());
@@ -1214,76 +1700,6 @@
             openSmartContactModal();
           });
         }
-
-        // Studio Smart Notification Toggle (22+ Rotating Alerts)
-        const studioNotifBtn = document.getElementById('notifBtn');
-        let lastNotifIdx = -1;
-
-        async function triggerSmartAlert() {
-          if (!('Notification' in window) || Notification.permission !== 'granted') return;
-          if (localStorage.getItem('pingzy_alerts_enabled') !== 'true') return;
-          let idx = Math.floor(Math.random() * MEGA_NOTIFICATIONS.length);
-          if (idx === lastNotifIdx) idx = (idx + 1) % MEGA_NOTIFICATIONS.length;
-          lastNotifIdx = idx;
-          const msg = MEGA_NOTIFICATIONS[idx];
-
-          try {
-            const reg = await navigator.serviceWorker.getRegistration();
-            if (reg && reg.showNotification) {
-              reg.showNotification(msg.title, {
-                body: msg.body,
-                icon: './icon-192.png',
-                badge: './icon-192.png',
-                vibrate: [150, 80, 150]
-              });
-            } else {
-              new Notification(msg.title, { body: msg.body, icon: './icon-192.png' });
-            }
-          } catch (err) {
-            new Notification(msg.title, { body: msg.body });
-          }
-        }
-
-        function syncStudioNotifButton() {
-          if (!studioNotifBtn) return;
-          const isOn = localStorage.getItem('pingzy_alerts_enabled') === 'true' && ('Notification' in window) && Notification.permission === 'granted';
-          if (isOn) {
-            studioNotifBtn.innerHTML = '🔔 ON ⚡';
-            studioNotifBtn.style.borderColor = '#10b981';
-            studioNotifBtn.style.color = '#6ee7b7';
-          } else {
-            studioNotifBtn.innerHTML = '🔕 OFF';
-            studioNotifBtn.style.borderColor = '';
-            studioNotifBtn.style.color = '';
-          }
-        }
-
-        if (studioNotifBtn) {
-          studioNotifBtn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            if (!('Notification' in window)) {
-              alert('Notifications are not supported in this browser.');
-              return;
-            }
-            const currentlyOn = localStorage.getItem('pingzy_alerts_enabled') === 'true';
-            if (currentlyOn) {
-              localStorage.setItem('pingzy_alerts_enabled', 'false');
-              syncStudioNotifButton();
-              return;
-            }
-            const perm = await Notification.requestPermission();
-            if (perm === 'granted') {
-              localStorage.setItem('pingzy_alerts_enabled', 'true');
-              syncStudioNotifButton();
-              triggerSmartAlert();
-            } else {
-              alert('Please allow Notification permission in browser/phone settings!');
-            }
-          }, true);
-        }
-
-        syncStudioNotifButton();
       });
     </script>
 </body>
