@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.aetherbyte.pingzy",
+        "sha256_cert_fingerprints": ["5B:8A:55:5D:A1:4A:B0:15:58:45:AA:D6:20:28:10:A3:E3:C1:8E:62:52:58:03:64:FE:7D:7A:9C:4D:3C:22:CC"]
+      }
+    }]
